@@ -22,6 +22,15 @@ const PROJECTS = [
     image: "src/images/gamebuddy.png"
   },
   {
+    title: "PHINMA Pulse",
+    desc: "An Online Document Request & Tracking System designed to automate and transparency the academic record-requesting process.",
+    stack: ["Typescript","React","MongoDB"],
+    type: "Web Application",
+    color: "#a8ff78",
+    github: "https://github.com/Swa-ne/HATAKONTITANS",
+    image: "src/images/phinmapulse.jpg"
+  },
+  {
     title: "Bilibeads: Accessories",
     desc: "A customizable e-commerce site for accessory enthusiasts to design their own pieces using preferred beads and styles.",
     stack: ["Laravel","PHP","MySQL","JavaScript"],
@@ -32,7 +41,7 @@ const PROJECTS = [
   },
   {
     title: "Dagupan City: NetSec Framework",
-    desc: "Strengthening Dagupan City Hall’s network and cybersecurity to ensure data integrity, operational continuity, and citizen privacy.",
+    desc: "Strengthening Dagupan City Hall's network and cybersecurity to ensure data integrity, operational continuity, and citizen privacy.",
     stack: ["Cisco","Linux","pfSense"],
     type: "Network and Security",
     color: "#ffd93d",
@@ -46,14 +55,14 @@ const PROJECTS = [
     type: "System and Security Monitoring",
     color: "#00c6ff",
     github: "https://github.com/Kenntheus/NeTPulse",
-    image: null  // replace with your image path
+    image: null
   },
 ];
 
 const SKILLS = {
   "Programming": [
     {name:"Python",lvl:95},
-    {name:"JavaScript",lvl:90},
+    {name:"JavaScript/TypeScript",lvl:90},
     {name:"C#",lvl:70},
     {name:"Java",lvl:60},
     {name:"SQL",lvl:85},
@@ -220,8 +229,9 @@ export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("hero");
   const [hoveredProject, setHoveredProject] = useState(null);
   const [activeSkillCat, setActiveSkillCat] = useState("Programming");
-  const [formData, setFormData] = useState({ name:"", email:"", message:"" });
-  const [sent, setSent] = useState(false);
+
+  // ── Profile photo: replace null with your image path e.g. "src/images/profile.jpg"
+  const PROFILE_IMAGE = "src/images/kenn.jpg";
 
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 1800);
@@ -249,21 +259,17 @@ export default function Portfolio() {
 
   const D = dark;
 
-  const bg       = D ? "#050d1a" : "#f0f4fc";
-  const surface  = D ? "rgba(10,22,45,0.85)" : "rgba(255,255,255,0.85)";
-  const glass    = D ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.7)";
+  const bg          = D ? "#050d1a" : "#f0f4fc";
+  const glass       = D ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.7)";
   const glassBorder = D ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)";
-  const text     = D ? "#e8f0fb" : "#0d1a33";
-  const muted    = D ? "#6b85a6" : "#5a6f90";
-  const accent   = D ? "#00f5c4" : "#4c3bce";
-  const accent2  = D ? "#7c6eff" : "#2563eb";
-
-  const cardBg   = D ? "rgba(14,26,52,0.7)" : "rgba(255,255,255,0.75)";
-
-  const S = (styles) => ({ ...styles });
+  const text        = D ? "#e8f0fb" : "#0d1a33";
+  const muted       = D ? "#6b85a6" : "#5a6f90";
+  const accent      = D ? "#00f5c4" : "#4c3bce";
+  const accent2     = D ? "#7c6eff" : "#2563eb";
+  const cardBg      = D ? "rgba(14,26,52,0.7)" : "rgba(255,255,255,0.75)";
 
   const globalFont = "'Inter', 'Segoe UI', sans-serif";
-  const monoFont  = "'JetBrains Mono', 'Fira Code', monospace";
+  const monoFont   = "'JetBrains Mono', 'Fira Code', monospace";
 
   if (loading) return (
     <div style={{ minHeight:"100vh", background:"#050d1a", display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", gap:24, fontFamily:globalFont }}>
@@ -295,6 +301,7 @@ export default function Portfolio() {
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
         @keyframes gradshift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
         @keyframes scanline { 0%{top:-20%} 100%{top:110%} }
+        @keyframes profilePulse { 0%,100%{box-shadow:0 0 0 0 ${accent}44, 0 0 32px ${accent}22} 50%{box-shadow:0 0 0 8px ${accent}00, 0 0 48px ${accent}33} }
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
         .nav-link { cursor:pointer; transition:color 0.2s; }
         .nav-link:hover { color: ${accent}; }
@@ -308,6 +315,8 @@ export default function Portfolio() {
         .input-field { width:100%; padding:12px 16px; border-radius:10px; font-family:${globalFont}; font-size:14px; outline:none; transition:border-color 0.2s; }
         .input-field:focus { border-color: ${accent}; box-shadow: 0 0 0 3px ${accent}22; }
         a { text-decoration:none; }
+        .contact-card:hover { border-color: var(--col) !important; box-shadow: 0 4px 20px rgba(0,0,0,0.2); transform: translateY(-2px); }
+        .contact-card { transition: all 0.25s; }
       `}</style>
 
       {/* ─── NAV ─────────────────────────────────────── */}
@@ -319,7 +328,7 @@ export default function Portfolio() {
         padding:"0 32px", height:60, display:"flex", alignItems:"center", justifyContent:"space-between"
       }}>
         <span style={{ fontFamily:monoFont, fontWeight:600, fontSize:15, color:accent, letterSpacing:1 }}>
-          &lt;RJ/&gt;
+          &lt;Kenn/&gt;
         </span>
         <div style={{ display:"flex", gap:28, alignItems:"center" }}>
           {NAV_LINKS.map(l => (
@@ -353,87 +362,132 @@ export default function Portfolio() {
         {/* Grid lines */}
         <div style={{ position:"absolute", inset:0, backgroundImage:`linear-gradient(${D?"rgba(0,245,196,0.025)":"rgba(76,59,206,0.03)"} 1px, transparent 1px), linear-gradient(90deg, ${D?"rgba(0,245,196,0.025)":"rgba(76,59,206,0.03)"} 1px, transparent 1px)`, backgroundSize:"48px 48px", pointerEvents:"none" }} />
 
-        <div style={{ position:"relative", zIndex:2, maxWidth:780, margin:"0 auto", padding:"0 40px", textAlign:"left" }}>
-          <div style={{ fontFamily:monoFont, fontSize:12, color:accent, letterSpacing:3, textTransform:"uppercase", marginBottom:20, display:"flex", alignItems:"center", gap:10 }}>
-            <span style={{ display:"inline-block", width:32, height:1, background:accent }} />
-            Available for opportunities
-            <span style={{ display:"inline-block", width:8, height:8, borderRadius:"50%", background:"#2ef", animation:"blink 1.5s infinite" }} />
-          </div>
+        <div style={{ position:"relative", zIndex:2, maxWidth:960, margin:"0 auto", padding:"0 40px", width:"100%" }}>
+          {/* ── Two-column layout: text left, photo right ── */}
+          <div style={{ display:"flex", alignItems:"center", gap:60, justifyContent:"space-between" }}>
 
-          <h1 style={{ fontSize:"clamp(2.4rem,6vw,4.2rem)", fontWeight:700, lineHeight:1.08, letterSpacing:-1, marginBottom:16 }}>
-            <span style={{ display:"block", color: text }}>Martheus Kenn</span>
-            <span style={{
-              display:"block",
-              color: accent,
-              lineHeight:1.15,
-            }}>Banaag</span>
-          </h1>
-
-          <div style={{ fontFamily:monoFont, fontSize:"clamp(1rem,2.5vw,1.25rem)", fontWeight:500, color:muted, marginBottom:20, letterSpacing:0.5 }}>
-            <span style={{ color: accent }}>&gt;</span>{" "}
-            IT Graduate{" "}
-            <span style={{ color:D?"#7c6eff":"#4c3bce" }}>|</span>{" "}
-            Developer & Network Engineer
-          </div>
-
-          <p style={{ fontSize:15, lineHeight:1.75, color:muted, maxWidth:520, marginBottom:36 }}>
-            Building resilient networks and elegant software. I bridge the gap between infrastructure and application — turning complex systems into reliable, high-performance solutions.
-          </p>
-
-          <div style={{ display:"flex", gap:14, flexWrap:"wrap" }}>
-            <button
-              className="btn"
-              onClick={() => scrollTo("projects")}
-              style={{
-                background: `linear-gradient(135deg, ${accent}22, ${accent2}22)`,
-                border:`1px solid ${accent}55`,
-                color:accent, borderRadius:10, padding:"12px 28px",
-                fontSize:14, fontWeight:600, letterSpacing:0.5,
-                boxShadow: D ? `0 0 24px ${accent}22` : "none"
-              }}
-            >View Projects →</button>
-            <button
-              className="btn"
-              onClick={() => scrollTo("contact")}
-              style={{
-                background: "transparent",
-                border:`1px solid ${glassBorder}`,
-                color:muted, borderRadius:10, padding:"12px 28px",
-                fontSize:14, fontWeight:500
-              }}
-            >Contact Me</button>
-          </div>
-
-          {/* Stats row */}
-          <div style={{ display:"flex", gap:36, marginTop:52, paddingTop:32, borderTop:`1px solid ${glassBorder}` }}>
-            {/* {[["5+","Years Exp."],["40+","Networks Built"],["20+","Projects Shipped"]].map(([n,l]) => (
-              <div key={l}>
-                <div style={{ fontSize:"1.7rem", fontWeight:700, fontFamily:monoFont, color:accent }}>{n}</div>
-                <div style={{ fontSize:12, color:muted, marginTop:2 }}>{l}</div>
+            {/* LEFT: existing text content */}
+            <div style={{ flex:"1 1 0", minWidth:0 }}>
+              <div style={{ fontFamily:monoFont, fontSize:12, color:accent, letterSpacing:3, textTransform:"uppercase", marginBottom:20, display:"flex", alignItems:"center", gap:10 }}>
+                <span style={{ display:"inline-block", width:32, height:1, background:accent }} />
+                Available for opportunities
+                <span style={{ display:"inline-block", width:8, height:8, borderRadius:"50%", background:"#2ef", animation:"blink 1.5s infinite" }} />
               </div>
-            ))} */}
-          </div>
-        </div>
 
-        {/* Floating code block decoration */}
-        <div style={{
-          position:"absolute", right:"6%", top:"50%", transform:"translateY(-50%)",
-          background: D?"rgba(14,26,52,0.6)":"rgba(255,255,255,0.6)",
-          backdropFilter:"blur(12px)",
-          border:`1px solid ${glassBorder}`,
-          borderRadius:16, padding:"20px 24px", fontFamily:monoFont, fontSize:12,
-          color:muted, lineHeight:1.9, maxWidth:260,
-          animation:"float 6s ease-in-out infinite",
-          display:"none"  // shown via media query fallback
-        }}>
-          <div style={{ color:accent }}>$ ping 10.0.0.1</div>
-          <div>PING 10.0.0.1: 56 bytes</div>
-          <div style={{ color:"#2ef" }}>64 bytes: time=0.8ms</div>
-          <div style={{ marginTop:8, color:"#7c6eff" }}>$ nmap -sV target</div>
-          <div>Scanning... 22/tcp open</div>
-          <div style={{ color:"#2ef" }}>80/tcp open http</div>
-          <div style={{ marginTop:8, color:accent }}>$ python deploy.py</div>
-          <div style={{ color:"#a8ff78" }}>✓ Deployed successfully</div>
+              <h1 style={{ fontSize:"clamp(2.4rem,5vw,4.2rem)", fontWeight:700, lineHeight:1.08, letterSpacing:-1, marginBottom:16 }}>
+                <span style={{ display:"block", color: text }}>Martheus Kenn</span>
+                <span style={{ display:"block", color: accent, lineHeight:1.15 }}>Banaag</span>
+              </h1>
+
+              <div style={{ fontFamily:monoFont, fontSize:"clamp(0.9rem,2vw,1.15rem)", fontWeight:500, color:muted, marginBottom:20, letterSpacing:0.5 }}>
+                <span style={{ color: accent }}>&gt;</span>{" "}
+                IT Graduate{" "}
+                <span style={{ color:D?"#7c6eff":"#4c3bce" }}>|</span>{" "}
+                Developer & Network Engineer
+              </div>
+
+              <p style={{ fontSize:15, lineHeight:1.75, color:muted, maxWidth:520, marginBottom:36 }}>
+                Building resilient networks and elegant software. I bridge the gap between infrastructure and application — turning complex systems into reliable, high-performance solutions.
+              </p>
+
+              <div style={{ display:"flex", gap:14, flexWrap:"wrap" }}>
+                <button
+                  className="btn"
+                  onClick={() => scrollTo("projects")}
+                  style={{
+                    background: `linear-gradient(135deg, ${accent}22, ${accent2}22)`,
+                    border:`1px solid ${accent}55`,
+                    color:accent, borderRadius:10, padding:"12px 28px",
+                    fontSize:14, fontWeight:600, letterSpacing:0.5,
+                    boxShadow: D ? `0 0 24px ${accent}22` : "none"
+                  }}
+                >View Projects →</button>
+                <button
+                  className="btn"
+                  onClick={() => scrollTo("contact")}
+                  style={{
+                    background: "transparent",
+                    border:`1px solid ${glassBorder}`,
+                    color:muted, borderRadius:10, padding:"12px 28px",
+                    fontSize:14, fontWeight:500
+                  }}
+                >Contact Me</button>
+              </div>
+
+              <div style={{ display:"flex", gap:36, marginTop:52, paddingTop:32, borderTop:`1px solid ${glassBorder}` }} />
+            </div>
+
+            {/* RIGHT: Profile photo */}
+            <div style={{ flexShrink:0, display:"flex", flexDirection:"column", alignItems:"center", gap:14 }}>
+              {/* Outer glow ring */}
+              <div style={{
+                position:"relative",
+                width:220, height:220,
+              }}>
+                {/* Decorative rotating ring */}
+                <div style={{
+                  position:"absolute", inset:-6,
+                  borderRadius:"50%",
+                  background:`conic-gradient(${accent}, ${accent2}, transparent, ${accent})`,
+                  animation:"spin 6s linear infinite",
+                  opacity: D ? 0.5 : 0.35,
+                }} />
+                {/* White gap ring */}
+                <div style={{
+                  position:"absolute", inset:-2,
+                  borderRadius:"50%",
+                  background: bg,
+                }} />
+                {/* Photo or placeholder */}
+                <div style={{
+                  position:"relative",
+                  width:"100%", height:"100%",
+                  borderRadius:"50%",
+                  overflow:"hidden",
+                  border:`2px solid ${accent}55`,
+                  animation:"profilePulse 3s ease-in-out infinite",
+                  background: D ? "rgba(14,26,52,0.9)" : "rgba(220,230,248,0.9)",
+                }}>
+                  {PROFILE_IMAGE ? (
+                    <img
+                      src={PROFILE_IMAGE}
+                      alt="Martheus Kenn Banaag"
+                      style={{ width:"100%", height:"100%", objectFit:"cover" }}
+                    />
+                  ) : (
+                    /* Placeholder when no image is set */
+                    <div style={{
+                      width:"100%", height:"100%",
+                      display:"flex", flexDirection:"column",
+                      alignItems:"center", justifyContent:"center",
+                      gap:8,
+                      backgroundImage:`linear-gradient(135deg, ${accent}10, ${accent2}10)`,
+                    }}>
+                      {/* Silhouette SVG */}
+                      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="40" cy="28" r="18" fill={accent} fillOpacity="0.25" stroke={accent} strokeWidth="1.5" strokeOpacity="0.5"/>
+                        <path d="M10 72c0-16.569 13.431-30 30-30s30 13.431 30 30" fill={accent} fillOpacity="0.15" stroke={accent} strokeWidth="1.5" strokeOpacity="0.4"/>
+                      </svg>
+                      <span style={{ fontSize:10, fontFamily:monoFont, color:accent, opacity:0.6, letterSpacing:1.5, textTransform:"uppercase" }}>Add Photo</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Name tag badge below photo */}
+              <div style={{
+                background: D ? "rgba(14,26,52,0.8)" : "rgba(255,255,255,0.8)",
+                backdropFilter:"blur(12px)",
+                border:`1px solid ${glassBorder}`,
+                borderRadius:99, padding:"6px 18px",
+                display:"flex", alignItems:"center", gap:8,
+              }}>
+                <div style={{ width:7, height:7, borderRadius:"50%", background:"#2ef", animation:"blink 1.5s infinite" }} />
+                <span style={{ fontSize:12, fontFamily:monoFont, color:muted }}>Available now</span>
+              </div>
+            </div>
+
+          </div>
         </div>
       </section>
 
@@ -453,29 +507,19 @@ export default function Portfolio() {
           <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:48, alignItems:"start" }}>
             <Reveal delay={100}>
               <p style={{ fontSize:15, lineHeight:1.85, color:muted, marginBottom:20 }}>
-                I'm a dual-track IT professional who thrives at the intersection of software development and network engineering. With over 5 years of hands-on experience, I design and build solutions that are both architecturally sound and operationally robust.
+                I'm an IT graduate passionate about software development and network engineering, with a focus on creating efficient, reliable, and well-structured solutions.
               </p>
               <p style={{ fontSize:15, lineHeight:1.85, color:muted, marginBottom:28 }}>
-                Whether it's architecting a fault-tolerant enterprise WAN, building cloud-native APIs, or automating repetitive ops with Python — I bring precision, curiosity, and a systems-thinking mindset to every challenge.
+                Whether it's working with network configurations, developing backend systems, or automating workflows with Python, I bring a detail-oriented and systems-thinking approach to every project.
               </p>
-              <div style={{ display:"flex", gap:12, flexWrap:"wrap" }}>
-                {["CCNP Enterprise","AWS Solutions Architect","CompTIA Security+","Docker Certified"].map(c => (
-                  <span key={c} style={{
-                    padding:"5px 12px", borderRadius:6,
-                    background: D?"rgba(0,245,196,0.07)":"rgba(76,59,206,0.07)",
-                    border:`1px solid ${accent}33`,
-                    fontSize:12, fontFamily:monoFont, color:accent, fontWeight:500
-                  }}>{c}</span>
-                ))}
-              </div>
             </Reveal>
 
             <Reveal delay={200}>
               <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14 }}>
                 {[
                   ["Frontend","React, Vue, Next.js, Tailwind","#7c6eff"],
-                  ["Backend","Python, Node.js, Go, FastAPI","#00f5c4"],
-                  ["Networking","Cisco, SD-WAN, BGP, OSPF","#00c6ff"],
+                  ["Backend","Python, Node.js, PHP, Java","#00f5c4"],
+                  ["Networking","Cisco, SD-WAN, BGP, GNS3","#00c6ff"],
                   ["DevOps","K8s, Terraform, Ansible, CI/CD","#a8ff78"],
                   ["Security","Firewalls, SIEM, Zero-Trust","#ff6b6b"],
                   ["Cloud","AWS, Azure, GCP, Multi-cloud","#ffd93d"],
@@ -526,7 +570,6 @@ export default function Portfolio() {
                     transition:"all 0.3s"
                   }}
                 >
-                  {/* Project image / placeholder */}
                   <div style={{
                     width:"100%", height:160, borderRadius:10, marginBottom:18, overflow:"hidden",
                     background: D ? `linear-gradient(135deg, ${p.color}18, ${p.color}06)` : `linear-gradient(135deg, ${p.color}22, ${p.color}08)`,
@@ -535,19 +578,10 @@ export default function Portfolio() {
                     position:"relative"
                   }}>
                     {p.image ? (
-                      <img
-                        src={p.image}
-                        alt={p.title}
-                        style={{ width:"100%", height:"100%", objectFit:"cover", borderRadius:10 }}
-                      />
+                      <img src={p.image} alt={p.title} style={{ width:"100%", height:"100%", objectFit:"cover", borderRadius:10 }} />
                     ) : (
                       <>
-                        {/* Decorative placeholder grid */}
-                        <div style={{
-                          position:"absolute", inset:0,
-                          backgroundImage:`linear-gradient(${p.color}18 1px, transparent 1px), linear-gradient(90deg, ${p.color}18 1px, transparent 1px)`,
-                          backgroundSize:"24px 24px"
-                        }} />
+                        <div style={{ position:"absolute", inset:0, backgroundImage:`linear-gradient(${p.color}18 1px, transparent 1px), linear-gradient(90deg, ${p.color}18 1px, transparent 1px)`, backgroundSize:"24px 24px" }} />
                         <div style={{ position:"relative", textAlign:"center" }}>
                           <div style={{ fontSize:28, marginBottom:6, opacity:0.5 }}>🖼</div>
                           <div style={{ fontSize:11, fontFamily:monoFont, color:p.color, opacity:0.6, letterSpacing:1 }}>ADD IMAGE</div>
@@ -558,9 +592,7 @@ export default function Portfolio() {
 
                   <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:14 }}>
                     <span style={{ fontSize:11, fontFamily:monoFont, color:p.color, textTransform:"uppercase", letterSpacing:1.5, fontWeight:600 }}>{p.type}</span>
-                    <div style={{ display:"flex", gap:12 }}>
-                      <a href={p.github} style={{ fontSize:13, color:muted, transition:"color 0.2s" }} title="GitHub">GH↗</a>
-                    </div>
+                    <a href={p.github} style={{ fontSize:13, color:muted, transition:"color 0.2s" }} title="GitHub">GH↗</a>
                   </div>
                   <h3 style={{ fontSize:17, fontWeight:700, marginBottom:10, color:text }}>{p.title}</h3>
                   <p style={{ fontSize:13, color:muted, lineHeight:1.7, marginBottom:16 }}>{p.desc}</p>
@@ -611,21 +643,6 @@ export default function Portfolio() {
               ))}
             </div>
             <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
-              {/* {["Expert (85–100%)","Advanced (70–84%)","Intermediate (50–69%)"].map((lvl,i) => (
-                <Reveal key={lvl} delay={i*100}>
-                  <div style={{
-                    background: cardBg, backdropFilter:"blur(12px)",
-                    border:`1px solid ${glassBorder}`, borderRadius:12, padding:"16px 20px"
-                  }}>
-                    <div style={{ fontSize:12, color:accent, fontFamily:monoFont, marginBottom:4 }}>{lvl}</div>
-                    <div style={{ fontSize:13, color:muted }}>
-                      {i===0 && "Daily driver tools — confident in production environments."}
-                      {i===1 && "Solid working knowledge — used in multiple real projects."}
-                      {i===2 && "Functional proficiency — can execute with some reference."}
-                    </div>
-                  </div>
-                </Reveal>
-              ))} */}
               <Reveal delay={350}>
                 <div style={{
                   background: D?"rgba(0,245,196,0.06)":"rgba(76,59,206,0.06)",
@@ -665,7 +682,6 @@ export default function Portfolio() {
               return (
                 <Reveal key={item.role} delay={i*100}>
                   <div style={{ position:"relative", marginBottom:40 }}>
-                    {/* Node */}
                     <div style={{
                       position:"absolute", left:-47, top:4,
                       width:14, height:14, borderRadius:"50%",
@@ -673,7 +689,6 @@ export default function Portfolio() {
                       background: D?"#050d1a":"#f0f4fc",
                       boxShadow: `0 0 10px ${nodeColor}55`
                     }} />
-                    {/* Card */}
                     <div style={{
                       background: cardBg, backdropFilter:"blur(12px)",
                       border:`1px solid ${glassBorder}`,
@@ -696,8 +711,9 @@ export default function Portfolio() {
       </section>
 
       {/* ─── CONTACT ─────────────────────────────────── */}
+      {/* Form removed — only social links + status shown, centered in full width */}
       <section id="contact" style={{ padding:"100px 0" }}>
-        <div style={{ maxWidth:900, margin:"0 auto", padding:"0 40px" }}>
+        <div style={{ maxWidth:700, margin:"0 auto", padding:"0 40px" }}>
           <Reveal>
             <div style={{ fontFamily:monoFont, fontSize:11, color:accent, letterSpacing:3, textTransform:"uppercase", marginBottom:12 }}>
               05. Get In Touch
@@ -706,107 +722,51 @@ export default function Portfolio() {
               Let's <span style={{ color:accent }}>Connect</span>
             </h2>
             <p style={{ fontSize:15, color:muted, marginBottom:48, maxWidth:480 }}>
-              Open to freelance projects, full-time roles, or just a good tech conversation. Drop a message below.
+              Open to freelance projects, full-time roles, or just a good tech conversation. Reach out through any of the channels below.
             </p>
           </Reveal>
 
-          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:48, alignItems:"start" }}>
+          <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
             <Reveal delay={100}>
-              {/* <div style={{
-                background: cardBg, backdropFilter:"blur(16px)",
-                border:`1px solid ${glassBorder}`, borderRadius:20, padding:"32px"
-              }}>
-                {sent ? (
-                  <div style={{ textAlign:"center", padding:"20px 0" }}>
-                    <div style={{ fontSize:36, marginBottom:16 }}>✓</div>
-                    <div style={{ fontSize:16, fontWeight:600, color:accent, marginBottom:8 }}>Message Sent!</div>
-                    <div style={{ fontSize:13, color:muted }}>I'll get back to you within 24 hours.</div>
+              {[
+                ["📧","Email","kenntheus24@gmail.com","mailto:kenntheus24@gmail.com","#00f5c4"],
+                ["🐙","GitHub","github.com/Kenntheus","https://github.com/Kenntheus","#7c6eff"],
+                ["💼","LinkedIn","linkedin.com/in/martheus-kenn-banaag","https://linkedin.com/in/martheus-kenn-banaag","#00c6ff"],
+              ].map(([icon, platform, handle, href, col]) => (
+                <a
+                  key={platform}
+                  href={href}
+                  className="contact-card"
+                  style={{
+                    display:"flex", alignItems:"center", gap:18,
+                    background: cardBg, backdropFilter:"blur(12px)",
+                    border:`1px solid ${glassBorder}`, borderRadius:14,
+                    padding:"20px 24px", color:text,
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor=col+"66"; e.currentTarget.style.boxShadow=`0 4px 24px ${col}20`; e.currentTarget.style.transform="translateY(-2px)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor=glassBorder; e.currentTarget.style.boxShadow="none"; e.currentTarget.style.transform="translateY(0)"; }}
+                >
+                  <div style={{ width:48, height:48, borderRadius:12, background:`${col}18`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}>{icon}</div>
+                  <div>
+                    <div style={{ fontSize:14, fontWeight:600, color:col, marginBottom:3 }}>{platform}</div>
+                    <div style={{ fontSize:13, color:muted, fontFamily:monoFont }}>{handle}</div>
                   </div>
-                ) : (
-                  <>
-                    <div style={{ marginBottom:16 }}>
-                      <label style={{ display:"block", fontSize:12, color:muted, fontFamily:monoFont, marginBottom:6 }}>Name</label>
-                      <input
-                        className="input-field"
-                        style={{ background: D?"rgba(255,255,255,0.05)":"rgba(0,0,0,0.04)", border:`1px solid ${glassBorder}`, color:text }}
-                        placeholder="Your name"
-                        value={formData.name}
-                        onChange={e => setFormData({...formData, name:e.target.value})}
-                      />
-                    </div>
-                    <div style={{ marginBottom:16 }}>
-                      <label style={{ display:"block", fontSize:12, color:muted, fontFamily:monoFont, marginBottom:6 }}>Email</label>
-                      <input
-                        className="input-field"
-                        style={{ background: D?"rgba(255,255,255,0.05)":"rgba(0,0,0,0.04)", border:`1px solid ${glassBorder}`, color:text }}
-                        placeholder="your@email.com"
-                        type="email"
-                        value={formData.email}
-                        onChange={e => setFormData({...formData, email:e.target.value})}
-                      />
-                    </div>
-                    <div style={{ marginBottom:20 }}>
-                      <label style={{ display:"block", fontSize:12, color:muted, fontFamily:monoFont, marginBottom:6 }}>Message</label>
-                      <textarea
-                        className="input-field"
-                        style={{ background: D?"rgba(255,255,255,0.05)":"rgba(0,0,0,0.04)", border:`1px solid ${glassBorder}`, color:text, minHeight:110, resize:"vertical" }}
-                        placeholder="Tell me about your project or opportunity..."
-                        value={formData.message}
-                        onChange={e => setFormData({...formData, message:e.target.value})}
-                      />
-                    </div>
-                    <button
-                      className="btn"
-                      onClick={() => { if(formData.name && formData.email) setSent(true); }}
-                      style={{
-                        width:"100%", padding:"13px",
-                        background:`linear-gradient(135deg, ${accent}22, ${accent2}22)`,
-                        border:`1px solid ${accent}55`, borderRadius:10,
-                        color:accent, fontSize:14, fontWeight:600,
-                        boxShadow: D?`0 0 24px ${accent}18`:"none"
-                      }}
-                    >Send Message →</button>
-                  </>
-                )}
-              </div> */}
+                  <span style={{ marginLeft:"auto", color:muted, fontSize:16 }}>↗</span>
+                </a>
+              ))}
             </Reveal>
 
-            <Reveal delay={200}>
-              <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
-                {[
-                  ["📧","Email","kenntheus24@gmail.com","mailto:kenntheus24@gmail.com","#00f5c4"],
-                  ["🐙","GitHub","github.com/Kenntheus","https://github.com/Kenntheus","#7c6eff"],
-                  ["💼","LinkedIn","linkedin.com/in/martheus-kenn-banaag","https://linkedin.com/in/martheus-kenn-banaag","#00c6ff"],
-                ].map(([icon,platform,handle,href,col]) => (
-                  <a key={platform} href={href} style={{
-                    display:"flex", alignItems:"center", gap:16,
-                    background: cardBg, backdropFilter:"blur(12px)",
-                    border:`1px solid ${glassBorder}`, borderRadius:12,
-                    padding:"16px 20px", color:text,
-                    transition:"border-color 0.2s, box-shadow 0.2s"
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor=col+"66"; e.currentTarget.style.boxShadow=`0 4px 20px ${col}18`; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor=glassBorder; e.currentTarget.style.boxShadow="none"; }}>
-                    <div style={{ width:40, height:40, borderRadius:10, background:`${col}18`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:18, flexShrink:0 }}>{icon}</div>
-                    <div>
-                      <div style={{ fontSize:13, fontWeight:600, color:col, marginBottom:2 }}>{platform}</div>
-                      <div style={{ fontSize:12, color:muted, fontFamily:monoFont }}>{handle}</div>
-                    </div>
-                    <span style={{ marginLeft:"auto", color:muted, fontSize:13 }}>↗</span>
-                  </a>
-                ))}
-
-                <div style={{
-                  background: D?"rgba(0,245,196,0.05)":"rgba(76,59,206,0.05)",
-                  border:`1px solid ${accent}22`, borderRadius:12, padding:"18px 20px", marginTop:4
-                }}>
-                  <div style={{ fontSize:11, fontFamily:monoFont, color:accent, letterSpacing:2, textTransform:"uppercase", marginBottom:10 }}>Current Status</div>
-                  <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:6 }}>
-                    <div style={{ width:8, height:8, borderRadius:"50%", background:"#2ef", animation:"blink 1.5s infinite" }} />
-                    <span style={{ fontSize:13, color:text, fontWeight:500 }}>Open to freelance & full-time</span>
-                  </div>
-                  <div style={{ fontSize:12, color:muted }}>Based in Philippines · Remote-friendly · Open to relocation</div>
+            <Reveal delay={300}>
+              <div style={{
+                background: D?"rgba(0,245,196,0.05)":"rgba(76,59,206,0.05)",
+                border:`1px solid ${accent}22`, borderRadius:14, padding:"20px 24px", marginTop:4
+              }}>
+                <div style={{ fontSize:11, fontFamily:monoFont, color:accent, letterSpacing:2, textTransform:"uppercase", marginBottom:10 }}>Current Status</div>
+                <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:6 }}>
+                  <div style={{ width:8, height:8, borderRadius:"50%", background:"#2ef", animation:"blink 1.5s infinite" }} />
+                  <span style={{ fontSize:14, color:text, fontWeight:500 }}>Open to freelance & full-time</span>
                 </div>
+                <div style={{ fontSize:13, color:muted }}>Based in Philippines · Remote-friendly · Open to relocation</div>
               </div>
             </Reveal>
           </div>
@@ -820,9 +780,9 @@ export default function Portfolio() {
         display:"flex", justifyContent:"space-between", alignItems:"center",
         fontSize:12, color:muted
       }}>
-        <span style={{ fontFamily:monoFont, color:accent }}>&lt;RJ/&gt;</span>
+        <span style={{ fontFamily:monoFont, color:accent }}>&lt;Kenn/&gt;</span>
         <span>Built with React · {new Date().getFullYear()}</span>
-        <span>Designed & developed by Rafael J. Castillo</span>
+        <span>Designed & developed by Martheus Kenn Banaag</span>
       </footer>
     </div>
   );
