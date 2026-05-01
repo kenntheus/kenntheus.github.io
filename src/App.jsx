@@ -483,7 +483,7 @@ export default function Portfolio() {
                 display:"flex", alignItems:"center", gap:8,
               }}>
                 <div style={{ width:7, height:7, borderRadius:"50%", background:"#2ef", animation:"blink 1.5s infinite" }} />
-                <span style={{ fontSize:12, fontFamily:monoFont, color:muted }}>Available now</span>
+                <span style={{ fontSize:12, fontFamily:monoFont, color:muted }}>Online</span>
               </div>
             </div>
 
@@ -756,7 +756,7 @@ export default function Portfolio() {
               ))}
             </Reveal>
 
-            <Reveal delay={300}>
+            {/* {<Reveal delay={300}>
               <div style={{
                 background: D?"rgba(0,245,196,0.05)":"rgba(76,59,206,0.05)",
                 border:`1px solid ${accent}22`, borderRadius:14, padding:"20px 24px", marginTop:4
@@ -768,7 +768,7 @@ export default function Portfolio() {
                 </div>
                 <div style={{ fontSize:13, color:muted }}>Based in Philippines · Remote-friendly · Open to relocation</div>
               </div>
-            </Reveal>
+            </Reveal>} */}
           </div>
         </div>
       </section>
