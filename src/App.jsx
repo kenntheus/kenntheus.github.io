@@ -55,7 +55,7 @@ const PROJECTS = [
     type: "System and Security Monitoring",
     color: "#00c6ff",
     github: "https://github.com/Kenntheus/NeTPulse",
-    image: null
+    image: "/images/netpulse.png"
   },
 ];
 
