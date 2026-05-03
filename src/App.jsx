@@ -817,8 +817,8 @@ export default function Portfolio() {
         fontSize:12, color:muted
       }}>
         <span style={{ fontFamily:monoFont, color:accent }}>&lt;Kenn/&gt;</span>
-        <span>Designed & developed by Martheus Kenn Banaag</span>
-        <span>Crafted with 💻 & ☕ · {new Date().getFullYear()}</span>
+        <span>Designed & developed by Martheus Kenn Banaag · {new Date().getFullYear()}</span>
+        <span>Crafted with 💻 & ☕</span>
       </footer>
     </div>
   );
