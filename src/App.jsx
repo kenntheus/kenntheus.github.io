@@ -314,13 +314,15 @@ export default function Portfolio() {
   useEffect(() => {
     const sections = ["hero","about","projects","skills","experience","contact"];
     const handler = () => {
-      const scrollY = window.scrollY + 100;
+      const atBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 60;
+      if (atBottom) { setActiveSection(sections[sections.length - 1]); return; }
+      const scrollY = window.scrollY + window.innerHeight / 2;
+      let current = sections[0];
       for (const id of sections) {
         const el = document.getElementById(id);
-        if (el && el.offsetTop <= scrollY && el.offsetTop + el.offsetHeight > scrollY) {
-          setActiveSection(id);
-        }
+        if (el && el.offsetTop <= scrollY) current = id;
       }
+      setActiveSection(current);
     };
     window.addEventListener("scroll", handler);
     return () => window.removeEventListener("scroll", handler);
