@@ -59,31 +59,104 @@ const PROJECTS = [
   },
 ];
 
-const SKILLS = {
+const CDN = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
+
+const SKILL_ICONS = {
   "Programming": [
-    {name:"Python",lvl:95},
-    {name:"JavaScript/TypeScript",lvl:90},
-    {name:"C#",lvl:70},
-    {name:"Java",lvl:60},
-    {name:"SQL",lvl:85},
-    {name:"Bash / Shell",lvl:90},
+    { name:"Python",       icon:`${CDN}/python/python-original.svg` },
+    { name:"JavaScript",   icon:`${CDN}/javascript/javascript-original.svg` },
+    { name:"TypeScript",   icon:`${CDN}/typescript/typescript-original.svg` },
+    { name:"C#",           icon:`${CDN}/csharp/csharp-original.svg` },
+    { name:"Java",         icon:`${CDN}/java/java-original.svg` },
+    { name:"SQL",          icon:`${CDN}/mysql/mysql-original.svg` },
+    { name:"Bash / Shell", icon:`${CDN}/bash/bash-original.svg` },
+    { name:"PHP",          icon:`${CDN}/php/php-original.svg` },
+    { name:"Laravel",      icon:`${CDN}/laravel/laravel-original.svg` },
+    { name:"React",        icon:`${CDN}/react/react-original.svg` },
+    { name:"Node.js",      icon:`${CDN}/nodejs/nodejs-original.svg` },
+    { name:"Kotlin",       icon:`${CDN}/kotlin/kotlin-original.svg` },
   ],
   "Networking": [
-    {name:"Cisco IOS / NX-OS",lvl:90},
-    {name:"BGP / OSPF / EIGRP",lvl:85},
-    {name:"SD-WAN / MPLS",lvl:80},
-    {name:"Firewall / IDS / IPS",lvl:88},
-    {name:"Wireshark / tcpdump",lvl:92},
-    {name:"VPN / IPSec / SSL",lvl:87},
+    { name:"Linux",   icon:`${CDN}/linux/linux-original.svg` },
+    { name:"Ubuntu",  icon:`${CDN}/ubuntu/ubuntu-original.svg` },
+    { name:"Red Hat", icon:`${CDN}/redhat/redhat-original.svg` },
+    { name:"Wireshark", icon:"https://www.wireshark.org/favicon.ico" },
+    {
+      name:"Cisco",
+      icon:null,
+      svg: (
+        <svg width="36" height="36" viewBox="0 0 100 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0"  y="25" width="12" height="10" rx="3" fill="#1BA0D7"/>
+          <rect x="16" y="15" width="12" height="20" rx="3" fill="#1BA0D7"/>
+          <rect x="32" y="5"  width="12" height="30" rx="3" fill="#1BA0D7"/>
+          <rect x="48" y="15" width="12" height="20" rx="3" fill="#1BA0D7"/>
+          <rect x="64" y="25" width="12" height="10" rx="3" fill="#1BA0D7"/>
+          <rect x="80" y="15" width="12" height="20" rx="3" fill="#1BA0D7"/>
+        </svg>
+      )
+    },
+    {
+      name:"GNS3",
+      icon:null,
+      svg: (
+        <svg width="36" height="36" viewBox="0 0 36 36">
+          <circle cx="18" cy="18" r="16" fill="#0288D1"/>
+          <text x="18" y="23" textAnchor="middle" fontSize="11" fill="white" fontWeight="bold" fontFamily="monospace">GNS3</text>
+        </svg>
+      )
+    },
+    {
+      name:"TCP/IP",
+      icon:null,
+      svg: (
+        <svg width="36" height="36" viewBox="0 0 36 36">
+          <rect width="36" height="36" rx="6" fill="#455A64"/>
+          <text x="18" y="15" textAnchor="middle" fontSize="9" fill="white" fontFamily="monospace">TCP</text>
+          <text x="18" y="27" textAnchor="middle" fontSize="9" fill="#90CAF9" fontFamily="monospace">/IP</text>
+        </svg>
+      )
+    },
+    {
+      name:"BGP / OSPF",
+      icon:null,
+      svg: (
+        <svg width="36" height="36" viewBox="0 0 36 36">
+          <rect width="36" height="36" rx="6" fill="#37474F"/>
+          <text x="18" y="15" textAnchor="middle" fontSize="9" fill="white" fontFamily="monospace">BGP</text>
+          <text x="18" y="27" textAnchor="middle" fontSize="8" fill="#80DEEA" fontFamily="monospace">OSPF</text>
+        </svg>
+      )
+    },
+    {
+      name:"VPN / IPSec",
+      icon:null,
+      svg: (
+        <svg width="36" height="36" viewBox="0 0 36 36">
+          <rect width="36" height="36" rx="6" fill="#2E7D32"/>
+          <text x="18" y="15" textAnchor="middle" fontSize="9" fill="white" fontFamily="monospace">VPN</text>
+          <text x="18" y="27" textAnchor="middle" fontSize="8" fill="#A5D6A7" fontFamily="monospace">IPSec</text>
+        </svg>
+      )
+    },
   ],
   "Tools & Platforms": [
-    {name:"Docker / Kubernetes",lvl:85},
-    {name:"Terraform / Ansible",lvl:82},
-    {name:"AWS / Azure / GCP",lvl:78},
-    {name:"Git / CI-CD Pipelines",lvl:90},
-    {name:"Linux (RHEL / Ubuntu)",lvl:93},
-    {name:"Grafana / Prometheus",lvl:80},
-  ]
+    { name:"Docker",     icon:`${CDN}/docker/docker-original.svg` },
+    { name:"Kubernetes", icon:`${CDN}/kubernetes/kubernetes-plain.svg` },
+    { name:"Terraform",  icon:`${CDN}/terraform/terraform-original.svg` },
+    { name:"Ansible",    icon:`${CDN}/ansible/ansible-original.svg` },
+    { name:"AWS",        icon:`${CDN}/amazonwebservices/amazonwebservices-original-wordmark.svg` },
+    { name:"Azure",      icon:`${CDN}/azure/azure-original.svg` },
+    { name:"GCP",        icon:`${CDN}/googlecloud/googlecloud-original.svg` },
+    { name:"Git",        icon:`${CDN}/git/git-original.svg` },
+    { name:"GitHub",     icon:`${CDN}/github/github-original.svg` },
+    { name:"GitLab",     icon:`${CDN}/gitlab/gitlab-original.svg` },
+    { name:"Grafana",    icon:`${CDN}/grafana/grafana-original.svg` },
+    { name:"Prometheus", icon:`${CDN}/prometheus/prometheus-original.svg` },
+    { name:"Postman",    icon:`${CDN}/postman/postman-original.svg` },
+    { name:"Vercel",     icon:`${CDN}/vercel/vercel-original.svg` },
+    { name:"Netlify",    icon:`${CDN}/netlify/netlify-original.svg` },
+    { name:"Linux",      icon:`${CDN}/linux/linux-original.svg` },
+  ],
 };
 
 const TIMELINE = [
@@ -176,35 +249,6 @@ function ParticleCanvas({ dark }) {
   return <canvas ref={ref} style={{ position:"absolute", inset:0, width:"100%", height:"100%", pointerEvents:"none" }} />;
 }
 
-// Animated skill bar
-function SkillBar({ name, lvl, color, dark, delay }) {
-  const [filled, setFilled] = useState(false);
-  const ref = useRef(null);
-  useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setFilled(true); }, { threshold: 0.1 });
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
-  return (
-    <div ref={ref} style={{ marginBottom:14 }}>
-      <div style={{ display:"flex", justifyContent:"space-between", marginBottom:5 }}>
-        <span style={{ fontSize:13, fontWeight:500, color: dark?"#c8d4e8":"#2a3a5a", fontFamily:"'JetBrains Mono', monospace" }}>{name}</span>
-        <span style={{ fontSize:12, color: dark?"#5d7a9a":"#6a7fa0" }}>{lvl}%</span>
-      </div>
-      <div style={{ height:5, borderRadius:99, background: dark?"rgba(255,255,255,0.07)":"rgba(0,0,0,0.08)", overflow:"hidden" }}>
-        <div style={{
-          height:"100%",
-          width: filled ? lvl+"%" : "0%",
-          background: `linear-gradient(90deg, ${color}, ${color}aa)`,
-          borderRadius:99,
-          transition: `width 1.2s cubic-bezier(.4,0,.2,1) ${delay}ms`,
-          boxShadow: dark ? `0 0 8px ${color}66` : "none"
-        }} />
-      </div>
-    </div>
-  );
-}
-
 // Section reveal
 function Reveal({ children, delay = 0 }) {
   const [vis, setVis] = useState(false);
@@ -223,6 +267,36 @@ function Reveal({ children, delay = 0 }) {
   );
 }
 
+// Single skill logo card
+function SkillLogo({ skill, accent, glassBorder, cardBg }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      title={skill.name}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display:"flex", alignItems:"center", justifyContent:"center",
+        padding:"16px 8px", borderRadius:12,
+        background: cardBg,
+        backdropFilter:"blur(12px)",
+        border:`1px solid ${hovered ? accent+"66" : glassBorder}`,
+        transition:"all 0.2s", cursor:"default",
+        boxShadow: hovered ? `0 6px 24px ${accent}18` : "none",
+        transform: hovered ? "translateY(-3px)" : "translateY(0)",
+        aspectRatio:"1",
+      }}
+    >
+      {skill.svg
+        ? skill.svg
+        : skill.icon
+          ? <img src={skill.icon} alt={skill.name} style={{ width:36, height:36, objectFit:"contain" }} />
+          : <span style={{ fontSize:10, fontFamily:"'JetBrains Mono', monospace", color:accent, textAlign:"center", lineHeight:1.3 }}>{skill.name}</span>
+      }
+    </div>
+  );
+}
+
 export default function Portfolio() {
   const [dark, setDark] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -230,7 +304,6 @@ export default function Portfolio() {
   const [hoveredProject, setHoveredProject] = useState(null);
   const [activeSkillCat, setActiveSkillCat] = useState("Programming");
 
-  // ── Profile photo: replace null with your image path e.g. "src/images/profile.jpg"
   const PROFILE_IMAGE = "/images/kenn.jpg";
 
   useEffect(() => {
@@ -312,11 +385,11 @@ export default function Portfolio() {
         .project-card:hover { transform: translateY(-6px) scale(1.01); }
         .tag { display:inline-block; padding:3px 10px; border-radius:99px; font-size:11px; font-family:${monoFont}; font-weight:500; margin:3px; }
         .tl-line { position:absolute; left:20px; top:0; bottom:0; width:1px; background: linear-gradient(to bottom, ${accent}44, ${accent2}44); }
-        .input-field { width:100%; padding:12px 16px; border-radius:10px; font-family:${globalFont}; font-size:14px; outline:none; transition:border-color 0.2s; }
-        .input-field:focus { border-color: ${accent}; box-shadow: 0 0 0 3px ${accent}22; }
         a { text-decoration:none; }
         .contact-card:hover { border-color: var(--col) !important; box-shadow: 0 4px 20px rgba(0,0,0,0.2); transform: translateY(-2px); }
         .contact-card { transition: all 0.25s; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
       `}</style>
 
       {/* ─── NAV ─────────────────────────────────────── */}
@@ -359,14 +432,10 @@ export default function Portfolio() {
       {/* ─── HERO ────────────────────────────────────── */}
       <section id="hero" style={{ position:"relative", minHeight:"100vh", display:"flex", alignItems:"center", overflow:"hidden", paddingTop:60 }}>
         <ParticleCanvas dark={D} />
-        {/* Grid lines */}
         <div style={{ position:"absolute", inset:0, backgroundImage:`linear-gradient(${D?"rgba(0,245,196,0.025)":"rgba(76,59,206,0.03)"} 1px, transparent 1px), linear-gradient(90deg, ${D?"rgba(0,245,196,0.025)":"rgba(76,59,206,0.03)"} 1px, transparent 1px)`, backgroundSize:"48px 48px", pointerEvents:"none" }} />
 
         <div style={{ position:"relative", zIndex:2, maxWidth:960, margin:"0 auto", padding:"0 40px", width:"100%" }}>
-          {/* ── Two-column layout: text left, photo right ── */}
           <div style={{ display:"flex", alignItems:"center", gap:60, justifyContent:"space-between" }}>
-
-            {/* LEFT: existing text content */}
             <div style={{ flex:"1 1 0", minWidth:0 }}>
               <div style={{ fontFamily:monoFont, fontSize:12, color:accent, letterSpacing:3, textTransform:"uppercase", marginBottom:20, display:"flex", alignItems:"center", gap:10 }}>
                 <span style={{ display:"inline-block", width:32, height:1, background:accent }} />
@@ -419,52 +488,30 @@ export default function Portfolio() {
 
             {/* RIGHT: Profile photo */}
             <div style={{ flexShrink:0, display:"flex", flexDirection:"column", alignItems:"center", gap:14 }}>
-              {/* Outer glow ring */}
-              <div style={{
-                position:"relative",
-                width:220, height:220,
-              }}>
-                {/* Decorative rotating ring */}
+              <div style={{ position:"relative", width:220, height:220 }}>
                 <div style={{
-                  position:"absolute", inset:-6,
-                  borderRadius:"50%",
+                  position:"absolute", inset:-6, borderRadius:"50%",
                   background:`conic-gradient(${accent}, ${accent2}, transparent, ${accent})`,
                   animation:"spin 6s linear infinite",
                   opacity: D ? 0.5 : 0.35,
                 }} />
-                {/* White gap ring */}
+                <div style={{ position:"absolute", inset:-2, borderRadius:"50%", background: bg }} />
                 <div style={{
-                  position:"absolute", inset:-2,
-                  borderRadius:"50%",
-                  background: bg,
-                }} />
-                {/* Photo or placeholder */}
-                <div style={{
-                  position:"relative",
-                  width:"100%", height:"100%",
-                  borderRadius:"50%",
-                  overflow:"hidden",
+                  position:"relative", width:"100%", height:"100%",
+                  borderRadius:"50%", overflow:"hidden",
                   border:`2px solid ${accent}55`,
                   animation:"profilePulse 3s ease-in-out infinite",
                   background: D ? "rgba(14,26,52,0.9)" : "rgba(220,230,248,0.9)",
                 }}>
                   {PROFILE_IMAGE ? (
-                    <img
-                      src={PROFILE_IMAGE}
-                      alt="Martheus Kenn Banaag"
-                      style={{ width:"100%", height:"100%", objectFit:"cover" }}
-                    />
+                    <img src={PROFILE_IMAGE} alt="Martheus Kenn Banaag" style={{ width:"100%", height:"100%", objectFit:"cover" }} />
                   ) : (
-                    /* Placeholder when no image is set */
                     <div style={{
-                      width:"100%", height:"100%",
-                      display:"flex", flexDirection:"column",
-                      alignItems:"center", justifyContent:"center",
-                      gap:8,
+                      width:"100%", height:"100%", display:"flex", flexDirection:"column",
+                      alignItems:"center", justifyContent:"center", gap:8,
                       backgroundImage:`linear-gradient(135deg, ${accent}10, ${accent2}10)`,
                     }}>
-                      {/* Silhouette SVG */}
-                      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
                         <circle cx="40" cy="28" r="18" fill={accent} fillOpacity="0.25" stroke={accent} strokeWidth="1.5" strokeOpacity="0.5"/>
                         <path d="M10 72c0-16.569 13.431-30 30-30s30 13.431 30 30" fill={accent} fillOpacity="0.15" stroke={accent} strokeWidth="1.5" strokeOpacity="0.4"/>
                       </svg>
@@ -473,20 +520,15 @@ export default function Portfolio() {
                   )}
                 </div>
               </div>
-
-              {/* Name tag badge below photo */}
               <div style={{
                 background: D ? "rgba(14,26,52,0.8)" : "rgba(255,255,255,0.8)",
-                backdropFilter:"blur(12px)",
-                border:`1px solid ${glassBorder}`,
-                borderRadius:99, padding:"6px 18px",
-                display:"flex", alignItems:"center", gap:8,
+                backdropFilter:"blur(12px)", border:`1px solid ${glassBorder}`,
+                borderRadius:99, padding:"6px 18px", display:"flex", alignItems:"center", gap:8,
               }}>
                 <div style={{ width:7, height:7, borderRadius:"50%", background:"#2ef", animation:"blink 1.5s infinite" }} />
                 <span style={{ fontSize:12, fontFamily:monoFont, color:muted }}>Online</span>
               </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -525,11 +567,9 @@ export default function Portfolio() {
                   ["Cloud","AWS, Azure, GCP, Multi-cloud","#ffd93d"],
                 ].map(([cat, items, col]) => (
                   <div key={cat} style={{
-                    background: cardBg,
-                    backdropFilter:"blur(12px)",
-                    border:`1px solid ${glassBorder}`,
-                    borderRadius:12, padding:"16px 18px",
-                    borderLeft:`3px solid ${col}`
+                    background: cardBg, backdropFilter:"blur(12px)",
+                    border:`1px solid ${glassBorder}`, borderRadius:12,
+                    padding:"16px 18px", borderLeft:`3px solid ${col}`
                   }}>
                     <div style={{ fontSize:11, fontFamily:monoFont, color:col, fontWeight:600, marginBottom:6, textTransform:"uppercase", letterSpacing:1 }}>{cat}</div>
                     <div style={{ fontSize:12, color:muted, lineHeight:1.6 }}>{items}</div>
@@ -562,8 +602,7 @@ export default function Portfolio() {
                   onMouseEnter={() => setHoveredProject(i)}
                   onMouseLeave={() => setHoveredProject(null)}
                   style={{
-                    background: cardBg,
-                    backdropFilter:"blur(16px)",
+                    background: cardBg, backdropFilter:"blur(16px)",
                     border:`1px solid ${hoveredProject === i ? p.color+"55" : glassBorder}`,
                     borderRadius:16, padding:"24px",
                     boxShadow: hoveredProject === i ? `0 12px 40px ${p.color}18, 0 0 0 1px ${p.color}22` : "none",
@@ -620,8 +659,9 @@ export default function Portfolio() {
             </h2>
           </Reveal>
 
+          {/* Category tabs */}
           <div style={{ display:"flex", gap:8, marginBottom:36 }}>
-            {Object.keys(SKILLS).map(cat => (
+            {Object.keys(SKILL_ICONS).map(cat => (
               <button
                 key={cat}
                 className="btn"
@@ -636,28 +676,39 @@ export default function Portfolio() {
             ))}
           </div>
 
-          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:48 }}>
-            <div>
-              {SKILLS[activeSkillCat].map((s, i) => (
-                <SkillBar key={s.name} name={s.name} lvl={s.lvl} color={accent} dark={D} delay={i * 80} />
-              ))}
-            </div>
-            <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
-              <Reveal delay={350}>
-                <div style={{
-                  background: D?"rgba(0,245,196,0.06)":"rgba(76,59,206,0.06)",
-                  border:`1px solid ${accent}33`,
-                  borderRadius:12, padding:"16px 20px", marginTop:4
-                }}>
-                  <div style={{ fontSize:12, fontFamily:monoFont, color:accent, marginBottom:6 }}>Currently Learning</div>
-                  <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
-                    {["Cloud","AI Engineering","iOS Development","ML Ops"].map(t => (
-                      <span key={t} className="tag" style={{ background: D?"rgba(124,110,255,0.12)":"rgba(124,110,255,0.1)", color:"#7c6eff", border:"1px solid #7c6eff33" }}>{t}</span>
-                    ))}
-                  </div>
+          {/* Logo grid + currently learning side by side */}
+          <div style={{ display:"grid", gridTemplateColumns:"1fr auto", gap:48, alignItems:"start" }}>
+            {/* Logo grid */}
+            <Reveal>
+              <div style={{
+                display:"grid",
+                gridTemplateColumns:"repeat(auto-fill, minmax(70px, 1fr))",
+                gap:12
+              }}>
+                {SKILL_ICONS[activeSkillCat].map((s, i) => (
+                  <Reveal key={s.name} delay={i * 40}>
+                    <SkillLogo skill={s} accent={accent} glassBorder={glassBorder} cardBg={cardBg} />
+                  </Reveal>
+                ))}
+              </div>
+            </Reveal>
+
+            {/* Currently learning */}
+            <Reveal delay={200}>
+              <div style={{
+                minWidth:220,
+                background: D?"rgba(0,245,196,0.06)":"rgba(76,59,206,0.06)",
+                border:`1px solid ${accent}33`,
+                borderRadius:12, padding:"16px 20px"
+              }}>
+                <div style={{ fontSize:12, fontFamily:monoFont, color:accent, marginBottom:10, letterSpacing:1.5, textTransform:"uppercase" }}>Currently Learning</div>
+                <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+                  {["Cloud","AI Engineering","iOS Development","ML Ops"].map(t => (
+                    <span key={t} className="tag" style={{ background: D?"rgba(124,110,255,0.12)":"rgba(124,110,255,0.1)", color:"#7c6eff", border:"1px solid #7c6eff33" }}>{t}</span>
+                  ))}
                 </div>
-              </Reveal>
-            </div>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -711,7 +762,6 @@ export default function Portfolio() {
       </section>
 
       {/* ─── CONTACT ─────────────────────────────────── */}
-      {/* Form removed — only social links + status shown, centered in full width */}
       <section id="contact" style={{ padding:"100px 0" }}>
         <div style={{ maxWidth:700, margin:"0 auto", padding:"0 40px" }}>
           <Reveal>
@@ -755,20 +805,6 @@ export default function Portfolio() {
                 </a>
               ))}
             </Reveal>
-
-            {/* {<Reveal delay={300}>
-              <div style={{
-                background: D?"rgba(0,245,196,0.05)":"rgba(76,59,206,0.05)",
-                border:`1px solid ${accent}22`, borderRadius:14, padding:"20px 24px", marginTop:4
-              }}>
-                <div style={{ fontSize:11, fontFamily:monoFont, color:accent, letterSpacing:2, textTransform:"uppercase", marginBottom:10 }}>Current Status</div>
-                <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:6 }}>
-                  <div style={{ width:8, height:8, borderRadius:"50%", background:"#2ef", animation:"blink 1.5s infinite" }} />
-                  <span style={{ fontSize:14, color:text, fontWeight:500 }}>Open to freelance & full-time</span>
-                </div>
-                <div style={{ fontSize:13, color:muted }}>Based in Philippines · Remote-friendly · Open to relocation</div>
-              </div>
-            </Reveal>} */}
           </div>
         </div>
       </section>
