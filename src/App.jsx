@@ -452,7 +452,7 @@ export default function Portfolio() {
                 <span style={{ color: accent }}>&gt;</span>{" "}
                 IT Graduate{" "}
                 <span style={{ color:D?"#7c6eff":"#4c3bce" }}>|</span>{" "}
-                Developer & Network Engineer
+                Software & Network Engineer
               </div>
 
               <p style={{ fontSize:15, lineHeight:1.75, color:muted, maxWidth:520, marginBottom:36 }}>
@@ -817,8 +817,8 @@ export default function Portfolio() {
         fontSize:12, color:muted
       }}>
         <span style={{ fontFamily:monoFont, color:accent }}>&lt;Kenn/&gt;</span>
-        <span>Built with React · {new Date().getFullYear()}</span>
         <span>Designed & developed by Martheus Kenn Banaag</span>
+        <span>Crafted with 💻 & ☕ · {new Date().getFullYear()}</span>
       </footer>
     </div>
   );
