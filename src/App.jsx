@@ -1,851 +1,526 @@
 import { useState, useEffect, useRef } from "react";
 
-const NAV_LINKS = ["About","Projects","Skills","Experience","Contact"];
-
-const PROJECTS = [
-  {
-    title: "SHINANAIDE!",
-    desc: "A hockey-like game that will have you playing for hours. This online game has a ton of features, including a shop customizability.",
-    stack: ["C#","MySQL","Blender","Unity"],
-    type: "Game Development",
-    color: "#00f5c4",
-    github: "https://github.com/jairasolis/Shinanaide",
-    image: "/images/shinanaide.jpg"
-  },
-  {
-    title: "GameBuddy",
-    desc: "A Web Application for finding your game buddy through a matching algorithm with real-time chat system, profile and interest management.",
-    stack: ["Laravel","PHP","MySQL","JavaScript"],
-    type: "Web Application",
-    color: "#7c6eff",
-    github: "https://github.com/JorlanPrado/GameBuddy-Livewire",
-    image: "/images/gamebuddy.png"
-  },
-  {
-    title: "PHINMA Pulse",
-    desc: "An Online Document Request & Tracking System designed to automate and transparency the academic record-requesting process.",
-    stack: ["Typescript","React","MongoDB"],
-    type: "Web Application",
-    color: "#a8ff78",
-    github: "https://github.com/Swa-ne/HATAKONTITANS",
-    image: "/images/phinmapulse.jpg"
-  },
-  {
-    title: "Bilibeads: Accessories",
-    desc: "A customizable e-commerce site for accessory enthusiasts to design their own pieces using preferred beads and styles.",
-    stack: ["Laravel","PHP","MySQL","JavaScript"],
-    type: "Website",
-    color: "#ff6b6b",
-    github: "https://github.com/Kenntheus/Bilibeads",
-    image: "/images/bilibeads.png"
-  },
-  {
-    title: "Dagupan City: NetSec Framework",
-    desc: "Strengthening Dagupan City Hall's network and cybersecurity to ensure data integrity, operational continuity, and citizen privacy.",
-    stack: ["Cisco","Linux","pfSense"],
-    type: "Network and Security",
-    color: "#ffd93d",
-    github: "#",
-    image: "/images/netsec.png"
-  },
-  {
-    title: "NeTPulse",
-    desc: "A Laravel-React dashboard for real-time network monitoring, featuring live latency tracking, automated alerts, and CSV reporting.",
-    stack: ["Laravel","React","MySQL","Axios"],
-    type: "System and Security Monitoring",
-    color: "#00c6ff",
-    github: "https://github.com/Kenntheus/NeTPulse",
-    image: "/images/netpulse.png"
-  },
-];
-
-const CDN = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
-
-const SKILL_ICONS = {
-  "Programming": [
-    { name:"Python",       icon:`${CDN}/python/python-original.svg` },
-    { name:"JavaScript",   icon:`${CDN}/javascript/javascript-original.svg` },
-    { name:"TypeScript",   icon:`${CDN}/typescript/typescript-original.svg` },
-    { name:"C#",           icon:`${CDN}/csharp/csharp-original.svg` },
-    { name:"Java",         icon:`${CDN}/java/java-original.svg` },
-    { name:"SQL",          icon:`${CDN}/mysql/mysql-original.svg` },
-    { name:"Bash / Shell", icon:`${CDN}/bash/bash-original.svg` },
-    { name:"PHP",          icon:`${CDN}/php/php-original.svg` },
-    { name:"Laravel",      icon:`${CDN}/laravel/laravel-original.svg` },
-    { name:"React",        icon:`${CDN}/react/react-original.svg` },
-    { name:"Node.js",      icon:`${CDN}/nodejs/nodejs-original.svg` },
-    { name:"Kotlin",       icon:`${CDN}/kotlin/kotlin-original.svg` },
-  ],
-  "Networking": [
-    { name:"Linux",   icon:`${CDN}/linux/linux-original.svg` },
-    { name:"Ubuntu",  icon:`${CDN}/ubuntu/ubuntu-original.svg` },
-    { name:"Red Hat", icon:`${CDN}/redhat/redhat-original.svg` },
-    { name:"Wireshark", icon:"https://www.wireshark.org/favicon.ico" },
-    {
-      name:"Cisco",
-      icon:null,
-      svg: (
-        <svg width="36" height="36" viewBox="0 0 100 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="0"  y="25" width="12" height="10" rx="3" fill="#1BA0D7"/>
-          <rect x="16" y="15" width="12" height="20" rx="3" fill="#1BA0D7"/>
-          <rect x="32" y="5"  width="12" height="30" rx="3" fill="#1BA0D7"/>
-          <rect x="48" y="15" width="12" height="20" rx="3" fill="#1BA0D7"/>
-          <rect x="64" y="25" width="12" height="10" rx="3" fill="#1BA0D7"/>
-          <rect x="80" y="15" width="12" height="20" rx="3" fill="#1BA0D7"/>
-        </svg>
-      )
-    },
-    {
-      name:"GNS3",
-      icon:null,
-      svg: (
-        <svg width="36" height="36" viewBox="0 0 36 36">
-          <circle cx="18" cy="18" r="16" fill="#0288D1"/>
-          <text x="18" y="23" textAnchor="middle" fontSize="11" fill="white" fontWeight="bold" fontFamily="monospace">GNS3</text>
-        </svg>
-      )
-    },
-    {
-      name:"TCP/IP",
-      icon:null,
-      svg: (
-        <svg width="36" height="36" viewBox="0 0 36 36">
-          <rect width="36" height="36" rx="6" fill="#455A64"/>
-          <text x="18" y="15" textAnchor="middle" fontSize="9" fill="white" fontFamily="monospace">TCP</text>
-          <text x="18" y="27" textAnchor="middle" fontSize="9" fill="#90CAF9" fontFamily="monospace">/IP</text>
-        </svg>
-      )
-    },
-    {
-      name:"BGP / OSPF",
-      icon:null,
-      svg: (
-        <svg width="36" height="36" viewBox="0 0 36 36">
-          <rect width="36" height="36" rx="6" fill="#37474F"/>
-          <text x="18" y="15" textAnchor="middle" fontSize="9" fill="white" fontFamily="monospace">BGP</text>
-          <text x="18" y="27" textAnchor="middle" fontSize="8" fill="#80DEEA" fontFamily="monospace">OSPF</text>
-        </svg>
-      )
-    },
-    {
-      name:"VPN / IPSec",
-      icon:null,
-      svg: (
-        <svg width="36" height="36" viewBox="0 0 36 36">
-          <rect width="36" height="36" rx="6" fill="#2E7D32"/>
-          <text x="18" y="15" textAnchor="middle" fontSize="9" fill="white" fontFamily="monospace">VPN</text>
-          <text x="18" y="27" textAnchor="middle" fontSize="8" fill="#A5D6A7" fontFamily="monospace">IPSec</text>
-        </svg>
-      )
-    },
-  ],
-  "Tools & Platforms": [
-    { name:"Docker",     icon:`${CDN}/docker/docker-original.svg` },
-    { name:"Kubernetes", icon:`${CDN}/kubernetes/kubernetes-plain.svg` },
-    { name:"Terraform",  icon:`${CDN}/terraform/terraform-original.svg` },
-    { name:"Ansible",    icon:`${CDN}/ansible/ansible-original.svg` },
-    { name:"AWS",        icon:`${CDN}/amazonwebservices/amazonwebservices-original-wordmark.svg` },
-    { name:"Azure",      icon:`${CDN}/azure/azure-original.svg` },
-    { name:"GCP",        icon:`${CDN}/googlecloud/googlecloud-original.svg` },
-    { name:"Git",        icon:`${CDN}/git/git-original.svg` },
-    { name:"GitHub",     icon:`${CDN}/github/github-original.svg` },
-    { name:"GitLab",     icon:`${CDN}/gitlab/gitlab-original.svg` },
-    { name:"Grafana",    icon:`${CDN}/grafana/grafana-original.svg` },
-    { name:"Prometheus", icon:`${CDN}/prometheus/prometheus-original.svg` },
-    { name:"Postman",    icon:`${CDN}/postman/postman-original.svg` },
-    { name:"Vercel",     icon:`${CDN}/vercel/vercel-original.svg` },
-    { name:"Netlify",    icon:`${CDN}/netlify/netlify-original.svg` },
-    { name:"Linux",      icon:`${CDN}/linux/linux-original.svg` },
-  ],
+// ─── THEME ────────────────────────────────────────────────────────────────────
+const DARK = {
+  bg:        "#0a0a0a",
+  bgCard:    "#111111",
+  bgCardAlt: "#161616",
+  border:    "#222222",
+  text:      "#f0f0f0",
+  textMuted: "#888",
+  textDim:   "#444",
+  accent:    "#00ff88",
+  accentBg:  "rgba(0,255,136,0.08)",
+  tag:       "#1a1a1a",
+  tagBorder: "#2a2a2a",
+  tagText:   "#aaa",
+};
+const LIGHT = {
+  bg:        "#f9f9f9",
+  bgCard:    "#ffffff",
+  bgCardAlt: "#ffffff",
+  border:    "#e8e8e8",
+  text:      "#0a0a0a",
+  textMuted: "#666",
+  textDim:   "#bbb",
+  accent:    "#00aa55",
+  accentBg:  "rgba(0,170,85,0.08)",
+  tag:       "#f0f0f0",
+  tagBorder: "#e0e0e0",
+  tagText:   "#555",
 };
 
-const TIMELINE = [
-  {
-    year:"2020 – 2022",
-    role:"Senior High School",
-    org:"PHINMA University of Pangasinan.",
-    desc:"Studied ICT for my last year as Senior High School in UPang.",
-    type:"Student"
-  },
-  {
-    year:"2022 – 2026",
-    role:"College",
-    org:"PHINMA University of Pangasinan.",
-    desc:"4 years of studying Bachelor of Science in Information Technology, specializing in Computer Security.",
-    type:"Student"
-  },
-  {
-    year:"December 2025 – March 2026",
-    role:"IT Intern",
-    org:"Concentrix",
-    desc:"Managed IT support, network diagnostics, and hardware/software deployment to maintain system availability.",
-    type:"work"
-  }
+// ─── DATA ────────────────────────────────────────────────────────────────────
+const CDN = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
+
+const STACK = {
+  "Frontend":  ["React","Next.js","TypeScript","JavaScript","Tailwind CSS","Vue.js"],
+  "Backend":   ["Python","Node.js","PHP","Laravel","MySQL","MongoDB"],
+  "Networking":["Cisco","Linux","GNS3","pfSense","Wireshark","TCP/IP"],
+  "DevOps":    ["Docker","AWS","Azure","Git","Terraform","Kubernetes"],
+};
+
+const STACK_ICONS = {
+  "React":       `${CDN}/react/react-original.svg`,
+  "Next.js":     `${CDN}/nextjs/nextjs-original.svg`,
+  "TypeScript":  `${CDN}/typescript/typescript-original.svg`,
+  "JavaScript":  `${CDN}/javascript/javascript-original.svg`,
+  "Tailwind CSS":`${CDN}/tailwindcss/tailwindcss-original.svg`,
+  "Vue.js":      `${CDN}/vuejs/vuejs-original.svg`,
+  "Python":      `${CDN}/python/python-original.svg`,
+  "Node.js":     `${CDN}/nodejs/nodejs-original.svg`,
+  "PHP":         `${CDN}/php/php-original.svg`,
+  "Laravel":     `${CDN}/laravel/laravel-original.svg`,
+  "MySQL":       `${CDN}/mysql/mysql-original.svg`,
+  "MongoDB":     `${CDN}/mongodb/mongodb-original.svg`,
+  "Linux":       `${CDN}/linux/linux-original.svg`,
+  "Docker":      `${CDN}/docker/docker-original.svg`,
+  "AWS":         `${CDN}/amazonwebservices/amazonwebservices-original-wordmark.svg`,
+  "Azure":       `${CDN}/azure/azure-original.svg`,
+  "Git":         `${CDN}/git/git-original.svg`,
+  "Terraform":   `${CDN}/terraform/terraform-original.svg`,
+  "Kubernetes":  `${CDN}/kubernetes/kubernetes-plain.svg`,
+};
+
+const PROJECTS = [
+  { title:"NeTPulse", desc:"Real-time network monitoring dashboard with live latency alerts.", tags:["Laravel","React","MySQL","Axios"], href:"https://github.com/Kenntheus/NeTPulse", type:"Monitoring" },
+  { title:"Bilibeads", desc:"Customizable e-commerce for accessory enthusiasts.", tags:["Laravel","PHP","MySQL"], href:"https://github.com/Kenntheus/Bilibeads", type:"Website" },
+  { title:"Network Infrastructure and Cyber Security Framework for Dagupan City Hall", desc:"Network & cybersecurity framework for Dagupan City Hall.", tags:["Cisco","Linux","pfSense", "Wireshark", "Snort"], href:"#", type:"Network Security" },
+  { title:"GameBuddy", desc:"Match-based platform to find game partners with real-time chat.", tags:["Laravel","PHP","MySQL","JavaScript", "Livewire"], href:"https://github.com/JorlanPrado/GameBuddy-Livewire", type:"Web App" },
+  { title:"PHINMA Pulse", desc:"Document request & tracking system for academic records.", tags:["TypeScript","JavaScript","NodeJS","React","MongoDB"], href:"https://github.com/Swa-ne/HATAKONTITANS", type:"Web App" },
+  { title:"SHINANAIDE!", desc:"Hockey-like game with shop customizability and multiplayer.", tags:["C#","Unity","Blender","MySQL"], href:"https://github.com/jairasolis/Shinanaide", type:"Game Dev" },
 ];
 
-// Particle canvas
-function ParticleCanvas({ dark }) {
-  const ref = useRef(null);
-  useEffect(() => {
-    const canvas = ref.current;
-    const ctx = canvas.getContext("2d");
-    let raf, particles = [];
-    const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    };
-    resize();
-    window.addEventListener("resize", resize);
+const EXPERIENCE = [
+  { role:"IT Intern",            org:"Concentrix",                          year:"Dec 2025 – Mar 2026", type:"work" },
+  { role:"BS Information Technology", org:"PHINMA UPang · Computer Security", year:"2022 – 2026",        type:"edu"  },
+  { role:"Senior High School — ICT",  org:"PHINMA University of Pangasinan", year:"2020 – 2022",        type:"edu"  },
+];
 
-    const count = 60;
-    for (let i = 0; i < count; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        r: Math.random() * 1.5 + 0.5
-      });
-    }
+const FONT = "'Courier New', Courier, monospace";
 
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const accent = dark ? "0,245,196" : "100,60,220";
-      const node = dark ? "100,200,255" : "80,100,180";
-
-      particles.forEach(p => {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${node},${dark ? 0.6 : 0.4})`;
-        ctx.fill();
-      });
-
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 130) {
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(${accent},${(1 - dist / 130) * (dark ? 0.18 : 0.12)})`;
-            ctx.lineWidth = 0.7;
-            ctx.stroke();
-          }
-        }
-      }
-      raf = requestAnimationFrame(draw);
-    };
-    draw();
-    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", resize); };
-  }, [dark]);
-  return <canvas ref={ref} style={{ position:"absolute", inset:0, width:"100%", height:"100%", pointerEvents:"none" }} />;
-}
-
-// Section reveal
-function Reveal({ children, delay = 0 }) {
-  const [vis, setVis] = useState(false);
-  const ref = useRef(null);
-  useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVis(true); }, { threshold: 0.08 });
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
+// ─── PROFILE PHOTO ────────────────────────────────────────────────────────────
+function ProfilePhoto({ dark }) {
   return (
-    <div ref={ref} style={{
-      opacity: vis ? 1 : 0,
-      transform: vis ? "translateY(0)" : "translateY(28px)",
-      transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`
-    }}>{children}</div>
-  );
-}
-
-// Single skill logo card
-function SkillLogo({ skill, accent, glassBorder, cardBg }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <div
-      title={skill.name}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        display:"flex", alignItems:"center", justifyContent:"center",
-        padding:"16px 8px", borderRadius:12,
-        background: cardBg,
-        backdropFilter:"blur(12px)",
-        border:`1px solid ${hovered ? accent+"66" : glassBorder}`,
-        transition:"all 0.2s", cursor:"default",
-        boxShadow: hovered ? `0 6px 24px ${accent}18` : "none",
-        transform: hovered ? "translateY(-3px)" : "translateY(0)",
-        aspectRatio:"1",
-      }}
-    >
-      {skill.svg
-        ? skill.svg
-        : skill.icon
-          ? <img src={skill.icon} alt={skill.name} style={{ width:36, height:36, objectFit:"contain" }} />
-          : <span style={{ fontSize:10, fontFamily:"'JetBrains Mono', monospace", color:accent, textAlign:"center", lineHeight:1.3 }}>{skill.name}</span>
-      }
+    <div style={{ position:"relative", width:88, height:88, flexShrink:0 }}>
+      <div style={{
+        width:88, height:88, borderRadius:14, overflow:"hidden",
+        border:`2px solid ${dark ? "#222" : "#e8e8e8"}`,
+        background: dark ? "#1a1a1a" : "#eee",
+        position:"relative",
+      }}>
+        <img
+          src="/images/kenn.jpg"
+          alt="Martheus Kenn Banaag"
+          style={{ width:"100%", height:"100%", objectFit:"cover" }}
+          onError={e => { e.target.style.display="none"; }}
+        />
+        <div style={{
+          position:"absolute", inset:0,
+          background: dark
+            ? "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, transparent 60%)"
+            : "linear-gradient(135deg, rgba(0,170,85,0.04) 0%, transparent 60%)",
+          pointerEvents:"none",
+        }}/>
+      </div>
+      <div style={{
+        position:"absolute", bottom:4, right:4,
+        width:12, height:12, borderRadius:"50%",
+        background:"#00cc66",
+        border:`2px solid ${dark ? "#0a0a0a" : "#f9f9f9"}`,
+      }}/>
     </div>
   );
 }
 
+// ─── TAG ─────────────────────────────────────────────────────────────────────
+function Tag({ label, T }) {
+  return (
+    <span style={{
+      fontSize:11, padding:"3px 10px", borderRadius:6,
+      background:T.tag, border:`1px solid ${T.tagBorder}`,
+      color:T.tagText, fontFamily:FONT,
+      letterSpacing:0.3, whiteSpace:"nowrap",
+    }}>{label}</span>
+  );
+}
+
+// ─── STACK CHIP (with icon) ───────────────────────────────────────────────────
+function StackChip({ name, T }) {
+  const icon = STACK_ICONS[name];
+  const [err, setErr] = useState(false);
+  return (
+    <div style={{
+      display:"flex", alignItems:"center", gap:6,
+      padding:"5px 12px", borderRadius:8,
+      background:T.tag, border:`1px solid ${T.tagBorder}`,
+      transition:"all 0.15s", cursor:"default",
+    }}
+    onMouseEnter={e => { e.currentTarget.style.borderColor = T.accent+"66"; }}
+    onMouseLeave={e => { e.currentTarget.style.borderColor = T.tagBorder; }}
+    >
+      {icon && !err && (
+        <img src={icon} alt={name} style={{ width:14, height:14, objectFit:"contain" }} onError={() => setErr(true)}/>
+      )}
+      <span style={{ fontSize:12, color:T.tagText, fontFamily:FONT, letterSpacing:0.3 }}>{name}</span>
+    </div>
+  );
+}
+
+// ─── SECTION HEADER ───────────────────────────────────────────────────────────
+function SectionHeader({ title, T, action, onAction }) {
+  return (
+    <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:18 }}>
+      <h2 style={{ fontSize:15, fontWeight:700, color:T.text, fontFamily:FONT, letterSpacing:-0.3 }}>{title}</h2>
+      {action && (
+        <button onClick={onAction} style={{
+          background:"transparent", border:"none", color:T.textMuted,
+          fontSize:12, fontFamily:FONT, cursor:"pointer",
+          display:"flex", alignItems:"center", gap:4, padding:0,
+          transition:"color 0.15s",
+        }}
+        onMouseEnter={e => e.currentTarget.style.color = T.accent}
+        onMouseLeave={e => e.currentTarget.style.color = T.textMuted}
+        >{action} →</button>
+      )}
+    </div>
+  );
+}
+
+// ─── CARD WRAPPER ─────────────────────────────────────────────────────────────
+function Card({ children, T, style = {} }) {
+  return (
+    <div style={{
+      background:T.bgCard, border:`1px solid ${T.border}`,
+      borderRadius:14, padding:"22px 24px",
+      ...style,
+    }}>
+      {children}
+    </div>
+  );
+}
+
+// ─── ABOUT CARD ───────────────────────────────────────────────────────────────
+function AboutCard({ T }) {
+  return (
+    <Card T={T}>
+      <SectionHeader title="About" T={T}/>
+      <p style={{ fontSize:13.5, lineHeight:1.85, color:T.textMuted, marginBottom:16, fontFamily:FONT }}>
+        I'm an IT graduate passionate about software development and network engineering,
+        with a specialization in Computer Security. I bridge the gap between infrastructure
+        and application — turning complex systems into reliable, high-performance solutions.
+      </p>
+      <p style={{ fontSize:13.5, lineHeight:1.85, color:T.textMuted, marginBottom:16, fontFamily:FONT }}>
+        Whether it's configuring network topologies, building backend systems, or automating
+        workflows with Python — I bring a detail-oriented, systems-thinking approach to
+        every project.
+      </p>
+      <p style={{ fontSize:13.5, lineHeight:1.85, color:T.textMuted, fontFamily:FONT }}>
+        Lately I've been going deeper into cloud infrastructure and AI engineering,
+        exploring how intelligent tooling can supercharge development workflows and
+        network operations alike.
+      </p>
+    </Card>
+  );
+}
+
+// ─── TECH STACK CARD ──────────────────────────────────────────────────────────
+function TechStackCard({ T }) {
+  return (
+    <Card T={T}>
+      <SectionHeader title="Tech Stack" T={T}/>
+      <div style={{ display:"flex", flexDirection:"column", gap:18 }}>
+        {Object.entries(STACK).map(([cat, items]) => (
+          <div key={cat}>
+            <div style={{ fontSize:11, fontFamily:FONT, color:T.textDim, letterSpacing:2, textTransform:"uppercase", marginBottom:10 }}>{cat}</div>
+            <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+              {items.map(name => <StackChip key={name} name={name} T={T}/>)}
+            </div>
+          </div>
+        ))}
+      </div>
+    </Card>
+  );
+}
+
+// ─── PROJECTS CARD ────────────────────────────────────────────────────────────
+function ProjectsCard({ T }) {
+  const [showAll, setShowAll] = useState(false);
+  const displayed = showAll ? PROJECTS : PROJECTS.slice(0, 4);
+  return (
+    <Card T={T}>
+      <SectionHeader title="Projects" T={T} action={showAll ? "Show less" : "View all"} onAction={() => setShowAll(v => !v)}/>
+      <div style={{ display:"flex", flexDirection:"column", gap:1 }}>
+        {displayed.map((p, i) => (
+          <a key={p.title} href={p.href === "#" ? undefined : p.href}
+            target={p.href !== "#" ? "_blank" : undefined}
+            rel="noreferrer"
+            style={{
+              display:"block", textDecoration:"none",
+              padding:"14px 0",
+              borderBottom: i < displayed.length-1 ? `1px solid ${T.border}` : "none",
+              transition:"all 0.15s",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.paddingLeft = "6px"; }}
+            onMouseLeave={e => { e.currentTarget.style.paddingLeft = "0"; }}
+          >
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:5 }}>
+              <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT }}>{p.title}</span>
+              <div style={{ display:"flex", alignItems:"center", gap:8, flexShrink:0, marginLeft:12 }}>
+                <span style={{ fontSize:10, color:T.textDim, fontFamily:FONT, letterSpacing:1 }}>{p.type}</span>
+                {p.href !== "#" && <span style={{ fontSize:11, color:T.accent, fontFamily:FONT }}>↗</span>}
+              </div>
+            </div>
+            <p style={{ fontSize:12, color:T.textMuted, lineHeight:1.65, marginBottom:8, fontFamily:FONT }}>{p.desc}</p>
+            <div style={{ display:"flex", flexWrap:"wrap", gap:5 }}>
+              {p.tags.map(t => <Tag key={t} label={t} T={T}/>)}
+            </div>
+          </a>
+        ))}
+      </div>
+    </Card>
+  );
+}
+
+// ─── EXPERIENCE SIDEBAR ───────────────────────────────────────────────────────
+function ExperienceCard({ T }) {
+  return (
+    <Card T={T}>
+      <SectionHeader title="Experience" T={T}/>
+      <div style={{ display:"flex", flexDirection:"column" }}>
+        {EXPERIENCE.map((e, i) => (
+          <div key={i} style={{
+            display:"flex", gap:14, alignItems:"flex-start",
+            paddingBottom: i < EXPERIENCE.length-1 ? 18 : 0,
+            marginBottom: i < EXPERIENCE.length-1 ? 18 : 0,
+            borderBottom: i < EXPERIENCE.length-1 ? `1px solid ${T.border}` : "none",
+          }}>
+            <div style={{
+              width:28, height:28, borderRadius:6, flexShrink:0, marginTop:2,
+              background: e.type==="work" ? T.accentBg : T.tag,
+              border:`1px solid ${e.type==="work" ? T.accent+"44" : T.border}`,
+              display:"flex", alignItems:"center", justifyContent:"center",
+            }}>
+              {e.type === "work"
+                ? <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="14" rx="2" stroke={T.accent} strokeWidth="1.8"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke={T.accent} strokeWidth="1.8"/></svg>
+                : <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M22 10v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-9" stroke={T.textDim} strokeWidth="1.8"/><path d="M12 2L2 7l10 5 10-5-10-5z" stroke={T.textDim} strokeWidth="1.8"/></svg>
+              }
+            </div>
+            <div style={{ flex:1, minWidth:0 }}>
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", gap:8 }}>
+                <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT, lineHeight:1.3 }}>{e.role}</span>
+                <span style={{ fontSize:10, color:T.textDim, fontFamily:FONT, letterSpacing:0.5, whiteSpace:"nowrap", flexShrink:0 }}>{e.year}</span>
+              </div>
+              <div style={{ fontSize:11, color:T.textMuted, marginTop:3, fontFamily:FONT, letterSpacing:0.3 }}>{e.org}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Card>
+  );
+}
+
+// ─── NETWORK STATUS CARD ─────────────────────────────────────────────────────
+function NetworkCard({ T }) {
+  const [ping, setPing] = useState(12);
+  useEffect(() => {
+    const t = setInterval(() => setPing(8 + Math.floor(Math.random() * 18)), 2000);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <Card T={T} style={{ background: T.bgCardAlt }}>
+      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
+        <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT }}>Network Status</span>
+        <div style={{ display:"flex", alignItems:"center", gap:5 }}>
+          <div style={{ width:6, height:6, borderRadius:"50%", background:"#00cc66", animation:"blink 2s infinite" }}/>
+          <span style={{ fontSize:10, color:"#00cc66", fontFamily:FONT, letterSpacing:1 }}>ONLINE</span>
+        </div>
+      </div>
+      <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+        {[
+          ["Hostname",   "Krayden"],
+          ["IP Address", "49.150.68.24"],
+          ["Latency",    `${ping}ms`, true],
+          ["Uptime",     "21y 11m"],
+          ["Status",     "Open to work", true],
+        ].map(([k, v, hi]) => (
+          <div key={k} style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+            <span style={{ fontSize:11, color:T.textDim, fontFamily:FONT, letterSpacing:1 }}>{k}</span>
+            <span style={{ fontSize:11, color: hi ? T.accent : T.textMuted, fontFamily:FONT, letterSpacing:0.5 }}>{v}</span>
+          </div>
+        ))}
+      </div>
+      <div style={{ marginTop:16, height:1, background:`linear-gradient(90deg, ${T.accent}44, transparent)` }}/>
+      <div style={{ marginTop:12, fontSize:10, color:T.textDim, fontFamily:FONT, letterSpacing:1 }}>
+        SUBNET · 255.255.255.0 / 24
+      </div>
+    </Card>
+  );
+}
+
+// ─── CONTACT CARD ─────────────────────────────────────────────────────────────
+function ContactCard({ T }) {
+  const links = [
+    { label:"kenntheus24@gmail.com", href:"mailto:kenntheus24@gmail.com", icon:"✉" },
+    { label:"github.com/Kenntheus",  href:"https://github.com/Kenntheus",  icon:"⌥" },
+    { label:"LinkedIn",              href:"https://linkedin.com/in/martheus-kenn-banaag", icon:"in" },
+  ];
+  return (
+    <Card T={T}>
+      <SectionHeader title="Contact" T={T}/>
+      <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+        {links.map(({ label, href, icon }) => (
+          <a key={label} href={href} target="_blank" rel="noreferrer"
+            style={{
+              display:"flex", alignItems:"center", gap:10,
+              padding:"10px 12px", borderRadius:8,
+              border:`1px solid ${T.border}`, background:T.tag,
+              textDecoration:"none", transition:"all 0.15s",
+              color:T.textMuted,
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = T.accent+"66"; e.currentTarget.style.color = T.text; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = T.textMuted; }}
+          >
+            <span style={{ fontSize:11, fontFamily:FONT, color:T.textDim, width:16, textAlign:"center" }}>{icon}</span>
+            <span style={{ fontSize:12, fontFamily:FONT, letterSpacing:0.3 }}>{label}</span>
+            <span style={{ marginLeft:"auto", fontSize:11, color:T.textDim }}>↗</span>
+          </a>
+        ))}
+      </div>
+    </Card>
+  );
+}
+
+// ─── CURRENTLY LEARNING CARD ──────────────────────────────────────────────────
+function LearningCard({ T }) {
+  return (
+    <Card T={T} style={{ background:T.bgCardAlt }}>
+      <div style={{ fontSize:15, fontWeight:700, color:T.text, fontFamily:FONT, letterSpacing:-0.3, marginBottom:12 }}>Currently Learning</div>
+      <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+        {["Cloud Architecture","AI Engineering","iOS Development","ML Ops"].map(t => (
+          <span key={t} style={{
+            fontSize:11, padding:"4px 10px", borderRadius:6,
+            background:T.accentBg, border:`1px solid ${T.accent}33`,
+            color:T.accent, fontFamily:FONT, letterSpacing:0.3,
+          }}>{t}</span>
+        ))}
+      </div>
+    </Card>
+  );
+}
+
+// ─── HEADER ───────────────────────────────────────────────────────────────────
+function Header({ dark, T, onToggle }) {
+  return (
+    <div style={{
+      background:T.bgCard, borderBottom:`1px solid ${T.border}`,
+      padding:"20px 0", marginBottom:28,
+      position:"sticky", top:0, zIndex:100,
+      backdropFilter:"blur(12px)",
+    }}>
+      <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        <div style={{ display:"flex", alignItems:"center", gap:18 }}>
+          <ProfilePhoto dark={dark}/>
+          <div>
+            <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:4 }}>
+              <h1 style={{ fontSize:20, fontWeight:800, color:T.text, fontFamily:FONT, letterSpacing:-0.5 }}>
+                Martheus Kenn Banaag
+              </h1>
+              <div style={{ width:16, height:16, borderRadius:"50%", background:T.accent, display:"flex", alignItems:"center", justifyContent:"center" }}>
+                <svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </div>
+            </div>
+            <div style={{ fontSize:12, color:T.textMuted, marginBottom:6, display:"flex", alignItems:"center", gap:5, fontFamily:FONT }}>
+              <span>📍</span> Aguilar, Pangasinan, Philippines
+            </div>
+            <div style={{ fontSize:12, color:T.textMuted, fontFamily:FONT, letterSpacing:0.3 }}>
+              IT Graduate · Developer · Network Engineer
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display:"flex", gap:8, alignItems:"center", flexWrap:"wrap" }}>
+          <a href="mailto:kenntheus24@gmail.com"
+            style={{
+              padding:"8px 16px", borderRadius:8, fontSize:12, fontFamily:FONT,
+              background:T.accent, color:"#000", textDecoration:"none", fontWeight:600, letterSpacing:0.5,
+              transition:"opacity 0.15s",
+            }}
+            onMouseEnter={e => e.currentTarget.style.opacity="0.85"}
+            onMouseLeave={e => e.currentTarget.style.opacity="1"}
+          >Send Email</a>
+          <a href="https://github.com/Kenntheus" target="_blank" rel="noreferrer"
+            style={{
+              padding:"8px 16px", borderRadius:8, fontSize:12, fontFamily:FONT,
+              background:"transparent", color:T.textMuted, textDecoration:"none",
+              border:`1px solid ${T.border}`, letterSpacing:0.5, transition:"all 0.15s",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor=T.accent+"66"; e.currentTarget.style.color=T.text; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor=T.border; e.currentTarget.style.color=T.textMuted; }}
+          >GitHub ↗</a>
+          <button onClick={onToggle} style={{
+            width:36, height:36, borderRadius:8,
+            background:T.tag, border:`1px solid ${T.border}`,
+            cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center",
+            transition:"all 0.15s", fontSize:15,
+          }}
+          onMouseEnter={e => e.currentTarget.style.borderColor=T.accent+"66"}
+          onMouseLeave={e => e.currentTarget.style.borderColor=T.border}
+          title="Toggle theme"
+          >{dark ? "☀️" : "🌙"}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── FOOTER ───────────────────────────────────────────────────────────────────
+function Footer({ T }) {
+  return (
+    <div style={{ borderTop:`1px solid ${T.border}`, marginTop:40, padding:"24px 0" }}>
+      <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px", display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:12 }}>
+        <span style={{ fontSize:11, color:T.textDim, fontFamily:FONT, letterSpacing:1 }}>
+          © 2026 Martheus Kenn Banaag
+        </span>
+        <div style={{ display:"flex", gap:16 }}>
+          {[
+            ["GitHub","https://github.com/Kenntheus"],
+            ["LinkedIn","https://linkedin.com/in/martheus-kenn-banaag"],
+            ["Email","mailto:kenntheus24@gmail.com"],
+          ].map(([l,h]) => (
+            <a key={l} href={h} target="_blank" rel="noreferrer"
+              style={{ fontSize:11, color:T.textDim, fontFamily:FONT, textDecoration:"none", letterSpacing:1, transition:"color 0.15s" }}
+              onMouseEnter={e => e.currentTarget.style.color = T.accent}
+              onMouseLeave={e => e.currentTarget.style.color = T.textDim}
+            >{l}</a>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── APP ─────────────────────────────────────────────────────────────────────
 export default function Portfolio() {
   const [dark, setDark] = useState(true);
-  const [loading, setLoading] = useState(true);
-  const [activeSection, setActiveSection] = useState("hero");
-  const [hoveredProject, setHoveredProject] = useState(null);
-  const [activeSkillCat, setActiveSkillCat] = useState("Programming");
-
-  const PROFILE_IMAGE = "/images/kenn.jpg";
-
-  useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 1800);
-    return () => clearTimeout(t);
-  }, []);
-
-  useEffect(() => {
-    const sections = ["hero","about","projects","skills","experience","contact"];
-    const handler = () => {
-      const atBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 60;
-      if (atBottom) { setActiveSection(sections[sections.length - 1]); return; }
-      const scrollY = window.scrollY + window.innerHeight / 2;
-      let current = sections[0];
-      for (const id of sections) {
-        const el = document.getElementById(id);
-        if (el && el.offsetTop <= scrollY) current = id;
-      }
-      setActiveSection(current);
-    };
-    window.addEventListener("scroll", handler);
-    return () => window.removeEventListener("scroll", handler);
-  }, []);
-
-  const scrollTo = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior:"smooth", block:"start" });
-  };
-
-  const D = dark;
-
-  const bg          = D ? "#050d1a" : "#f0f4fc";
-  const glass       = D ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.7)";
-  const glassBorder = D ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)";
-  const text        = D ? "#e8f0fb" : "#0d1a33";
-  const muted       = D ? "#6b85a6" : "#5a6f90";
-  const accent      = D ? "#00f5c4" : "#4c3bce";
-  const accent2     = D ? "#7c6eff" : "#2563eb";
-  const cardBg      = D ? "rgba(14,26,52,0.7)" : "rgba(255,255,255,0.75)";
-
-  const globalFont = "'Inter', 'Segoe UI', sans-serif";
-  const monoFont   = "'JetBrains Mono', 'Fira Code', monospace";
-
-  if (loading) return (
-    <div style={{ minHeight:"100vh", background:"#050d1a", display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", gap:24, fontFamily:globalFont }}>
-      <div style={{ position:"relative", width:72, height:72 }}>
-        <div style={{ position:"absolute", inset:0, border:"2px solid transparent", borderTopColor:"#00f5c4", borderRadius:"50%", animation:"spin 0.9s linear infinite" }} />
-        <div style={{ position:"absolute", inset:8, border:"2px solid transparent", borderTopColor:"#7c6eff", borderRadius:"50%", animation:"spin 1.4s linear infinite reverse" }} />
-        <div style={{ position:"absolute", inset:16, background:"#00f5c4", borderRadius:"50%", opacity:0.15 }} />
-      </div>
-      <div style={{ color:"#00f5c4", fontFamily:monoFont, fontSize:13, letterSpacing:3, textTransform:"uppercase", animation:"pulse 1.5s ease-in-out infinite" }}>
-        Initializing...
-      </div>
-      <style>{`
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
-      `}</style>
-    </div>
-  );
+  const T = dark ? DARK : LIGHT;
 
   return (
-    <div style={{ background: bg, color: text, fontFamily: globalFont, minHeight:"100vh", width:"100%", transition:"background 0.4s, color 0.4s" }}>
+    <div style={{ background:T.bg, minHeight:"100vh", transition:"background 0.3s, color 0.3s" }}>
       <style>{`
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body, #root { width: 100%; margin: 0; padding: 0; overflow-x: hidden; }
-        html { scroll-behavior: smooth; }
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: ${accent}55; border-radius: 99px; }
-        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-        @keyframes gradshift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-        @keyframes scanline { 0%{top:-20%} 100%{top:110%} }
-        @keyframes profilePulse { 0%,100%{box-shadow:0 0 0 0 ${accent}44, 0 0 32px ${accent}22} 50%{box-shadow:0 0 0 8px ${accent}00, 0 0 48px ${accent}33} }
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
-        .nav-link { cursor:pointer; transition:color 0.2s; }
-        .nav-link:hover { color: ${accent}; }
-        .btn { cursor:pointer; border:none; outline:none; font-family:${globalFont}; transition:all 0.25s; }
-        .btn:hover { transform: translateY(-2px); }
-        .btn:active { transform: translateY(0) scale(0.97); }
-        .project-card { transition: transform 0.3s, box-shadow 0.3s; cursor:pointer; }
-        .project-card:hover { transform: translateY(-6px) scale(1.01); }
-        .tag { display:inline-block; padding:3px 10px; border-radius:99px; font-size:11px; font-family:${monoFont}; font-weight:500; margin:3px; }
-        .tl-line { position:absolute; left:20px; top:0; bottom:0; width:1px; background: linear-gradient(to bottom, ${accent}44, ${accent2}44); }
-        a { text-decoration:none; }
-        .contact-card:hover { border-color: var(--col) !important; box-shadow: 0 4px 20px rgba(0,0,0,0.2); transform: translateY(-2px); }
-        .contact-card { transition: all 0.25s; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+        * { box-sizing:border-box; margin:0; padding:0; font-family:'Courier New', Courier, monospace; }
+        body { overflow-x:hidden; }
+        ::-webkit-scrollbar { width:4px; }
+        ::-webkit-scrollbar-track { background:transparent; }
+        ::-webkit-scrollbar-thumb { background:${T.border}; border-radius:99px; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        a { cursor:pointer; }
       `}</style>
 
-      {/* ─── NAV ─────────────────────────────────────── */}
-      <nav style={{
-        position:"fixed", top:0, left:0, right:0, zIndex:100,
-        backdropFilter:"blur(18px)",
-        background: D ? "rgba(5,13,26,0.8)" : "rgba(240,244,252,0.85)",
-        borderBottom:`1px solid ${glassBorder}`,
-        padding:"0 32px", height:60, display:"flex", alignItems:"center", justifyContent:"space-between"
-      }}>
-        <span style={{ fontFamily:monoFont, fontWeight:600, fontSize:15, color:accent, letterSpacing:1 }}>
-          &lt;Kenn/&gt;
-        </span>
-        <div style={{ display:"flex", gap:28, alignItems:"center" }}>
-          {NAV_LINKS.map(l => (
-            <span
-              key={l}
-              className="nav-link"
-              onClick={() => scrollTo(l.toLowerCase())}
-              style={{
-                fontSize:13, fontWeight:500, letterSpacing:0.5,
-                color: activeSection === l.toLowerCase() ? accent : muted,
-                borderBottom: activeSection === l.toLowerCase() ? `1px solid ${accent}` : "1px solid transparent",
-                paddingBottom:2
-              }}
-            >{l}</span>
-          ))}
-          <button
-            className="btn"
-            onClick={() => setDark(!dark)}
-            style={{
-              background: glass, border:`1px solid ${glassBorder}`,
-              borderRadius:8, padding:"6px 14px", color: text,
-              fontSize:13, fontWeight:500
-            }}
-          >{D ? "☀ Light" : "◐ Dark"}</button>
-        </div>
-      </nav>
+      <Header dark={dark} T={T} onToggle={() => setDark(d => !d)}/>
 
-      {/* ─── HERO ────────────────────────────────────── */}
-      <section id="hero" style={{ position:"relative", minHeight:"100vh", display:"flex", alignItems:"center", overflow:"hidden", paddingTop:60 }}>
-        <ParticleCanvas dark={D} />
-        <div style={{ position:"absolute", inset:0, backgroundImage:`linear-gradient(${D?"rgba(0,245,196,0.025)":"rgba(76,59,206,0.03)"} 1px, transparent 1px), linear-gradient(90deg, ${D?"rgba(0,245,196,0.025)":"rgba(76,59,206,0.03)"} 1px, transparent 1px)`, backgroundSize:"48px 48px", pointerEvents:"none" }} />
+      <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px 48px" }}>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 320px", gap:16, alignItems:"start" }}>
 
-        <div style={{ position:"relative", zIndex:2, maxWidth:960, margin:"0 auto", padding:"0 40px", width:"100%" }}>
-          <div style={{ display:"flex", alignItems:"center", gap:60, justifyContent:"space-between" }}>
-            <div style={{ flex:"1 1 0", minWidth:0 }}>
-              <div style={{ fontFamily:monoFont, fontSize:12, color:accent, letterSpacing:3, textTransform:"uppercase", marginBottom:20, display:"flex", alignItems:"center", gap:10 }}>
-                <span style={{ display:"inline-block", width:32, height:1, background:accent }} />
-                Available for opportunities
-                <span style={{ display:"inline-block", width:8, height:8, borderRadius:"50%", background:"#2ef", animation:"blink 1.5s infinite" }} />
-              </div>
-
-              <h1 style={{ fontSize:"clamp(2.4rem,5vw,4.2rem)", fontWeight:700, lineHeight:1.08, letterSpacing:-1, marginBottom:16 }}>
-                <span style={{ display:"block", color: text }}>Martheus Kenn</span>
-                <span style={{ display:"block", color: accent, lineHeight:1.15 }}>Banaag</span>
-              </h1>
-
-              <div style={{ fontFamily:monoFont, fontSize:"clamp(0.9rem,2vw,1.15rem)", fontWeight:500, color:muted, marginBottom:20, letterSpacing:0.5 }}>
-                <span style={{ color: accent }}>&gt;</span>{" "}
-                IT Graduate{" "}
-                <span style={{ color:D?"#7c6eff":"#4c3bce" }}>|</span>{" "}
-                Developer & Network Engineer
-              </div>
-
-              <p style={{ fontSize:15, lineHeight:1.75, color:muted, maxWidth:520, marginBottom:36 }}>
-                Building resilient networks and elegant software. I bridge the gap between infrastructure and application — turning complex systems into reliable, high-performance solutions.
-              </p>
-
-              <div style={{ display:"flex", gap:14, flexWrap:"wrap" }}>
-                <button
-                  className="btn"
-                  onClick={() => scrollTo("projects")}
-                  style={{
-                    background: `linear-gradient(135deg, ${accent}22, ${accent2}22)`,
-                    border:`1px solid ${accent}55`,
-                    color:accent, borderRadius:10, padding:"12px 28px",
-                    fontSize:14, fontWeight:600, letterSpacing:0.5,
-                    boxShadow: D ? `0 0 24px ${accent}22` : "none"
-                  }}
-                >View Projects →</button>
-                <button
-                  className="btn"
-                  onClick={() => scrollTo("contact")}
-                  style={{
-                    background: "transparent",
-                    border:`1px solid ${glassBorder}`,
-                    color:muted, borderRadius:10, padding:"12px 28px",
-                    fontSize:14, fontWeight:500
-                  }}
-                >Contact Me</button>
-              </div>
-
-              <div style={{ display:"flex", gap:36, marginTop:52, paddingTop:32, borderTop:`1px solid ${glassBorder}` }} />
-            </div>
-
-            {/* RIGHT: Profile photo */}
-            <div style={{ flexShrink:0, display:"flex", flexDirection:"column", alignItems:"center", gap:14 }}>
-              <div style={{ position:"relative", width:220, height:220 }}>
-                <div style={{
-                  position:"absolute", inset:-6, borderRadius:"50%",
-                  background:`conic-gradient(${accent}, ${accent2}, transparent, ${accent})`,
-                  animation:"spin 6s linear infinite",
-                  opacity: D ? 0.5 : 0.35,
-                }} />
-                <div style={{ position:"absolute", inset:-2, borderRadius:"50%", background: bg }} />
-                <div style={{
-                  position:"relative", width:"100%", height:"100%",
-                  borderRadius:"50%", overflow:"hidden",
-                  border:`2px solid ${accent}55`,
-                  animation:"profilePulse 3s ease-in-out infinite",
-                  background: D ? "rgba(14,26,52,0.9)" : "rgba(220,230,248,0.9)",
-                }}>
-                  {PROFILE_IMAGE ? (
-                    <img src={PROFILE_IMAGE} alt="Martheus Kenn Banaag" style={{ width:"100%", height:"100%", objectFit:"cover" }} />
-                  ) : (
-                    <div style={{
-                      width:"100%", height:"100%", display:"flex", flexDirection:"column",
-                      alignItems:"center", justifyContent:"center", gap:8,
-                      backgroundImage:`linear-gradient(135deg, ${accent}10, ${accent2}10)`,
-                    }}>
-                      <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-                        <circle cx="40" cy="28" r="18" fill={accent} fillOpacity="0.25" stroke={accent} strokeWidth="1.5" strokeOpacity="0.5"/>
-                        <path d="M10 72c0-16.569 13.431-30 30-30s30 13.431 30 30" fill={accent} fillOpacity="0.15" stroke={accent} strokeWidth="1.5" strokeOpacity="0.4"/>
-                      </svg>
-                      <span style={{ fontSize:10, fontFamily:monoFont, color:accent, opacity:0.6, letterSpacing:1.5, textTransform:"uppercase" }}>Add Photo</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div style={{
-                background: D ? "rgba(14,26,52,0.8)" : "rgba(255,255,255,0.8)",
-                backdropFilter:"blur(12px)", border:`1px solid ${glassBorder}`,
-                borderRadius:99, padding:"6px 18px", display:"flex", alignItems:"center", gap:8,
-              }}>
-                <div style={{ width:7, height:7, borderRadius:"50%", background:"#2ef", animation:"blink 1.5s infinite" }} />
-                <span style={{ fontSize:12, fontFamily:monoFont, color:muted }}>Online</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── ABOUT ───────────────────────────────────── */}
-      <section id="about" style={{ padding:"100px 0", position:"relative" }}>
-        <div style={{ maxWidth:1100, margin:"0 auto", padding:"0 40px" }}>
-          <Reveal>
-            <div style={{ fontFamily:monoFont, fontSize:11, color:accent, letterSpacing:3, textTransform:"uppercase", marginBottom:12 }}>
-              01. About Me
-            </div>
-            <h2 style={{ fontSize:"clamp(1.8rem,4vw,2.8rem)", fontWeight:700, marginBottom:40, letterSpacing:-0.5 }}>
-              The Stack Behind<br/>
-              <span style={{ color:accent }}>the Engineer</span>
-            </h2>
-          </Reveal>
-
-          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:48, alignItems:"start" }}>
-            <Reveal delay={100}>
-              <p style={{ fontSize:15, lineHeight:1.85, color:muted, marginBottom:20 }}>
-                I'm an IT graduate passionate about software development and network engineering, with a focus on creating efficient, reliable, and well-structured solutions.
-              </p>
-              <p style={{ fontSize:15, lineHeight:1.85, color:muted, marginBottom:28 }}>
-                Whether it's working with network configurations, developing backend systems, or automating workflows with Python, I bring a detail-oriented and systems-thinking approach to every project.
-              </p>
-            </Reveal>
-
-            <Reveal delay={200}>
-              <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14 }}>
-                {[
-                  ["Frontend","React, Vue, Next.js, Tailwind","#7c6eff"],
-                  ["Backend","Python, Node.js, PHP, Java","#00f5c4"],
-                  ["Networking","Cisco, SD-WAN, BGP, GNS3","#00c6ff"],
-                  ["DevOps","K8s, Terraform, Ansible, CI/CD","#a8ff78"],
-                  ["Security","Firewalls, SIEM, Zero-Trust","#ff6b6b"],
-                  ["Cloud","AWS, Azure, GCP, Multi-cloud","#ffd93d"],
-                ].map(([cat, items, col]) => (
-                  <div key={cat} style={{
-                    background: cardBg, backdropFilter:"blur(12px)",
-                    border:`1px solid ${glassBorder}`, borderRadius:12,
-                    padding:"16px 18px", borderLeft:`3px solid ${col}`
-                  }}>
-                    <div style={{ fontSize:11, fontFamily:monoFont, color:col, fontWeight:600, marginBottom:6, textTransform:"uppercase", letterSpacing:1 }}>{cat}</div>
-                    <div style={{ fontSize:12, color:muted, lineHeight:1.6 }}>{items}</div>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── PROJECTS ────────────────────────────────── */}
-      <section id="projects" style={{ padding:"100px 0", background: D?"rgba(6,14,28,0.5)":"rgba(230,236,252,0.4)" }}>
-        <div style={{ maxWidth:1100, margin:"0 auto", padding:"0 40px" }}>
-          <Reveal>
-            <div style={{ fontFamily:monoFont, fontSize:11, color:accent, letterSpacing:3, textTransform:"uppercase", marginBottom:12 }}>
-              02. Work
-            </div>
-            <h2 style={{ fontSize:"clamp(1.8rem,4vw,2.8rem)", fontWeight:700, marginBottom:12, letterSpacing:-0.5 }}>
-              Selected <span style={{ color:accent }}>Projects</span>
-            </h2>
-            <p style={{ fontSize:15, color:muted, marginBottom:48 }}>Real-world systems built with purpose and precision.</p>
-          </Reveal>
-
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(320px, 1fr))", gap:20 }}>
-            {PROJECTS.map((p, i) => (
-              <Reveal key={p.title} delay={i * 80}>
-                <div
-                  className="project-card"
-                  onMouseEnter={() => setHoveredProject(i)}
-                  onMouseLeave={() => setHoveredProject(null)}
-                  style={{
-                    background: cardBg, backdropFilter:"blur(16px)",
-                    border:`1px solid ${hoveredProject === i ? p.color+"55" : glassBorder}`,
-                    borderRadius:16, padding:"24px",
-                    boxShadow: hoveredProject === i ? `0 12px 40px ${p.color}18, 0 0 0 1px ${p.color}22` : "none",
-                    transition:"all 0.3s"
-                  }}
-                >
-                  <div style={{
-                    width:"100%", height:160, borderRadius:10, marginBottom:18, overflow:"hidden",
-                    background: D ? `linear-gradient(135deg, ${p.color}18, ${p.color}06)` : `linear-gradient(135deg, ${p.color}22, ${p.color}08)`,
-                    border:`1px solid ${p.color}28`,
-                    display:"flex", alignItems:"center", justifyContent:"center",
-                    position:"relative"
-                  }}>
-                    {p.image ? (
-                      <img src={p.image} alt={p.title} style={{ width:"100%", height:"100%", objectFit:"cover", borderRadius:10 }} />
-                    ) : (
-                      <>
-                        <div style={{ position:"absolute", inset:0, backgroundImage:`linear-gradient(${p.color}18 1px, transparent 1px), linear-gradient(90deg, ${p.color}18 1px, transparent 1px)`, backgroundSize:"24px 24px" }} />
-                        <div style={{ position:"relative", textAlign:"center" }}>
-                          <div style={{ fontSize:28, marginBottom:6, opacity:0.5 }}>🖼</div>
-                          <div style={{ fontSize:11, fontFamily:monoFont, color:p.color, opacity:0.6, letterSpacing:1 }}>ADD IMAGE</div>
-                        </div>
-                      </>
-                    )}
-                  </div>
-
-                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:14 }}>
-                    <span style={{ fontSize:11, fontFamily:monoFont, color:p.color, textTransform:"uppercase", letterSpacing:1.5, fontWeight:600 }}>{p.type}</span>
-                    <a href={p.github} style={{ fontSize:13, color:muted, transition:"color 0.2s" }} title="GitHub">GH↗</a>
-                  </div>
-                  <h3 style={{ fontSize:17, fontWeight:700, marginBottom:10, color:text }}>{p.title}</h3>
-                  <p style={{ fontSize:13, color:muted, lineHeight:1.7, marginBottom:16 }}>{p.desc}</p>
-                  <div style={{ display:"flex", flexWrap:"wrap", gap:4 }}>
-                    {p.stack.map(s => (
-                      <span key={s} className="tag" style={{ background: D?`${p.color}12`:`${p.color}18`, color:p.color, border:`1px solid ${p.color}33` }}>{s}</span>
-                    ))}
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── SKILLS ──────────────────────────────────── */}
-      <section id="skills" style={{ padding:"100px 0" }}>
-        <div style={{ maxWidth:1100, margin:"0 auto", padding:"0 40px" }}>
-          <Reveal>
-            <div style={{ fontFamily:monoFont, fontSize:11, color:accent, letterSpacing:3, textTransform:"uppercase", marginBottom:12 }}>
-              03. Arsenal
-            </div>
-            <h2 style={{ fontSize:"clamp(1.8rem,4vw,2.8rem)", fontWeight:700, marginBottom:40, letterSpacing:-0.5 }}>
-              Skills & <span style={{ color:accent }}>Technologies</span>
-            </h2>
-          </Reveal>
-
-          {/* Category tabs */}
-          <div style={{ display:"flex", gap:8, marginBottom:36 }}>
-            {Object.keys(SKILL_ICONS).map(cat => (
-              <button
-                key={cat}
-                className="btn"
-                onClick={() => setActiveSkillCat(cat)}
-                style={{
-                  background: activeSkillCat===cat ? `linear-gradient(135deg, ${accent}22, ${accent2}22)` : "transparent",
-                  border: `1px solid ${activeSkillCat===cat ? accent+"66" : glassBorder}`,
-                  color: activeSkillCat===cat ? accent : muted,
-                  borderRadius:8, padding:"8px 18px", fontSize:13, fontWeight:500
-                }}
-              >{cat}</button>
-            ))}
-          </div>
-
-          {/* Logo grid + currently learning side by side */}
-          <div style={{ display:"grid", gridTemplateColumns:"1fr auto", gap:48, alignItems:"start" }}>
-            {/* Logo grid */}
-            <Reveal>
-              <div style={{
-                display:"grid",
-                gridTemplateColumns:"repeat(auto-fill, minmax(70px, 1fr))",
-                gap:12
-              }}>
-                {SKILL_ICONS[activeSkillCat].map((s, i) => (
-                  <Reveal key={s.name} delay={i * 40}>
-                    <SkillLogo skill={s} accent={accent} glassBorder={glassBorder} cardBg={cardBg} />
-                  </Reveal>
-                ))}
-              </div>
-            </Reveal>
-
-            {/* Currently learning */}
-            <Reveal delay={200}>
-              <div style={{
-                minWidth:220,
-                background: D?"rgba(0,245,196,0.06)":"rgba(76,59,206,0.06)",
-                border:`1px solid ${accent}33`,
-                borderRadius:12, padding:"16px 20px"
-              }}>
-                <div style={{ fontSize:12, fontFamily:monoFont, color:accent, marginBottom:10, letterSpacing:1.5, textTransform:"uppercase" }}>Currently Learning</div>
-                <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
-                  {["Cloud","AI Engineering","iOS Development","ML Ops"].map(t => (
-                    <span key={t} className="tag" style={{ background: D?"rgba(124,110,255,0.12)":"rgba(124,110,255,0.1)", color:"#7c6eff", border:"1px solid #7c6eff33" }}>{t}</span>
-                  ))}
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── EXPERIENCE ──────────────────────────────── */}
-      <section id="experience" style={{ padding:"100px 0", background: D?"rgba(6,14,28,0.5)":"rgba(230,236,252,0.4)" }}>
-        <div style={{ maxWidth:900, margin:"0 auto", padding:"0 40px" }}>
-          <Reveal>
-            <div style={{ fontFamily:monoFont, fontSize:11, color:accent, letterSpacing:3, textTransform:"uppercase", marginBottom:12 }}>
-              04. Journey
-            </div>
-            <h2 style={{ fontSize:"clamp(1.8rem,4vw,2.8rem)", fontWeight:700, marginBottom:52, letterSpacing:-0.5 }}>
-              Experience &{" "}
-              <span style={{ color:accent }}>Education</span>
-            </h2>
-          </Reveal>
-
-          <div style={{ position:"relative", paddingLeft:56 }}>
-            <div className="tl-line" />
-            {TIMELINE.map((item, i) => {
-              const nodeColor = item.type==="work" ? accent : item.type==="cert" ? "#ffd93d" : "#7c6eff";
-              return (
-                <Reveal key={item.role} delay={i*100}>
-                  <div style={{ position:"relative", marginBottom:40 }}>
-                    <div style={{
-                      position:"absolute", left:-47, top:4,
-                      width:14, height:14, borderRadius:"50%",
-                      border:`2px solid ${nodeColor}`,
-                      background: D?"#050d1a":"#f0f4fc",
-                      boxShadow: `0 0 10px ${nodeColor}55`
-                    }} />
-                    <div style={{
-                      background: cardBg, backdropFilter:"blur(12px)",
-                      border:`1px solid ${glassBorder}`,
-                      borderRadius:14, padding:"20px 24px",
-                      borderLeft:`3px solid ${nodeColor}`
-                    }}>
-                      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", flexWrap:"wrap", gap:8, marginBottom:6 }}>
-                        <h3 style={{ fontSize:16, fontWeight:700, color:text }}>{item.role}</h3>
-                        <span style={{ fontSize:11, fontFamily:monoFont, color:nodeColor, background:`${nodeColor}15`, padding:"3px 10px", borderRadius:99, whiteSpace:"nowrap" }}>{item.year}</span>
-                      </div>
-                      <div style={{ fontSize:13, color:accent, fontFamily:monoFont, marginBottom:10 }}>{item.org}</div>
-                      <p style={{ fontSize:13, color:muted, lineHeight:1.7 }}>{item.desc}</p>
-                    </div>
-                  </div>
-                </Reveal>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── CONTACT ─────────────────────────────────── */}
-      <section id="contact" style={{ padding:"100px 0" }}>
-        <div style={{ maxWidth:700, margin:"0 auto", padding:"0 40px" }}>
-          <Reveal>
-            <div style={{ fontFamily:monoFont, fontSize:11, color:accent, letterSpacing:3, textTransform:"uppercase", marginBottom:12 }}>
-              05. Get In Touch
-            </div>
-            <h2 style={{ fontSize:"clamp(1.8rem,4vw,2.8rem)", fontWeight:700, marginBottom:12, letterSpacing:-0.5 }}>
-              Let's <span style={{ color:accent }}>Connect</span>
-            </h2>
-            <p style={{ fontSize:15, color:muted, marginBottom:48, maxWidth:480 }}>
-              Open to freelance projects, full-time roles, or just a good tech conversation. Reach out through any of the channels below.
-            </p>
-          </Reveal>
-
+          {/* LEFT COLUMN */}
           <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
-            <Reveal delay={100}>
-              {[
-                {
-                  platform:"Email", handle:"kenntheus24@gmail.com",
-                  href:"mailto:kenntheus24@gmail.com", col:"#00f5c4",
-                  logo:(
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z" fill="#EA4335"/>
-                    </svg>
-                  )
-                },
-                {
-                  platform:"GitHub", handle:"github.com/Kenntheus",
-                  href:"https://github.com/Kenntheus", col:"#7c6eff",
-                  logo:(
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path fillRule="evenodd" clipRule="evenodd" d="M12 0C5.37 0 0 5.37 0 12c0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.297-1.23 3.297-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.921.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.298 24 12c0-6.63-5.37-12-12-12z" fill="#ffffff"/>
-                    </svg>
-                  )
-                },
-                {
-                  platform:"LinkedIn", handle:"linkedin.com/in/martheus-kenn-banaag",
-                  href:"https://linkedin.com/in/martheus-kenn-banaag", col:"#00c6ff",
-                  logo:(
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="#0A66C2"/>
-                    </svg>
-                  )
-                },
-              ].map(({ logo, platform, handle, href, col }) => (
-                <a
-                  key={platform}
-                  href={href}
-                  className="contact-card"
-                  style={{
-                    display:"flex", alignItems:"center", gap:18,
-                    background: cardBg, backdropFilter:"blur(12px)",
-                    border:`1px solid ${glassBorder}`, borderRadius:14,
-                    padding:"20px 24px", color:text,
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor=col+"66"; e.currentTarget.style.boxShadow=`0 4px 24px ${col}20`; e.currentTarget.style.transform="translateY(-2px)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor=glassBorder; e.currentTarget.style.boxShadow="none"; e.currentTarget.style.transform="translateY(0)"; }}
-                >
-                  <div style={{ width:48, height:48, borderRadius:12, background:`${col}18`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{logo}</div>
-                  <div>
-                    <div style={{ fontSize:14, fontWeight:600, color:col, marginBottom:3 }}>{platform}</div>
-                    <div style={{ fontSize:13, color:muted, fontFamily:monoFont }}>{handle}</div>
-                  </div>
-                  <span style={{ marginLeft:"auto", color:muted, fontSize:16 }}>↗</span>
-                </a>
-              ))}
-            </Reveal>
+            <AboutCard T={T}/>
+            <TechStackCard T={T}/>
+            <ProjectsCard T={T}/>
           </div>
-        </div>
-      </section>
 
-      {/* ─── FOOTER ──────────────────────────────────── */}
-      <footer style={{
-        padding:"28px 40px",
-        borderTop:`1px solid ${glassBorder}`,
-        display:"flex", justifyContent:"space-between", alignItems:"center",
-        fontSize:12, color:muted
-      }}>
-        <span style={{ fontFamily:monoFont, color:accent }}>&lt;Kenn/&gt;</span>
-        <span>Built with React · {new Date().getFullYear()}</span>
-        <span>Designed & developed by Martheus Kenn Banaag</span>
-      </footer>
+          {/* RIGHT COLUMN */}
+          <div style={{ display:"flex", flexDirection:"column", gap:16, position:"sticky", top:100 }}>
+            <ExperienceCard T={T}/>
+            <NetworkCard T={T}/>
+            <LearningCard T={T}/>
+            <ContactCard T={T}/>
+          </div>
+
+        </div>
+      </div>
+
+      <Footer T={T}/>
     </div>
   );
 }
