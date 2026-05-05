@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 // ─── THEME ────────────────────────────────────────────────────────────────────
 const DARK = {
@@ -34,10 +34,10 @@ const LIGHT = {
 const CDN = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
 
 const STACK = {
-  "Frontend":  ["React","Next.js","TypeScript","JavaScript","Tailwind CSS","Vue.js"],
-  "Backend":   ["Python","Node.js","PHP","Laravel","MySQL","MongoDB"],
-  "Networking":["Cisco","Linux","GNS3","pfSense","Wireshark","TCP/IP"],
-  "DevOps":    ["Docker","AWS","Azure","Git","Terraform","Kubernetes"],
+  "Frontend":   ["React","Next.js","TypeScript","JavaScript","Tailwind CSS","Vue.js"],
+  "Backend":    ["Python","Node.js","PHP","Laravel","MySQL","MongoDB"],
+  "Networking": ["Cisco","Linux","GNS3","pfSense","Wireshark","TCP/IP"],
+  "DevOps":     ["Docker","AWS","Azure","Git","Terraform","Kubernetes"],
 };
 
 const STACK_ICONS = {
@@ -62,29 +62,81 @@ const STACK_ICONS = {
   "Kubernetes":  `${CDN}/kubernetes/kubernetes-plain.svg`,
 };
 
+const STACK_DESC = {
+  "React":       "Component-based UI library for building interactive interfaces.",
+  "Next.js":     "React framework with SSR, SSG, and file-based routing.",
+  "TypeScript":  "Typed superset of JavaScript for safer, scalable code.",
+  "JavaScript":  "Core language of the web — dynamic, flexible, everywhere.",
+  "Tailwind CSS":"Utility-first CSS framework for rapid UI development.",
+  "Vue.js":      "Progressive JS framework with a gentle learning curve.",
+  "Python":      "Versatile language for scripting, automation, and AI/ML.",
+  "Node.js":     "JavaScript runtime for building fast server-side apps.",
+  "PHP":         "Server-side scripting language powering millions of sites.",
+  "Laravel":     "Elegant PHP framework with expressive, beautiful syntax.",
+  "MySQL":       "Relational database management system — fast and reliable.",
+  "MongoDB":     "NoSQL document database for flexible, scalable data storage.",
+  "Cisco":       "Industry-standard networking hardware and IOS configuration.",
+  "Linux":       "Open-source OS powering servers, networks, and everything in between.",
+  "GNS3":        "Network simulation platform for testing complex topologies.",
+  "pfSense":     "Open-source firewall and router platform based on FreeBSD.",
+  "Wireshark":   "Network protocol analyzer for deep packet inspection.",
+  "TCP/IP":      "Foundational protocol suite of the internet and modern networks.",
+  "Docker":      "Containerization platform for consistent, portable deployments.",
+  "AWS":         "Amazon's cloud platform — compute, storage, and beyond.",
+  "Azure":       "Microsoft's cloud computing platform and services.",
+  "Git":         "Distributed version control system for tracking code changes.",
+  "Terraform":   "Infrastructure-as-code tool for cloud provisioning.",
+  "Kubernetes":  "Container orchestration system for automated deployment and scaling.",
+};
+
 const PROJECTS = [
   { title:"NeTPulse", desc:"Real-time network monitoring dashboard with live latency alerts.", tags:["Laravel","React","MySQL","Axios"], href:"https://github.com/Kenntheus/NeTPulse", type:"Monitoring" },
   { title:"Bilibeads", desc:"Customizable e-commerce for accessory enthusiasts.", tags:["Laravel","PHP","MySQL"], href:"https://github.com/Kenntheus/Bilibeads", type:"Website" },
-  { title:"Network Infrastructure and Cyber Security Framework for Dagupan City Hall", desc:"Network & cybersecurity framework for Dagupan City Hall.", tags:["Cisco","Linux","pfSense", "Wireshark", "Snort"], href:"#", type:"Network Security" },
-  { title:"GameBuddy", desc:"Match-based platform to find game partners with real-time chat.", tags:["Laravel","PHP","MySQL","JavaScript", "Livewire"], href:"https://github.com/JorlanPrado/GameBuddy-Livewire", type:"Web App" },
+  { title:"Network Infrastructure and Cyber Security Framework for Dagupan City Hall", desc:"Network & cybersecurity framework for Dagupan City Hall.", tags:["Cisco","Linux","pfSense","Wireshark","Snort"], href:"#", type:"Network Security" },
+  { title:"GameBuddy", desc:"Match-based platform to find game partners with real-time chat.", tags:["Laravel","PHP","MySQL","JavaScript","Livewire"], href:"https://github.com/JorlanPrado/GameBuddy-Livewire", type:"Web App" },
   { title:"PHINMA Pulse", desc:"Document request & tracking system for academic records.", tags:["TypeScript","JavaScript","NodeJS","React","MongoDB"], href:"https://github.com/Swa-ne/HATAKONTITANS", type:"Web App" },
   { title:"SHINANAIDE!", desc:"Hockey-like game with shop customizability and multiplayer.", tags:["C#","Unity","Blender","MySQL"], href:"https://github.com/jairasolis/Shinanaide", type:"Game Dev" },
 ];
 
 const EXPERIENCE = [
-  { role:"IT Intern",            org:"Concentrix",                          year:"Dec 2025 – Mar 2026", type:"work" },
-  { role:"BS Information Technology", org:"PHINMA UPang · Computer Security", year:"2022 – 2026",        type:"edu"  },
-  { role:"Senior High School — ICT",  org:"PHINMA University of Pangasinan", year:"2020 – 2022",        type:"edu"  },
+  { role:"IT Intern",                 org:"Concentrix",                        year:"Dec 2025 – Mar 2026", type:"work" },
+  { role:"BS Information Technology", org:"PHINMA UPang · Computer Security",  year:"2022 – 2026",         type:"edu"  },
+  { role:"Senior High School — ICT",  org:"PHINMA University of Pangasinan",   year:"2020 – 2022",         type:"edu"  },
 ];
 
 const FONT = "'Courier New', Courier, monospace";
 
-// ─── PROFILE PHOTO ────────────────────────────────────────────────────────────
-function ProfilePhoto({ dark }) {
+// ─── ANIMATED PAGE WRAPPER ───────────────────────────────────────────────────
+// Wraps children in a staggered float-up animation on mount
+function PageWrapper({ children }) {
   return (
-    <div style={{ position:"relative", width:88, height:88, flexShrink:0 }}>
+    <div style={{ animation:"pageEnter 0.35s cubic-bezier(0.22,1,0.36,1) both" }}>
+      {children}
+    </div>
+  );
+}
+
+// Animated card — each gets a delay based on index for staggered float-up
+function AnimCard({ children, index = 0, T, style = {} }) {
+  return (
+    <div style={{
+      background:T.bgCard, border:`1px solid ${T.border}`,
+      borderRadius:14, padding:"22px 24px",
+      animation:`cardFloat 0.45s cubic-bezier(0.22,1,0.36,1) ${index * 60}ms both`,
+      ...style,
+    }}>
+      {children}
+    </div>
+  );
+}
+
+// ─── SHARED COMPONENTS ────────────────────────────────────────────────────────
+
+function ProfilePhoto({ dark, size = 110 }) {
+  return (
+    <div style={{ position:"relative", width:size, height:size, flexShrink:0 }}>
       <div style={{
-        width:88, height:88, borderRadius:14, overflow:"hidden",
+        width:size, height:size, borderRadius:16, overflow:"hidden",
         border:`2px solid ${dark ? "#222" : "#e8e8e8"}`,
         background: dark ? "#1a1a1a" : "#eee",
         position:"relative",
@@ -104,8 +156,8 @@ function ProfilePhoto({ dark }) {
         }}/>
       </div>
       <div style={{
-        position:"absolute", bottom:4, right:4,
-        width:12, height:12, borderRadius:"50%",
+        position:"absolute", bottom:6, right:6,
+        width:13, height:13, borderRadius:"50%",
         background:"#00cc66",
         border:`2px solid ${dark ? "#0a0a0a" : "#f9f9f9"}`,
       }}/>
@@ -113,7 +165,6 @@ function ProfilePhoto({ dark }) {
   );
 }
 
-// ─── TAG ─────────────────────────────────────────────────────────────────────
 function Tag({ label, T }) {
   return (
     <span style={{
@@ -125,7 +176,6 @@ function Tag({ label, T }) {
   );
 }
 
-// ─── STACK CHIP (with icon) ───────────────────────────────────────────────────
 function StackChip({ name, T }) {
   const icon = STACK_ICONS[name];
   const [err, setErr] = useState(false);
@@ -147,7 +197,6 @@ function StackChip({ name, T }) {
   );
 }
 
-// ─── SECTION HEADER ───────────────────────────────────────────────────────────
 function SectionHeader({ title, T, action, onAction }) {
   return (
     <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:18 }}>
@@ -167,23 +216,26 @@ function SectionHeader({ title, T, action, onAction }) {
   );
 }
 
-// ─── CARD WRAPPER ─────────────────────────────────────────────────────────────
-function Card({ children, T, style = {} }) {
+function BackButton({ T, onBack }) {
   return (
-    <div style={{
-      background:T.bgCard, border:`1px solid ${T.border}`,
-      borderRadius:14, padding:"22px 24px",
-      ...style,
-    }}>
-      {children}
-    </div>
+    <button onClick={onBack} style={{
+      display:"inline-flex", alignItems:"center", gap:8,
+      background:"transparent", border:`1px solid ${T.border}`,
+      borderRadius:8, padding:"8px 14px", cursor:"pointer",
+      color:T.textMuted, fontFamily:FONT, fontSize:12,
+      transition:"all 0.15s", letterSpacing:0.3,
+    }}
+    onMouseEnter={e => { e.currentTarget.style.borderColor=T.accent+"66"; e.currentTarget.style.color=T.text; }}
+    onMouseLeave={e => { e.currentTarget.style.borderColor=T.border; e.currentTarget.style.color=T.textMuted; }}
+    >← Back to Portfolio</button>
   );
 }
 
-// ─── ABOUT CARD ───────────────────────────────────────────────────────────────
-function AboutCard({ T }) {
+// ─── HOME CARDS ───────────────────────────────────────────────────────────────
+
+function AboutCard({ T, index }) {
   return (
-    <Card T={T}>
+    <AnimCard T={T} index={index}>
       <SectionHeader title="About" T={T}/>
       <p style={{ fontSize:13.5, lineHeight:1.85, color:T.textMuted, marginBottom:16, fontFamily:FONT }}>
         I'm an IT graduate passionate about software development and network engineering,
@@ -200,17 +252,17 @@ function AboutCard({ T }) {
         exploring how intelligent tooling can supercharge development workflows and
         network operations alike.
       </p>
-    </Card>
+    </AnimCard>
   );
 }
 
-// ─── TECH STACK CARD ──────────────────────────────────────────────────────────
-function TechStackCard({ T }) {
+function TechStackCard({ T, onViewAll, index }) {
+  const preview = Object.entries(STACK).slice(0, 2);
   return (
-    <Card T={T}>
-      <SectionHeader title="Tech Stack" T={T}/>
+    <AnimCard T={T} index={index}>
+      <SectionHeader title="Tech Stack" T={T} action="View all" onAction={onViewAll}/>
       <div style={{ display:"flex", flexDirection:"column", gap:18 }}>
-        {Object.entries(STACK).map(([cat, items]) => (
+        {preview.map(([cat, items]) => (
           <div key={cat}>
             <div style={{ fontSize:11, fontFamily:FONT, color:T.textDim, letterSpacing:2, textTransform:"uppercase", marginBottom:10 }}>{cat}</div>
             <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
@@ -219,17 +271,15 @@ function TechStackCard({ T }) {
           </div>
         ))}
       </div>
-    </Card>
+    </AnimCard>
   );
 }
 
-// ─── PROJECTS CARD ────────────────────────────────────────────────────────────
-function ProjectsCard({ T }) {
-  const [showAll, setShowAll] = useState(false);
-  const displayed = showAll ? PROJECTS : PROJECTS.slice(0, 4);
+function ProjectsCard({ T, onViewAll, index }) {
+  const displayed = PROJECTS.slice(0, 4);
   return (
-    <Card T={T}>
-      <SectionHeader title="Projects" T={T} action={showAll ? "Show less" : "View all"} onAction={() => setShowAll(v => !v)}/>
+    <AnimCard T={T} index={index}>
+      <SectionHeader title="Projects" T={T} action="View all" onAction={onViewAll}/>
       <div style={{ display:"flex", flexDirection:"column", gap:1 }}>
         {displayed.map((p, i) => (
           <a key={p.title} href={p.href === "#" ? undefined : p.href}
@@ -258,14 +308,13 @@ function ProjectsCard({ T }) {
           </a>
         ))}
       </div>
-    </Card>
+    </AnimCard>
   );
 }
 
-// ─── EXPERIENCE SIDEBAR ───────────────────────────────────────────────────────
-function ExperienceCard({ T }) {
+function ExperienceCard({ T, index }) {
   return (
-    <Card T={T}>
+    <AnimCard T={T} index={index}>
       <SectionHeader title="Experience" T={T}/>
       <div style={{ display:"flex", flexDirection:"column" }}>
         {EXPERIENCE.map((e, i) => (
@@ -296,19 +345,18 @@ function ExperienceCard({ T }) {
           </div>
         ))}
       </div>
-    </Card>
+    </AnimCard>
   );
 }
 
-// ─── NETWORK STATUS CARD ─────────────────────────────────────────────────────
-function NetworkCard({ T }) {
+function NetworkCard({ T, index }) {
   const [ping, setPing] = useState(12);
   useEffect(() => {
     const t = setInterval(() => setPing(8 + Math.floor(Math.random() * 18)), 2000);
     return () => clearInterval(t);
   }, []);
   return (
-    <Card T={T} style={{ background: T.bgCardAlt }}>
+    <AnimCard T={T} index={index} style={{ background: T.bgCardAlt }}>
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
         <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT }}>Network Status</span>
         <div style={{ display:"flex", alignItems:"center", gap:5 }}>
@@ -334,19 +382,18 @@ function NetworkCard({ T }) {
       <div style={{ marginTop:12, fontSize:10, color:T.textDim, fontFamily:FONT, letterSpacing:1 }}>
         SUBNET · 255.255.255.0 / 24
       </div>
-    </Card>
+    </AnimCard>
   );
 }
 
-// ─── CONTACT CARD ─────────────────────────────────────────────────────────────
-function ContactCard({ T }) {
+function ContactCard({ T, index }) {
   const links = [
     { label:"kenntheus24@gmail.com", href:"mailto:kenntheus24@gmail.com", icon:"✉" },
     { label:"github.com/Kenntheus",  href:"https://github.com/Kenntheus",  icon:"⌥" },
     { label:"LinkedIn",              href:"https://linkedin.com/in/martheus-kenn-banaag", icon:"in" },
   ];
   return (
-    <Card T={T}>
+    <AnimCard T={T} index={index}>
       <SectionHeader title="Contact" T={T}/>
       <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
         {links.map(({ label, href, icon }) => (
@@ -367,14 +414,13 @@ function ContactCard({ T }) {
           </a>
         ))}
       </div>
-    </Card>
+    </AnimCard>
   );
 }
 
-// ─── CURRENTLY LEARNING CARD ──────────────────────────────────────────────────
-function LearningCard({ T }) {
+function LearningCard({ T, index }) {
   return (
-    <Card T={T} style={{ background:T.bgCardAlt }}>
+    <AnimCard T={T} index={index} style={{ background:T.bgCardAlt }}>
       <div style={{ fontSize:15, fontWeight:700, color:T.text, fontFamily:FONT, letterSpacing:-0.3, marginBottom:12 }}>Currently Learning</div>
       <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
         {["Cloud Architecture","AI Engineering","iOS Development","ML Ops"].map(t => (
@@ -385,35 +431,39 @@ function LearningCard({ T }) {
           }}>{t}</span>
         ))}
       </div>
-    </Card>
+    </AnimCard>
   );
 }
 
 // ─── HEADER ───────────────────────────────────────────────────────────────────
-function Header({ dark, T, onToggle }) {
+function Header({ dark, T, onToggle, page, onNav }) {
   return (
     <div style={{
       background:T.bgCard, borderBottom:`1px solid ${T.border}`,
-      padding:"20px 0", marginBottom:28,
+      padding:"26px 0", marginBottom:28,
       position:"sticky", top:0, zIndex:100,
       backdropFilter:"blur(12px)",
     }}>
       <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-        <div style={{ display:"flex", alignItems:"center", gap:18 }}>
-          <ProfilePhoto dark={dark}/>
+        {/* Profile — clicking goes home on sub-pages */}
+        <div
+          onClick={() => onNav("home")}
+          style={{ display:"flex", alignItems:"center", gap:20, cursor: page !== "home" ? "pointer" : "default" }}
+        >
+          <ProfilePhoto dark={dark} size={110}/>
           <div>
-            <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:4 }}>
-              <h1 style={{ fontSize:20, fontWeight:800, color:T.text, fontFamily:FONT, letterSpacing:-0.5 }}>
+            <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:5 }}>
+              <h1 style={{ fontSize:22, fontWeight:800, color:T.text, fontFamily:FONT, letterSpacing:-0.5 }}>
                 Martheus Kenn Banaag
               </h1>
-              <div style={{ width:16, height:16, borderRadius:"50%", background:T.accent, display:"flex", alignItems:"center", justifyContent:"center" }}>
-                <svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <div style={{ width:18, height:18, borderRadius:"50%", background:T.accent, display:"flex", alignItems:"center", justifyContent:"center" }}>
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </div>
             </div>
-            <div style={{ fontSize:12, color:T.textMuted, marginBottom:6, display:"flex", alignItems:"center", gap:5, fontFamily:FONT }}>
+            <div style={{ fontSize:12.5, color:T.textMuted, marginBottom:7, display:"flex", alignItems:"center", gap:5, fontFamily:FONT }}>
               <span>📍</span> Aguilar, Pangasinan, Philippines
             </div>
-            <div style={{ fontSize:12, color:T.textMuted, fontFamily:FONT, letterSpacing:0.3 }}>
+            <div style={{ fontSize:12.5, color:T.textMuted, fontFamily:FONT, letterSpacing:0.3 }}>
               IT Graduate · Developer · Network Engineer
             </div>
           </div>
@@ -422,7 +472,7 @@ function Header({ dark, T, onToggle }) {
         <div style={{ display:"flex", gap:8, alignItems:"center", flexWrap:"wrap" }}>
           <a href="mailto:kenntheus24@gmail.com"
             style={{
-              padding:"8px 16px", borderRadius:8, fontSize:12, fontFamily:FONT,
+              padding:"9px 18px", borderRadius:8, fontSize:12, fontFamily:FONT,
               background:T.accent, color:"#000", textDecoration:"none", fontWeight:600, letterSpacing:0.5,
               transition:"opacity 0.15s",
             }}
@@ -431,7 +481,7 @@ function Header({ dark, T, onToggle }) {
           >Send Email</a>
           <a href="https://github.com/Kenntheus" target="_blank" rel="noreferrer"
             style={{
-              padding:"8px 16px", borderRadius:8, fontSize:12, fontFamily:FONT,
+              padding:"9px 18px", borderRadius:8, fontSize:12, fontFamily:FONT,
               background:"transparent", color:T.textMuted, textDecoration:"none",
               border:`1px solid ${T.border}`, letterSpacing:0.5, transition:"all 0.15s",
             }}
@@ -439,10 +489,10 @@ function Header({ dark, T, onToggle }) {
             onMouseLeave={e => { e.currentTarget.style.borderColor=T.border; e.currentTarget.style.color=T.textMuted; }}
           >GitHub ↗</a>
           <button onClick={onToggle} style={{
-            width:36, height:36, borderRadius:8,
+            width:38, height:38, borderRadius:8,
             background:T.tag, border:`1px solid ${T.border}`,
             cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center",
-            transition:"all 0.15s", fontSize:15,
+            transition:"all 0.15s", fontSize:16,
           }}
           onMouseEnter={e => e.currentTarget.style.borderColor=T.accent+"66"}
           onMouseLeave={e => e.currentTarget.style.borderColor=T.border}
@@ -480,10 +530,169 @@ function Footer({ T }) {
   );
 }
 
+// ─── PROJECTS PAGE ────────────────────────────────────────────────────────────
+function ProjectsPage({ T, onBack }) {
+  return (
+    <PageWrapper>
+      <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px 48px" }}>
+        {/* Page header */}
+        <div style={{ marginBottom:28, animation:`cardFloat 0.4s cubic-bezier(0.22,1,0.36,1) both` }}>
+          <BackButton T={T} onBack={onBack}/>
+          <div style={{ marginTop:24 }}>
+            <h1 style={{ fontSize:26, fontWeight:800, color:T.text, fontFamily:FONT, letterSpacing:-0.5 }}>All Projects</h1>
+            <p style={{ fontSize:13, color:T.textMuted, fontFamily:FONT, marginTop:6 }}>
+              {PROJECTS.length} projects across development, networking, and game dev.
+            </p>
+          </div>
+        </div>
+
+        {/* Project grid — each card floats up with stagger */}
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(420px, 1fr))", gap:14 }}>
+          {PROJECTS.map((p, idx) => (
+            <div key={p.title} style={{
+              background:T.bgCard, border:`1px solid ${T.border}`,
+              borderRadius:14, padding:"22px 24px",
+              display:"flex", flexDirection:"column",
+              animation:`cardFloat 0.45s cubic-bezier(0.22,1,0.36,1) ${idx * 55}ms both`,
+              transition:"border-color 0.2s, transform 0.2s",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = T.accent+"55"; e.currentTarget.style.transform = "translateY(-3px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.transform = "translateY(0)"; }}
+            >
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:10 }}>
+                <div>
+                  <span style={{ fontSize:14, fontWeight:700, color:T.text, fontFamily:FONT, display:"block", marginBottom:6 }}>{p.title}</span>
+                  <span style={{
+                    fontSize:10, padding:"2px 8px", borderRadius:4,
+                    background:T.accentBg, border:`1px solid ${T.accent}33`,
+                    color:T.accent, fontFamily:FONT, letterSpacing:1,
+                  }}>{p.type}</span>
+                </div>
+                {p.href !== "#" && (
+                  <a href={p.href} target="_blank" rel="noreferrer" style={{
+                    display:"inline-flex", alignItems:"center", gap:6,
+                    padding:"6px 12px", borderRadius:8,
+                    background:T.tag, border:`1px solid ${T.tagBorder}`,
+                    textDecoration:"none", color:T.accent, fontFamily:FONT, fontSize:11,
+                    transition:"all 0.15s", flexShrink:0, marginLeft:12,
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.borderColor = T.accent+"66"}
+                  onMouseLeave={e => e.currentTarget.style.borderColor = T.tagBorder}
+                  >View ↗</a>
+                )}
+              </div>
+              <p style={{ fontSize:12.5, color:T.textMuted, lineHeight:1.7, fontFamily:FONT, marginBottom:14, flex:1 }}>{p.desc}</p>
+              <div style={{ display:"flex", flexWrap:"wrap", gap:5 }}>
+                {p.tags.map(t => <Tag key={t} label={t} T={T}/>)}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </PageWrapper>
+  );
+}
+
+// ─── TECH STACK PAGE ──────────────────────────────────────────────────────────
+function TechStackPage({ T, onBack }) {
+  return (
+    <PageWrapper>
+      <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px 48px" }}>
+        {/* Page header */}
+        <div style={{ marginBottom:28, animation:`cardFloat 0.4s cubic-bezier(0.22,1,0.36,1) both` }}>
+          <BackButton T={T} onBack={onBack}/>
+          <div style={{ marginTop:24 }}>
+            <h1 style={{ fontSize:26, fontWeight:800, color:T.text, fontFamily:FONT, letterSpacing:-0.5 }}>Tech Stack</h1>
+            <p style={{ fontSize:13, color:T.textMuted, fontFamily:FONT, marginTop:6 }}>
+              Full overview of tools, languages, and technologies I work with.
+            </p>
+          </div>
+        </div>
+
+        {/* All categories, staggered */}
+        <div style={{ display:"flex", flexDirection:"column", gap:20 }}>
+          {Object.entries(STACK).map(([cat, items], catIdx) => (
+            <div key={cat} style={{
+              background:T.bgCard, border:`1px solid ${T.border}`,
+              borderRadius:14, padding:"24px",
+              animation:`cardFloat 0.45s cubic-bezier(0.22,1,0.36,1) ${catIdx * 80}ms both`,
+            }}>
+              {/* Category header */}
+              <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:20 }}>
+                <div style={{ width:3, height:20, borderRadius:99, background:T.accent }}/>
+                <h2 style={{ fontSize:14, fontWeight:700, color:T.text, fontFamily:FONT, letterSpacing:1, textTransform:"uppercase" }}>{cat}</h2>
+                <span style={{ fontSize:11, color:T.textDim, fontFamily:FONT }}>— {items.length} technologies</span>
+              </div>
+              {/* Tech grid */}
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(260px, 1fr))", gap:10 }}>
+                {items.map(name => (
+                  <div key={name} style={{
+                    display:"flex", alignItems:"flex-start", gap:12,
+                    padding:"12px 14px", borderRadius:10,
+                    background:T.tag, border:`1px solid ${T.tagBorder}`,
+                    transition:"all 0.15s",
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = T.accent+"66"; e.currentTarget.style.background = T.accentBg; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = T.tagBorder; e.currentTarget.style.background = T.tag; }}
+                  >
+                    {STACK_ICONS[name] && (
+                      <img src={STACK_ICONS[name]} alt={name}
+                        style={{ width:22, height:22, objectFit:"contain", flexShrink:0, marginTop:2 }}
+                        onError={e => e.target.style.display="none"}
+                      />
+                    )}
+                    <div>
+                      <div style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT, marginBottom:4 }}>{name}</div>
+                      {STACK_DESC[name] && (
+                        <div style={{ fontSize:11, color:T.textMuted, fontFamily:FONT, lineHeight:1.6 }}>{STACK_DESC[name]}</div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </PageWrapper>
+  );
+}
+
+// ─── HOME PAGE ────────────────────────────────────────────────────────────────
+function HomePage({ T, onNav }) {
+  return (
+    <PageWrapper>
+      <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px 48px" }}>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 320px", gap:16, alignItems:"start" }}>
+          {/* LEFT — stagger 0, 1, 2 */}
+          <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+            <AboutCard       T={T} index={0}/>
+            <TechStackCard   T={T} index={1} onViewAll={() => onNav("stack")}/>
+            <ProjectsCard    T={T} index={2} onViewAll={() => onNav("projects")}/>
+          </div>
+          {/* RIGHT — stagger 1, 2, 3, 4 (slightly offset from left) */}
+          <div style={{ display:"flex", flexDirection:"column", gap:16, position:"sticky", top:110 }}>
+            <ExperienceCard  T={T} index={1}/>
+            <NetworkCard     T={T} index={2}/>
+            <LearningCard    T={T} index={3}/>
+            <ContactCard     T={T} index={4}/>
+          </div>
+        </div>
+      </div>
+    </PageWrapper>
+  );
+}
+
 // ─── APP ─────────────────────────────────────────────────────────────────────
 export default function Portfolio() {
   const [dark, setDark] = useState(true);
+  const [page, setPage] = useState("home");
   const T = dark ? DARK : LIGHT;
+
+  const navigate = (to) => {
+    setPage(to);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div style={{ background:T.bg, minHeight:"100vh", transition:"background 0.3s, color 0.3s" }}>
@@ -494,31 +703,22 @@ export default function Portfolio() {
         ::-webkit-scrollbar-track { background:transparent; }
         ::-webkit-scrollbar-thumb { background:${T.border}; border-radius:99px; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        @keyframes pageEnter {
+          from { opacity:0; }
+          to   { opacity:1; }
+        }
+        @keyframes cardFloat {
+          from { opacity:0; transform:translateY(20px); }
+          to   { opacity:1; transform:translateY(0); }
+        }
         a { cursor:pointer; }
       `}</style>
 
-      <Header dark={dark} T={T} onToggle={() => setDark(d => !d)}/>
+      <Header dark={dark} T={T} onToggle={() => setDark(d => !d)} page={page} onNav={navigate}/>
 
-      <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px 48px" }}>
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 320px", gap:16, alignItems:"start" }}>
-
-          {/* LEFT COLUMN */}
-          <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
-            <AboutCard T={T}/>
-            <TechStackCard T={T}/>
-            <ProjectsCard T={T}/>
-          </div>
-
-          {/* RIGHT COLUMN */}
-          <div style={{ display:"flex", flexDirection:"column", gap:16, position:"sticky", top:100 }}>
-            <ExperienceCard T={T}/>
-            <NetworkCard T={T}/>
-            <LearningCard T={T}/>
-            <ContactCard T={T}/>
-          </div>
-
-        </div>
-      </div>
+      {page === "home"     && <HomePage     T={T} onNav={navigate}/>}
+      {page === "projects" && <ProjectsPage T={T} onBack={() => navigate("home")}/>}
+      {page === "stack"    && <TechStackPage T={T} onBack={() => navigate("home")}/>}
 
       <Footer T={T}/>
     </div>
