@@ -435,46 +435,9 @@ function LearningCard({ T, index }) {
   );
 }
 
-// ─── HEADER ───────────────────────────────────────────────────────────────────
-function Header({ dark, T, onToggle, page, onNav }) {
-  // On sub-pages show a slim sticky nav instead of the full hero
-  if (page !== "home") {
-    return (
-      <div style={{
-        background:T.bgCard, borderBottom:`1px solid ${T.border}`,
-        padding:"14px 0", marginBottom:28,
-        position:"sticky", top:0, zIndex:100,
-        backdropFilter:"blur(12px)",
-      }}>
-        <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-          <div onClick={() => onNav("home")} style={{ display:"flex", alignItems:"center", gap:12, cursor:"pointer" }}>
-            <ProfilePhoto dark={dark} size={40}/>
-            <div>
-              <div style={{ display:"flex", alignItems:"center", gap:7 }}>
-                <span style={{ fontSize:14, fontWeight:800, color:T.text, fontFamily:FONT }}>Martheus Kenn Banaag</span>
-                <div style={{ width:13, height:13, borderRadius:"50%", background:T.accent, display:"flex", alignItems:"center", justifyContent:"center" }}>
-                  <svg width="7" height="7" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#000" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                </div>
-              </div>
-              <div style={{ fontSize:11, color:T.textMuted, fontFamily:FONT }}>IT Graduate · Developer · Network Engineer</div>
-            </div>
-          </div>
-          <div style={{ display:"flex", gap:8, alignItems:"center" }}>
-            <a href="mailto:kenntheus24@gmail.com" style={{
-              padding:"7px 14px", borderRadius:8, fontSize:11, fontFamily:FONT,
-              background:T.accent, color:"#000", textDecoration:"none", fontWeight:600, letterSpacing:0.5,
-            }}>Send Email</a>
-            <button onClick={onToggle} style={{
-              width:34, height:34, borderRadius:8, background:T.tag, border:`1px solid ${T.border}`,
-              cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", fontSize:14,
-            }}>{dark ? "☀️" : "🌙"}</button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Home: large hero profile section (not sticky)
+// ─── HEADER (home only) ───────────────────────────────────────────────────────
+function Header({ dark, T, onToggle, onNav }) {
+  // Large hero profile section (not sticky)
   return (
     <div style={{ background:T.bgCard, borderBottom:`1px solid ${T.border}`, marginBottom:36 }}>
       <div style={{ maxWidth:1020, margin:"0 auto", padding:"48px 24px 40px" }}>
@@ -587,23 +550,52 @@ function Footer({ T }) {
   );
 }
 
-// ─── PROJECTS PAGE ────────────────────────────────────────────────────────────
-function ProjectsPage({ T, onBack }) {
+// ─── SUB-PAGE SHELL (no main header/footer) ───────────────────────────────────
+function SubPageShell({ T, dark, onToggle, onBack, children }) {
   return (
-    <PageWrapper>
-      <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px 48px" }}>
-        {/* Page header */}
-        <div style={{ marginBottom:28, animation:`cardFloat 0.4s cubic-bezier(0.22,1,0.36,1) both` }}>
+    <div style={{ background:T.bg, minHeight:"100vh" }}>
+      {/* Minimal top bar */}
+      <div style={{
+        position:"sticky", top:0, zIndex:100,
+        background:T.bgCard, borderBottom:`1px solid ${T.border}`,
+        padding:"12px 0",
+        backdropFilter:"blur(12px)",
+      }}>
+        <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
           <BackButton T={T} onBack={onBack}/>
-          <div style={{ marginTop:24 }}>
-            <h1 style={{ fontSize:26, fontWeight:800, color:T.text, fontFamily:FONT, letterSpacing:-0.5 }}>All Projects</h1>
-            <p style={{ fontSize:13, color:T.textMuted, fontFamily:FONT, marginTop:6 }}>
-              {PROJECTS.length} projects across development, networking, and game dev.
-            </p>
-          </div>
+          <button onClick={onToggle} style={{
+            width:34, height:34, borderRadius:8,
+            background:T.tag, border:`1px solid ${T.border}`,
+            cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center",
+            fontSize:14, transition:"all 0.15s",
+          }}
+          onMouseEnter={e => e.currentTarget.style.borderColor=T.accent+"66"}
+          onMouseLeave={e => e.currentTarget.style.borderColor=T.border}
+          >{dark ? "☀️" : "🌙"}</button>
+        </div>
+      </div>
+      {/* Page content */}
+      <div style={{ maxWidth:1020, margin:"0 auto", padding:"40px 24px 64px" }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// ─── PROJECTS PAGE ────────────────────────────────────────────────────────────
+function ProjectsPage({ T, dark, onToggle, onBack }) {
+  return (
+    <SubPageShell T={T} dark={dark} onToggle={onToggle} onBack={onBack}>
+      <PageWrapper>
+        {/* Page title */}
+        <div style={{ marginBottom:32, animation:`cardFloat 0.4s cubic-bezier(0.22,1,0.36,1) both` }}>
+          <h1 style={{ fontSize:30, fontWeight:800, color:T.text, fontFamily:FONT, letterSpacing:-0.8, marginBottom:8 }}>All Projects</h1>
+          <p style={{ fontSize:13, color:T.textMuted, fontFamily:FONT }}>
+            {PROJECTS.length} projects across development, networking, and game dev.
+          </p>
         </div>
 
-        {/* Project grid — each card floats up with stagger */}
+        {/* Project grid */}
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(420px, 1fr))", gap:14 }}>
           {PROJECTS.map((p, idx) => (
             <div key={p.title} style={{
@@ -645,25 +637,22 @@ function ProjectsPage({ T, onBack }) {
             </div>
           ))}
         </div>
-      </div>
-    </PageWrapper>
+      </PageWrapper>
+    </SubPageShell>
   );
 }
 
 // ─── TECH STACK PAGE ──────────────────────────────────────────────────────────
-function TechStackPage({ T, onBack }) {
+function TechStackPage({ T, dark, onToggle, onBack }) {
   return (
-    <PageWrapper>
-      <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px 48px" }}>
-        {/* Page header */}
-        <div style={{ marginBottom:28, animation:`cardFloat 0.4s cubic-bezier(0.22,1,0.36,1) both` }}>
-          <BackButton T={T} onBack={onBack}/>
-          <div style={{ marginTop:24 }}>
-            <h1 style={{ fontSize:26, fontWeight:800, color:T.text, fontFamily:FONT, letterSpacing:-0.5 }}>Tech Stack</h1>
-            <p style={{ fontSize:13, color:T.textMuted, fontFamily:FONT, marginTop:6 }}>
-              Full overview of tools, languages, and technologies I work with.
-            </p>
-          </div>
+    <SubPageShell T={T} dark={dark} onToggle={onToggle} onBack={onBack}>
+      <PageWrapper>
+        {/* Page title */}
+        <div style={{ marginBottom:32, animation:`cardFloat 0.4s cubic-bezier(0.22,1,0.36,1) both` }}>
+          <h1 style={{ fontSize:30, fontWeight:800, color:T.text, fontFamily:FONT, letterSpacing:-0.8, marginBottom:8 }}>Tech Stack</h1>
+          <p style={{ fontSize:13, color:T.textMuted, fontFamily:FONT }}>
+            Full overview of tools, languages, and technologies I work with.
+          </p>
         </div>
 
         {/* All categories, staggered */}
@@ -674,17 +663,15 @@ function TechStackPage({ T, onBack }) {
               borderRadius:14, padding:"24px",
               animation:`cardFloat 0.45s cubic-bezier(0.22,1,0.36,1) ${catIdx * 80}ms both`,
             }}>
-              {/* Category header */}
               <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:20 }}>
                 <div style={{ width:3, height:20, borderRadius:99, background:T.accent }}/>
                 <h2 style={{ fontSize:14, fontWeight:700, color:T.text, fontFamily:FONT, letterSpacing:1, textTransform:"uppercase" }}>{cat}</h2>
                 <span style={{ fontSize:11, color:T.textDim, fontFamily:FONT }}>— {items.length} technologies</span>
               </div>
-              {/* Tech grid */}
-              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(260px, 1fr))", gap:10 }}>
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))", gap:10 }}>
                 {items.map(name => (
                   <div key={name} style={{
-                    display:"flex", alignItems:"flex-start", gap:12,
+                    display:"flex", alignItems:"center", gap:10,
                     padding:"12px 14px", borderRadius:10,
                     background:T.tag, border:`1px solid ${T.tagBorder}`,
                     transition:"all 0.15s",
@@ -694,21 +681,19 @@ function TechStackPage({ T, onBack }) {
                   >
                     {STACK_ICONS[name] && (
                       <img src={STACK_ICONS[name]} alt={name}
-                        style={{ width:22, height:22, objectFit:"contain", flexShrink:0, marginTop:2 }}
+                        style={{ width:20, height:20, objectFit:"contain", flexShrink:0 }}
                         onError={e => e.target.style.display="none"}
                       />
                     )}
-                    <div>
-                      <div style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT }}>{name}</div>
-                    </div>
+                    <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT }}>{name}</span>
                   </div>
                 ))}
               </div>
             </div>
           ))}
         </div>
-      </div>
-    </PageWrapper>
+      </PageWrapper>
+    </SubPageShell>
   );
 }
 
@@ -739,7 +724,7 @@ function HomePage({ T, onNav }) {
 
 // ─── APP ─────────────────────────────────────────────────────────────────────
 export default function Portfolio() {
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(false);
   const [page, setPage] = useState("home");
   const T = dark ? DARK : LIGHT;
 
@@ -748,6 +733,48 @@ export default function Portfolio() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const toggleDark = () => setDark(d => !d);
+
+  // Sub-pages are fully self-contained (no shared header/footer)
+  if (page === "projects") {
+    return (
+      <div style={{ fontFamily:FONT }}>
+        <style>{`
+          * { box-sizing:border-box; margin:0; padding:0; font-family:'Courier New', Courier, monospace; }
+          body { overflow-x:hidden; }
+          ::-webkit-scrollbar { width:4px; }
+          ::-webkit-scrollbar-track { background:transparent; }
+          ::-webkit-scrollbar-thumb { background:${T.border}; border-radius:99px; }
+          @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+          @keyframes pageEnter { from{opacity:0} to{opacity:1} }
+          @keyframes cardFloat { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+          a { cursor:pointer; }
+        `}</style>
+        <ProjectsPage T={T} dark={dark} onToggle={toggleDark} onBack={() => navigate("home")}/>
+      </div>
+    );
+  }
+
+  if (page === "stack") {
+    return (
+      <div style={{ fontFamily:FONT }}>
+        <style>{`
+          * { box-sizing:border-box; margin:0; padding:0; font-family:'Courier New', Courier, monospace; }
+          body { overflow-x:hidden; }
+          ::-webkit-scrollbar { width:4px; }
+          ::-webkit-scrollbar-track { background:transparent; }
+          ::-webkit-scrollbar-thumb { background:${T.border}; border-radius:99px; }
+          @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+          @keyframes pageEnter { from{opacity:0} to{opacity:1} }
+          @keyframes cardFloat { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+          a { cursor:pointer; }
+        `}</style>
+        <TechStackPage T={T} dark={dark} onToggle={toggleDark} onBack={() => navigate("home")}/>
+      </div>
+    );
+  }
+
+  // Home page
   return (
     <div style={{ background:T.bg, minHeight:"100vh", transition:"background 0.3s, color 0.3s" }}>
       <style>{`
@@ -757,23 +784,12 @@ export default function Portfolio() {
         ::-webkit-scrollbar-track { background:transparent; }
         ::-webkit-scrollbar-thumb { background:${T.border}; border-radius:99px; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-        @keyframes pageEnter {
-          from { opacity:0; }
-          to   { opacity:1; }
-        }
-        @keyframes cardFloat {
-          from { opacity:0; transform:translateY(20px); }
-          to   { opacity:1; transform:translateY(0); }
-        }
+        @keyframes pageEnter { from{opacity:0} to{opacity:1} }
+        @keyframes cardFloat { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
         a { cursor:pointer; }
       `}</style>
-
-      <Header dark={dark} T={T} onToggle={() => setDark(d => !d)} page={page} onNav={navigate}/>
-
-      {page === "home"     && <HomePage     T={T} onNav={navigate}/>}
-      {page === "projects" && <ProjectsPage T={T} onBack={() => navigate("home")}/>}
-      {page === "stack"    && <TechStackPage T={T} onBack={() => navigate("home")}/>}
-
+      <Header dark={dark} T={T} onToggle={toggleDark} onNav={navigate}/>
+      <HomePage T={T} onNav={navigate}/>
       <Footer T={T}/>
     </div>
   );
