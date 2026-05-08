@@ -145,21 +145,15 @@ function ProfilePhoto({ dark, size = 110 }) {
         border:`2px solid ${dark ? "#00ff8844" : "#e8e8e8"}`,
         background: dark ? "#1a1a1a" : "#eee",
         position:"relative",
-        transition:"border-color 0.5s, transform 0.3s cubic-bezier(0.34,1.56,0.64,1)",
-        transform: hovered ? "scale(1.05)" : "scale(1)",
+        transition:"border-color 0.5s",
       }}>
-
-        {/* Default photo (calm smile) — always underneath */}
+        {/* Default photo (calm smile) */}
         <img
           src="/images/kenn.jpg"
           alt="Martheus Kenn Banaag"
           style={{
             position:"absolute", inset:0,
             width:"100%", height:"100%", objectFit:"cover",
-            transition:"filter 0.6s ease",
-            filter: dark
-              ? "brightness(0.72) saturate(0.8) hue-rotate(195deg) contrast(1.05)"
-              : "brightness(1) saturate(1) hue-rotate(0deg) contrast(1)",
           }}
           onError={e => { e.target.style.display="none"; }}
         />
@@ -172,32 +166,10 @@ function ProfilePhoto({ dark, size = 110 }) {
             position:"absolute", inset:0,
             width:"100%", height:"100%", objectFit:"cover",
             opacity: hovered ? 1 : 0,
-            transition:"opacity 0.45s ease, filter 0.6s ease",
-            filter: dark
-              ? "brightness(0.72) saturate(0.8) hue-rotate(195deg) contrast(1.05)"
-              : "brightness(1) saturate(1) hue-rotate(0deg) contrast(1)",
+            transition:"opacity 0.45s ease",
           }}
           onError={e => { e.target.style.display="none"; }}
         />
-
-        {/* Dark mode overlay */}
-        <div style={{
-          position:"absolute", inset:0,
-          background: dark
-            ? "linear-gradient(180deg, rgba(10,20,60,0.45) 0%, rgba(0,0,20,0.25) 50%, rgba(0,0,0,0.1) 100%)"
-            : "transparent",
-          transition:"background 0.6s ease",
-          pointerEvents:"none",
-        }}/>
-
-        {/* Dark mode green shimmer */}
-        {dark && (
-          <div style={{
-            position:"absolute", bottom:0, left:0, right:0, height:"35%",
-            background:"linear-gradient(0deg, rgba(0,255,136,0.08) 0%, transparent 100%)",
-            pointerEvents:"none",
-          }}/>
-        )}
       </div>
 
       {/* Online dot */}
