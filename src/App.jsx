@@ -260,11 +260,11 @@ function AboutCard({ T, index }) {
       <p style={{ fontSize:13.5, lineHeight:1.85, color:T.textMuted, marginBottom:16, fontFamily:FONT }}>
         I'm an IT graduate passionate about software development and network engineering,
         with a specialization in Computer Security. I bridge the gap between infrastructure
-        and application — turning complex systems into reliable, high-performance solutions.
+        and application development, turning complex systems into reliable, high-performance solutions.
       </p>
       <p style={{ fontSize:13.5, lineHeight:1.85, color:T.textMuted, marginBottom:16, fontFamily:FONT }}>
         Whether it's configuring network topologies, building backend systems, or automating
-        workflows with Python — I bring a detail-oriented, systems-thinking approach to
+        workflows with Python, I bring a detail-oriented, systems-thinking approach to
         every project.
       </p>
       <p style={{ fontSize:13.5, lineHeight:1.85, color:T.textMuted, fontFamily:FONT }}>
