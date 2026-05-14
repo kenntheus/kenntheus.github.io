@@ -277,7 +277,7 @@ function AboutCard({ T, index }) {
 }
 
 function TechStackCard({ T, onViewAll, index }) {
-  const preview = Object.entries(STACK).slice(0, 2);
+  const preview = Object.entries(STACK).filter(([cat]) => cat !== "Networking");
   return (
     <AnimCard T={T} index={index}>
       <SectionHeader title="Tech Stack" T={T} action="View all" onAction={onViewAll}/>
@@ -296,7 +296,7 @@ function TechStackCard({ T, onViewAll, index }) {
 }
 
 function ProjectsCard({ T, onViewAll, index }) {
-  const displayed = PROJECTS.slice(0, 4);
+  const displayed = PROJECTS.filter(p => p.title !== "GameBuddy").slice(0, 3);
   return (
     <AnimCard T={T} index={index}>
       <SectionHeader title="Projects" T={T} action="View all" onAction={onViewAll}/>
@@ -501,27 +501,6 @@ function Header({ dark, T, onToggle, onNav }) {
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="#000" strokeWidth="2"/><polyline points="22,6 12,13 2,6" stroke="#000" strokeWidth="2"/></svg>
                   Send Email
                 </a>
-                <a href="https://github.com/Kenntheus" target="_blank" rel="noreferrer" style={{
-                  display:"inline-flex", alignItems:"center", gap:7,
-                  padding:"10px 20px", borderRadius:9, fontSize:12.5, fontFamily:FONT,
-                  background:"transparent", color:T.textMuted, textDecoration:"none",
-                  border:`1px solid ${T.border}`, letterSpacing:0.4, transition:"all 0.15s",
-                }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor=T.accent+"66"; e.currentTarget.style.color=T.text; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor=T.border; e.currentTarget.style.color=T.textMuted; }}
-                >
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                  GitHub ↗
-                </a>
-                <a href="https://linkedin.com/in/martheus-kenn-banaag" target="_blank" rel="noreferrer" style={{
-                  display:"inline-flex", alignItems:"center", gap:7,
-                  padding:"10px 20px", borderRadius:9, fontSize:12.5, fontFamily:FONT,
-                  background:"transparent", color:T.textMuted, textDecoration:"none",
-                  border:`1px solid ${T.border}`, letterSpacing:0.4, transition:"all 0.15s",
-                }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor=T.accent+"66"; e.currentTarget.style.color=T.text; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor=T.border; e.currentTarget.style.color=T.textMuted; }}
-                >LinkedIn ↗</a>
               </div>
             </div>
           </div>
@@ -548,23 +527,10 @@ function Header({ dark, T, onToggle, onNav }) {
 function Footer({ T }) {
   return (
     <div style={{ borderTop:`1px solid ${T.border}`, marginTop:40, padding:"24px 0" }}>
-      <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px", display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:12 }}>
+      <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px", textAlign:"center" }}>
         <span style={{ fontSize:11, color:T.textDim, fontFamily:FONT, letterSpacing:1 }}>
           © 2026 Martheus Kenn Banaag
         </span>
-        <div style={{ display:"flex", gap:16 }}>
-          {[
-            ["GitHub","https://github.com/Kenntheus"],
-            ["LinkedIn","https://linkedin.com/in/martheus-kenn-banaag"],
-            ["Email","mailto:kenntheus24@gmail.com"],
-          ].map(([l,h]) => (
-            <a key={l} href={h} target="_blank" rel="noreferrer"
-              style={{ fontSize:11, color:T.textDim, fontFamily:FONT, textDecoration:"none", letterSpacing:1, transition:"color 0.15s" }}
-              onMouseEnter={e => e.currentTarget.style.color = T.accent}
-              onMouseLeave={e => e.currentTarget.style.color = T.textDim}
-            >{l}</a>
-          ))}
-        </div>
       </div>
     </div>
   );
