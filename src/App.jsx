@@ -9,8 +9,9 @@ const DARK = {
   text:      "#f0f0f0",
   textMuted: "#888",
   textDim:   "#444",
-  accent:    "#00ff88",
-  accentBg:  "rgba(0,255,136,0.08)",
+  accent:    "#ffffff",
+  accentFg:  "#000000",
+  accentBg:  "rgba(255,255,255,0.08)",
   tag:       "#1a1a1a",
   tagBorder: "#2a2a2a",
   tagText:   "#aaa",
@@ -23,8 +24,9 @@ const LIGHT = {
   text:      "#0a0a0a",
   textMuted: "#666",
   textDim:   "#bbb",
-  accent:    "#00aa55",
-  accentBg:  "rgba(0,170,85,0.08)",
+  accent:    "#0a0a0a",
+  accentFg:  "#ffffff",
+  accentBg:  "rgba(0,0,0,0.06)",
   tag:       "#f0f0f0",
   tagBorder: "#e0e0e0",
   tagText:   "#555",
@@ -142,7 +144,7 @@ function ProfilePhoto({ dark, size = 110 }) {
     >
       <div style={{
         width:size, height:size, borderRadius:16, overflow:"hidden",
-        border:`2px solid ${dark ? "#00ff8844" : "#e8e8e8"}`,
+        border:`2px solid ${dark ? "#ffffff22" : "#e8e8e8"}`,
         background: dark ? "#1a1a1a" : "#eee",
         position:"relative",
         transition:"border-color 0.5s",
@@ -171,7 +173,7 @@ function ProfilePhoto({ dark, size = 110 }) {
       <div style={{
         position:"absolute", bottom:6, right:6,
         width:13, height:13, borderRadius:"50%",
-        background:"#00cc66",
+        background: dark ? "#ffffff" : "#0a0a0a",
         border:`2px solid ${dark ? "#0a0a0a" : "#f9f9f9"}`,
         transition:"border-color 0.4s",
         zIndex:2,
@@ -375,8 +377,8 @@ function NetworkCard({ T, index }) {
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
         <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT_HEADING }}>Network Status</span>
         <div style={{ display:"flex", alignItems:"center", gap:5 }}>
-          <div style={{ width:6, height:6, borderRadius:"50%", background:"#00cc66", animation:"blink 2s infinite" }}/>
-          <span style={{ fontSize:10, color:"#00cc66", fontFamily:FONT_MONO, letterSpacing:1 }}>ONLINE</span>
+          <div style={{ width:6, height:6, borderRadius:"50%", background:T.accent, animation:"blink 2s infinite" }}/>
+          <span style={{ fontSize:10, color:T.accent, fontFamily:FONT_MONO, letterSpacing:1 }}>ONLINE</span>
         </div>
       </div>
       <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
@@ -465,7 +467,7 @@ function Header({ dark, T, onToggle, onNav }) {
                   Martheus Kenn Banaag
                 </h1>
                 <div style={{ width:22, height:22, borderRadius:"50%", background:T.accent, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-                  <svg width="12" height="12" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#000" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke={T.accentFg} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 </div>
               </div>
 
@@ -474,20 +476,20 @@ function Header({ dark, T, onToggle, onNav }) {
               </div>
 
               <div style={{ fontSize:14, color:T.textMuted, fontFamily:FONT_BODY, letterSpacing:0.1, marginBottom:20 }}>
-                IT Graduate &nbsp;·&nbsp; Developer &nbsp;·&nbsp; Network Engineer
+                AI &nbsp;\&nbsp; Software Engineer &nbsp;\&nbsp; Network Engineer
               </div>
 
               <div style={{ display:"flex", gap:10, alignItems:"center", flexWrap:"wrap" }}>
                 <a href="mailto:kenntheus24@gmail.com" style={{
                   display:"inline-flex", alignItems:"center", gap:7,
                   padding:"10px 20px", borderRadius:9, fontSize:13, fontFamily:FONT_BODY,
-                  background:T.accent, color:"#000", textDecoration:"none", fontWeight:600, letterSpacing:0.2,
+                  background:T.accent, color:T.accentFg, textDecoration:"none", fontWeight:600, letterSpacing:0.2,
                   transition:"opacity 0.15s",
                 }}
                 onMouseEnter={e => e.currentTarget.style.opacity="0.85"}
                 onMouseLeave={e => e.currentTarget.style.opacity="1"}
                 >
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="#000" strokeWidth="2"/><polyline points="22,6 12,13 2,6" stroke="#000" strokeWidth="2"/></svg>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke={T.accentFg} strokeWidth="2"/><polyline points="22,6 12,13 2,6" stroke={T.accentFg} strokeWidth="2"/></svg>
                   Send Email
                 </a>
               </div>
