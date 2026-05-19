@@ -697,10 +697,10 @@ function HomePage({ T, onNav }) {
 }
 
 // ─── GLOBAL STYLES ────────────────────────────────────────────────────────────
-const GLOBAL_STYLES = (borderColor) => `
+const GLOBAL_STYLES = (borderColor, bg) => `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
   * { box-sizing:border-box; margin:0; padding:0; font-family:'DM Sans', system-ui, sans-serif; }
-  body { overflow-x:hidden; }
+  body { overflow-x:hidden; background:${bg}; }
   ::-webkit-scrollbar { width:4px; }
   ::-webkit-scrollbar-track { background:transparent; }
   ::-webkit-scrollbar-thumb { background:${borderColor}; border-radius:99px; }
@@ -725,8 +725,8 @@ export default function Portfolio() {
 
   if (page === "projects") {
     return (
-      <div style={{ fontFamily:FONT_BODY }}>
-        <style>{GLOBAL_STYLES(T.border)}</style>
+      <div style={{ fontFamily:FONT_BODY, background:T.bg, minHeight:"100vh" }}>
+        <style>{GLOBAL_STYLES(T.border, T.bg)}</style>
         <ProjectsPage T={T} dark={dark} onToggle={toggleDark} onBack={() => navigate("home")}/>
       </div>
     );
@@ -734,16 +734,16 @@ export default function Portfolio() {
 
   if (page === "stack") {
     return (
-      <div style={{ fontFamily:FONT_BODY }}>
-        <style>{GLOBAL_STYLES(T.border)}</style>
+      <div style={{ fontFamily:FONT_BODY, background:T.bg, minHeight:"100vh" }}>
+        <style>{GLOBAL_STYLES(T.border, T.bg)}</style>
         <TechStackPage T={T} dark={dark} onToggle={toggleDark} onBack={() => navigate("home")}/>
       </div>
     );
   }
 
   return (
-    <div style={{ background:T.bg, minHeight:"100vh", transition:"background 0.3s, color 0.3s" }}>
-      <style>{GLOBAL_STYLES(T.border)}</style>
+    <div style={{ background:T.bg, minHeight:"100vh" }}>
+      <style>{GLOBAL_STYLES(T.border, T.bg)}</style>
       <Header dark={dark} T={T} onToggle={toggleDark} onNav={navigate}/>
       <HomePage T={T} onNav={navigate}/>
       <Footer T={T}/>
