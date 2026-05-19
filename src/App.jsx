@@ -104,10 +104,11 @@ const EXPERIENCE = [
   { role:"Senior High School — ICT",  org:"PHINMA University of Pangasinan",   year:"2020 – 2022",         type:"edu"  },
 ];
 
-const FONT = "'Courier New', Courier, monospace";
+const FONT_HEADING = "'Space Grotesk', system-ui, sans-serif";
+const FONT_BODY    = "'DM Sans', system-ui, sans-serif";
+const FONT_MONO    = "'JetBrains Mono', ui-monospace, Consolas, monospace";
 
 // ─── ANIMATED PAGE WRAPPER ───────────────────────────────────────────────────
-// Wraps children in a staggered float-up animation on mount
 function PageWrapper({ children }) {
   return (
     <div style={{ animation:"pageEnter 0.35s cubic-bezier(0.22,1,0.36,1) both" }}>
@@ -116,7 +117,6 @@ function PageWrapper({ children }) {
   );
 }
 
-// Animated card — each gets a delay based on index for staggered float-up
 function AnimCard({ children, index = 0, T, style = {} }) {
   return (
     <div style={{
@@ -147,7 +147,6 @@ function ProfilePhoto({ dark, size = 110 }) {
         position:"relative",
         transition:"border-color 0.5s",
       }}>
-        {/* Default photo (calm smile) */}
         <img
           src="/images/kenn.jpg"
           alt="Martheus Kenn Banaag"
@@ -157,8 +156,6 @@ function ProfilePhoto({ dark, size = 110 }) {
           }}
           onError={e => { e.target.style.display="none"; }}
         />
-
-        {/* Hover photo (fun/rock hands) — crossfades in on hover */}
         <img
           src="/images/kenn-alt.jpg"
           alt="Martheus Kenn Banaag"
@@ -171,8 +168,6 @@ function ProfilePhoto({ dark, size = 110 }) {
           onError={e => { e.target.style.display="none"; }}
         />
       </div>
-
-      {/* Online dot */}
       <div style={{
         position:"absolute", bottom:6, right:6,
         width:13, height:13, borderRadius:"50%",
@@ -190,7 +185,7 @@ function Tag({ label, T }) {
     <span style={{
       fontSize:11, padding:"3px 10px", borderRadius:6,
       background:T.tag, border:`1px solid ${T.tagBorder}`,
-      color:T.tagText, fontFamily:FONT,
+      color:T.tagText, fontFamily:FONT_MONO,
       letterSpacing:0.3, whiteSpace:"nowrap",
     }}>{label}</span>
   );
@@ -212,7 +207,7 @@ function StackChip({ name, T }) {
       {icon && !err && (
         <img src={icon} alt={name} style={{ width:14, height:14, objectFit:"contain" }} onError={() => setErr(true)}/>
       )}
-      <span style={{ fontSize:12, color:T.tagText, fontFamily:FONT, letterSpacing:0.3 }}>{name}</span>
+      <span style={{ fontSize:12, color:T.tagText, fontFamily:FONT_MONO, letterSpacing:0.3 }}>{name}</span>
     </div>
   );
 }
@@ -220,11 +215,11 @@ function StackChip({ name, T }) {
 function SectionHeader({ title, T, action, onAction }) {
   return (
     <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:18 }}>
-      <h2 style={{ fontSize:15, fontWeight:700, color:T.text, fontFamily:FONT, letterSpacing:-0.3 }}>{title}</h2>
+      <h2 style={{ fontSize:15, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, letterSpacing:-0.3 }}>{title}</h2>
       {action && (
         <button onClick={onAction} style={{
           background:"transparent", border:"none", color:T.textMuted,
-          fontSize:12, fontFamily:FONT, cursor:"pointer",
+          fontSize:12, fontFamily:FONT_BODY, cursor:"pointer",
           display:"flex", alignItems:"center", gap:4, padding:0,
           transition:"color 0.15s",
         }}
@@ -242,7 +237,7 @@ function BackButton({ T, onBack }) {
       display:"inline-flex", alignItems:"center", gap:8,
       background:"transparent", border:`1px solid ${T.border}`,
       borderRadius:8, padding:"8px 14px", cursor:"pointer",
-      color:T.textMuted, fontFamily:FONT, fontSize:12,
+      color:T.textMuted, fontFamily:FONT_BODY, fontSize:12,
       transition:"all 0.15s", letterSpacing:0.3,
     }}
     onMouseEnter={e => { e.currentTarget.style.borderColor=T.accent+"66"; e.currentTarget.style.color=T.text; }}
@@ -257,17 +252,17 @@ function AboutCard({ T, index }) {
   return (
     <AnimCard T={T} index={index}>
       <SectionHeader title="About" T={T}/>
-      <p style={{ fontSize:13.5, lineHeight:1.85, color:T.textMuted, marginBottom:16, fontFamily:FONT }}>
+      <p style={{ fontSize:14, lineHeight:1.85, color:T.textMuted, marginBottom:16, fontFamily:FONT_BODY }}>
         I'm an IT graduate passionate about software development and network engineering,
         with a specialization in Computer Security. I bridge the gap between infrastructure
         and application development, turning complex systems into reliable, high-performance solutions.
       </p>
-      <p style={{ fontSize:13.5, lineHeight:1.85, color:T.textMuted, marginBottom:16, fontFamily:FONT }}>
+      <p style={{ fontSize:14, lineHeight:1.85, color:T.textMuted, marginBottom:16, fontFamily:FONT_BODY }}>
         Whether it's configuring network topologies, building backend systems, or automating
         workflows with Python, I bring a detail-oriented, systems-thinking approach to
         every project.
       </p>
-      <p style={{ fontSize:13.5, lineHeight:1.85, color:T.textMuted, fontFamily:FONT }}>
+      <p style={{ fontSize:14, lineHeight:1.85, color:T.textMuted, fontFamily:FONT_BODY }}>
         Lately I've been going deeper into cloud infrastructure and AI engineering,
         exploring how intelligent tooling can supercharge development workflows and
         network operations alike.
@@ -284,7 +279,7 @@ function TechStackCard({ T, onViewAll, index }) {
       <div style={{ display:"flex", flexDirection:"column", gap:18 }}>
         {preview.map(([cat, items]) => (
           <div key={cat}>
-            <div style={{ fontSize:11, fontFamily:FONT, color:T.textDim, letterSpacing:2, textTransform:"uppercase", marginBottom:10 }}>{cat}</div>
+            <div style={{ fontSize:11, fontFamily:FONT_MONO, color:T.textDim, letterSpacing:2, textTransform:"uppercase", marginBottom:10 }}>{cat}</div>
             <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
               {items.map(name => <StackChip key={name} name={name} T={T}/>)}
             </div>
@@ -315,13 +310,13 @@ function ProjectsCard({ T, onViewAll, index }) {
             onMouseLeave={e => { e.currentTarget.style.paddingLeft = "0"; }}
           >
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:5 }}>
-              <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT }}>{p.title}</span>
+              <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT_HEADING }}>{p.title}</span>
               <div style={{ display:"flex", alignItems:"center", gap:8, flexShrink:0, marginLeft:12 }}>
-                <span style={{ fontSize:10, color:T.textDim, fontFamily:FONT, letterSpacing:1 }}>{p.type}</span>
-                {p.href !== "#" && <span style={{ fontSize:11, color:T.accent, fontFamily:FONT }}>↗</span>}
+                <span style={{ fontSize:10, color:T.textDim, fontFamily:FONT_MONO, letterSpacing:1 }}>{p.type}</span>
+                {p.href !== "#" && <span style={{ fontSize:11, color:T.accent, fontFamily:FONT_MONO }}>↗</span>}
               </div>
             </div>
-            <p style={{ fontSize:12, color:T.textMuted, lineHeight:1.65, marginBottom:8, fontFamily:FONT }}>{p.desc}</p>
+            <p style={{ fontSize:13, color:T.textMuted, lineHeight:1.65, marginBottom:8, fontFamily:FONT_BODY }}>{p.desc}</p>
             <div style={{ display:"flex", flexWrap:"wrap", gap:5 }}>
               {p.tags.map(t => <Tag key={t} label={t} T={T}/>)}
             </div>
@@ -357,10 +352,10 @@ function ExperienceCard({ T, index }) {
             </div>
             <div style={{ flex:1, minWidth:0 }}>
               <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", gap:8 }}>
-                <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT, lineHeight:1.3 }}>{e.role}</span>
-                <span style={{ fontSize:10, color:T.textDim, fontFamily:FONT, letterSpacing:0.5, whiteSpace:"nowrap", flexShrink:0 }}>{e.year}</span>
+                <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, lineHeight:1.3 }}>{e.role}</span>
+                <span style={{ fontSize:10, color:T.textDim, fontFamily:FONT_MONO, letterSpacing:0.5, whiteSpace:"nowrap", flexShrink:0 }}>{e.year}</span>
               </div>
-              <div style={{ fontSize:11, color:T.textMuted, marginTop:3, fontFamily:FONT, letterSpacing:0.3 }}>{e.org}</div>
+              <div style={{ fontSize:12, color:T.textMuted, marginTop:3, fontFamily:FONT_BODY, letterSpacing:0.1 }}>{e.org}</div>
             </div>
           </div>
         ))}
@@ -378,10 +373,10 @@ function NetworkCard({ T, index }) {
   return (
     <AnimCard T={T} index={index} style={{ background: T.bgCardAlt }}>
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
-        <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT }}>Network Status</span>
+        <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT_HEADING }}>Network Status</span>
         <div style={{ display:"flex", alignItems:"center", gap:5 }}>
           <div style={{ width:6, height:6, borderRadius:"50%", background:"#00cc66", animation:"blink 2s infinite" }}/>
-          <span style={{ fontSize:10, color:"#00cc66", fontFamily:FONT, letterSpacing:1 }}>ONLINE</span>
+          <span style={{ fontSize:10, color:"#00cc66", fontFamily:FONT_MONO, letterSpacing:1 }}>ONLINE</span>
         </div>
       </div>
       <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
@@ -393,13 +388,13 @@ function NetworkCard({ T, index }) {
           ["Status",     "Open to work", true],
         ].map(([k, v, hi]) => (
           <div key={k} style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-            <span style={{ fontSize:11, color:T.textDim, fontFamily:FONT, letterSpacing:1 }}>{k}</span>
-            <span style={{ fontSize:11, color: hi ? T.accent : T.textMuted, fontFamily:FONT, letterSpacing:0.5 }}>{v}</span>
+            <span style={{ fontSize:11, color:T.textDim, fontFamily:FONT_MONO, letterSpacing:1 }}>{k}</span>
+            <span style={{ fontSize:11, color: hi ? T.accent : T.textMuted, fontFamily:FONT_MONO, letterSpacing:0.5 }}>{v}</span>
           </div>
         ))}
       </div>
       <div style={{ marginTop:16, height:1, background:`linear-gradient(90deg, ${T.accent}44, transparent)` }}/>
-      <div style={{ marginTop:12, fontSize:10, color:T.textDim, fontFamily:FONT, letterSpacing:1 }}>
+      <div style={{ marginTop:12, fontSize:10, color:T.textDim, fontFamily:FONT_MONO, letterSpacing:1 }}>
         SUBNET · 255.255.255.0 / 24
       </div>
     </AnimCard>
@@ -428,8 +423,8 @@ function ContactCard({ T, index }) {
             onMouseEnter={e => { e.currentTarget.style.borderColor = T.accent+"66"; e.currentTarget.style.color = T.text; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = T.textMuted; }}
           >
-            <span style={{ fontSize:11, fontFamily:FONT, color:T.textDim, width:16, textAlign:"center" }}>{icon}</span>
-            <span style={{ fontSize:12, fontFamily:FONT, letterSpacing:0.3 }}>{label}</span>
+            <span style={{ fontSize:11, fontFamily:FONT_MONO, color:T.textDim, width:16, textAlign:"center" }}>{icon}</span>
+            <span style={{ fontSize:12, fontFamily:FONT_BODY, letterSpacing:0.2 }}>{label}</span>
             <span style={{ marginLeft:"auto", fontSize:11, color:T.textDim }}>↗</span>
           </a>
         ))}
@@ -441,13 +436,13 @@ function ContactCard({ T, index }) {
 function LearningCard({ T, index }) {
   return (
     <AnimCard T={T} index={index} style={{ background:T.bgCardAlt }}>
-      <div style={{ fontSize:15, fontWeight:700, color:T.text, fontFamily:FONT, letterSpacing:-0.3, marginBottom:12 }}>Currently Learning</div>
+      <div style={{ fontSize:15, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, letterSpacing:-0.3, marginBottom:12 }}>Currently Learning</div>
       <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
         {["Cloud Architecture","AI Engineering","iOS Development","ML Ops"].map(t => (
           <span key={t} style={{
             fontSize:11, padding:"4px 10px", borderRadius:6,
             background:T.accentBg, border:`1px solid ${T.accent}33`,
-            color:T.accent, fontFamily:FONT, letterSpacing:0.3,
+            color:T.accent, fontFamily:FONT_MONO, letterSpacing:0.3,
           }}>{t}</span>
         ))}
       </div>
@@ -457,19 +452,16 @@ function LearningCard({ T, index }) {
 
 // ─── HEADER (home only) ───────────────────────────────────────────────────────
 function Header({ dark, T, onToggle, onNav }) {
-  // Large hero profile section (not sticky)
   return (
     <div style={{ background:T.bgCard, borderBottom:`1px solid ${T.border}`, marginBottom:36 }}>
       <div style={{ maxWidth:1020, margin:"0 auto", padding:"48px 24px 40px" }}>
         <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:24, flexWrap:"wrap" }}>
 
-          {/* Left: photo + info */}
           <div style={{ display:"flex", alignItems:"center", gap:28 }}>
             <ProfilePhoto dark={dark} size={160}/>
             <div>
-              {/* Name row */}
               <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:8 }}>
-                <h1 style={{ fontSize:32, fontWeight:800, color:T.text, fontFamily:FONT, letterSpacing:-1, lineHeight:1.1 }}>
+                <h1 style={{ fontSize:32, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, letterSpacing:-1, lineHeight:1.1 }}>
                   Martheus Kenn Banaag
                 </h1>
                 <div style={{ width:22, height:22, borderRadius:"50%", background:T.accent, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
@@ -477,22 +469,19 @@ function Header({ dark, T, onToggle, onNav }) {
                 </div>
               </div>
 
-              {/* Location */}
-              <div style={{ fontSize:13, color:T.textMuted, marginBottom:8, display:"flex", alignItems:"center", gap:6, fontFamily:FONT }}>
+              <div style={{ fontSize:13, color:T.textMuted, marginBottom:8, display:"flex", alignItems:"center", gap:6, fontFamily:FONT_BODY }}>
                 <span>📍</span> Aguilar, Pangasinan, Philippines
               </div>
 
-              {/* Role tag */}
-              <div style={{ fontSize:14, color:T.textMuted, fontFamily:FONT, letterSpacing:0.2, marginBottom:20 }}>
+              <div style={{ fontSize:14, color:T.textMuted, fontFamily:FONT_BODY, letterSpacing:0.1, marginBottom:20 }}>
                 IT Graduate &nbsp;·&nbsp; Developer &nbsp;·&nbsp; Network Engineer
               </div>
 
-              {/* Action buttons */}
               <div style={{ display:"flex", gap:10, alignItems:"center", flexWrap:"wrap" }}>
                 <a href="mailto:kenntheus24@gmail.com" style={{
                   display:"inline-flex", alignItems:"center", gap:7,
-                  padding:"10px 20px", borderRadius:9, fontSize:12.5, fontFamily:FONT,
-                  background:T.accent, color:"#000", textDecoration:"none", fontWeight:700, letterSpacing:0.4,
+                  padding:"10px 20px", borderRadius:9, fontSize:13, fontFamily:FONT_BODY,
+                  background:T.accent, color:"#000", textDecoration:"none", fontWeight:600, letterSpacing:0.2,
                   transition:"opacity 0.15s",
                 }}
                 onMouseEnter={e => e.currentTarget.style.opacity="0.85"}
@@ -505,7 +494,6 @@ function Header({ dark, T, onToggle, onNav }) {
             </div>
           </div>
 
-          {/* Right: theme toggle */}
           <button onClick={onToggle} style={{
             width:40, height:40, borderRadius:9,
             background:T.tag, border:`1px solid ${T.border}`,
@@ -528,7 +516,7 @@ function Footer({ T }) {
   return (
     <div style={{ borderTop:`1px solid ${T.border}`, marginTop:40, padding:"24px 0" }}>
       <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px", textAlign:"center" }}>
-        <span style={{ fontSize:11, color:T.textDim, fontFamily:FONT, letterSpacing:1 }}>
+        <span style={{ fontSize:11, color:T.textDim, fontFamily:FONT_MONO, letterSpacing:1 }}>
           © 2026 Martheus Kenn Banaag
         </span>
       </div>
@@ -536,11 +524,10 @@ function Footer({ T }) {
   );
 }
 
-// ─── SUB-PAGE SHELL (no main header/footer) ───────────────────────────────────
+// ─── SUB-PAGE SHELL ───────────────────────────────────────────────────────────
 function SubPageShell({ T, dark, onToggle, onBack, children }) {
   return (
     <div style={{ background:T.bg, minHeight:"100vh" }}>
-      {/* Minimal top bar */}
       <div style={{
         position:"sticky", top:0, zIndex:100,
         background:T.bgCard, borderBottom:`1px solid ${T.border}`,
@@ -560,7 +547,6 @@ function SubPageShell({ T, dark, onToggle, onBack, children }) {
           >{dark ? "☀️" : "🌙"}</button>
         </div>
       </div>
-      {/* Page content */}
       <div style={{ maxWidth:1020, margin:"0 auto", padding:"40px 24px 64px" }}>
         {children}
       </div>
@@ -573,15 +559,13 @@ function ProjectsPage({ T, dark, onToggle, onBack }) {
   return (
     <SubPageShell T={T} dark={dark} onToggle={onToggle} onBack={onBack}>
       <PageWrapper>
-        {/* Page title */}
         <div style={{ marginBottom:32, animation:`cardFloat 0.4s cubic-bezier(0.22,1,0.36,1) both` }}>
-          <h1 style={{ fontSize:30, fontWeight:800, color:T.text, fontFamily:FONT, letterSpacing:-0.8, marginBottom:8 }}>All Projects</h1>
-          <p style={{ fontSize:13, color:T.textMuted, fontFamily:FONT }}>
+          <h1 style={{ fontSize:30, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, letterSpacing:-0.8, marginBottom:8 }}>All Projects</h1>
+          <p style={{ fontSize:13, color:T.textMuted, fontFamily:FONT_BODY }}>
             {PROJECTS.length} projects across development, networking, and game dev.
           </p>
         </div>
 
-        {/* Project grid */}
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(420px, 1fr))", gap:14 }}>
           {PROJECTS.map((p, idx) => (
             <div key={p.title} style={{
@@ -596,11 +580,11 @@ function ProjectsPage({ T, dark, onToggle, onBack }) {
             >
               <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:10 }}>
                 <div>
-                  <span style={{ fontSize:14, fontWeight:700, color:T.text, fontFamily:FONT, display:"block", marginBottom:6 }}>{p.title}</span>
+                  <span style={{ fontSize:14, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, display:"block", marginBottom:6 }}>{p.title}</span>
                   <span style={{
                     fontSize:10, padding:"2px 8px", borderRadius:4,
                     background:T.accentBg, border:`1px solid ${T.accent}33`,
-                    color:T.accent, fontFamily:FONT, letterSpacing:1,
+                    color:T.accent, fontFamily:FONT_MONO, letterSpacing:1,
                   }}>{p.type}</span>
                 </div>
                 {p.href !== "#" && (
@@ -608,7 +592,7 @@ function ProjectsPage({ T, dark, onToggle, onBack }) {
                     display:"inline-flex", alignItems:"center", gap:6,
                     padding:"6px 12px", borderRadius:8,
                     background:T.tag, border:`1px solid ${T.tagBorder}`,
-                    textDecoration:"none", color:T.accent, fontFamily:FONT, fontSize:11,
+                    textDecoration:"none", color:T.accent, fontFamily:FONT_MONO, fontSize:11,
                     transition:"all 0.15s", flexShrink:0, marginLeft:12,
                   }}
                   onMouseEnter={e => e.currentTarget.style.borderColor = T.accent+"66"}
@@ -616,7 +600,7 @@ function ProjectsPage({ T, dark, onToggle, onBack }) {
                   >View ↗</a>
                 )}
               </div>
-              <p style={{ fontSize:12.5, color:T.textMuted, lineHeight:1.7, fontFamily:FONT, marginBottom:14, flex:1 }}>{p.desc}</p>
+              <p style={{ fontSize:13, color:T.textMuted, lineHeight:1.7, fontFamily:FONT_BODY, marginBottom:14, flex:1 }}>{p.desc}</p>
               <div style={{ display:"flex", flexWrap:"wrap", gap:5 }}>
                 {p.tags.map(t => <Tag key={t} label={t} T={T}/>)}
               </div>
@@ -633,15 +617,13 @@ function TechStackPage({ T, dark, onToggle, onBack }) {
   return (
     <SubPageShell T={T} dark={dark} onToggle={onToggle} onBack={onBack}>
       <PageWrapper>
-        {/* Page title */}
         <div style={{ marginBottom:32, animation:`cardFloat 0.4s cubic-bezier(0.22,1,0.36,1) both` }}>
-          <h1 style={{ fontSize:30, fontWeight:800, color:T.text, fontFamily:FONT, letterSpacing:-0.8, marginBottom:8 }}>Tech Stack</h1>
-          <p style={{ fontSize:13, color:T.textMuted, fontFamily:FONT }}>
+          <h1 style={{ fontSize:30, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, letterSpacing:-0.8, marginBottom:8 }}>Tech Stack</h1>
+          <p style={{ fontSize:13, color:T.textMuted, fontFamily:FONT_BODY }}>
             Full overview of tools, languages, and technologies I work with.
           </p>
         </div>
 
-        {/* All categories, staggered */}
         <div style={{ display:"flex", flexDirection:"column", gap:20 }}>
           {Object.entries(STACK).map(([cat, items], catIdx) => (
             <div key={cat} style={{
@@ -651,8 +633,8 @@ function TechStackPage({ T, dark, onToggle, onBack }) {
             }}>
               <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:20 }}>
                 <div style={{ width:3, height:20, borderRadius:99, background:T.accent }}/>
-                <h2 style={{ fontSize:14, fontWeight:700, color:T.text, fontFamily:FONT, letterSpacing:1, textTransform:"uppercase" }}>{cat}</h2>
-                <span style={{ fontSize:11, color:T.textDim, fontFamily:FONT }}>— {items.length} technologies</span>
+                <h2 style={{ fontSize:14, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, letterSpacing:0.5, textTransform:"uppercase" }}>{cat}</h2>
+                <span style={{ fontSize:11, color:T.textDim, fontFamily:FONT_BODY }}>— {items.length} technologies</span>
               </div>
               <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))", gap:10 }}>
                 {items.map(name => (
@@ -671,7 +653,7 @@ function TechStackPage({ T, dark, onToggle, onBack }) {
                         onError={e => e.target.style.display="none"}
                       />
                     )}
-                    <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT }}>{name}</span>
+                    <span style={{ fontSize:13, fontWeight:600, color:T.text, fontFamily:FONT_BODY }}>{name}</span>
                   </div>
                 ))}
               </div>
@@ -689,13 +671,11 @@ function HomePage({ T, onNav }) {
     <PageWrapper>
       <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px 48px" }}>
         <div style={{ display:"grid", gridTemplateColumns:"1fr 320px", gap:16, alignItems:"start" }}>
-          {/* LEFT — stagger 0, 1, 2 */}
           <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
             <AboutCard       T={T} index={0}/>
             <TechStackCard   T={T} index={1} onViewAll={() => onNav("stack")}/>
             <ProjectsCard    T={T} index={2} onViewAll={() => onNav("projects")}/>
           </div>
-          {/* RIGHT — stagger 1, 2, 3, 4 (slightly offset from left) */}
           <div style={{ display:"flex", flexDirection:"column", gap:16, position:"sticky", top:24 }}>
             <ExperienceCard  T={T} index={1}/>
             <NetworkCard     T={T} index={2}/>
@@ -707,6 +687,20 @@ function HomePage({ T, onNav }) {
     </PageWrapper>
   );
 }
+
+// ─── GLOBAL STYLES ────────────────────────────────────────────────────────────
+const GLOBAL_STYLES = (borderColor) => `
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+  * { box-sizing:border-box; margin:0; padding:0; font-family:'DM Sans', system-ui, sans-serif; }
+  body { overflow-x:hidden; }
+  ::-webkit-scrollbar { width:4px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:${borderColor}; border-radius:99px; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  @keyframes pageEnter { from{opacity:0} to{opacity:1} }
+  @keyframes cardFloat { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  a { cursor:pointer; }
+`;
 
 // ─── APP ─────────────────────────────────────────────────────────────────────
 export default function Portfolio() {
@@ -721,21 +715,10 @@ export default function Portfolio() {
 
   const toggleDark = () => setDark(d => !d);
 
-  // Sub-pages are fully self-contained (no shared header/footer)
   if (page === "projects") {
     return (
-      <div style={{ fontFamily:FONT }}>
-        <style>{`
-          * { box-sizing:border-box; margin:0; padding:0; font-family:'Courier New', Courier, monospace; }
-          body { overflow-x:hidden; }
-          ::-webkit-scrollbar { width:4px; }
-          ::-webkit-scrollbar-track { background:transparent; }
-          ::-webkit-scrollbar-thumb { background:${T.border}; border-radius:99px; }
-          @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-          @keyframes pageEnter { from{opacity:0} to{opacity:1} }
-          @keyframes cardFloat { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-          a { cursor:pointer; }
-        `}</style>
+      <div style={{ fontFamily:FONT_BODY }}>
+        <style>{GLOBAL_STYLES(T.border)}</style>
         <ProjectsPage T={T} dark={dark} onToggle={toggleDark} onBack={() => navigate("home")}/>
       </div>
     );
@@ -743,37 +726,16 @@ export default function Portfolio() {
 
   if (page === "stack") {
     return (
-      <div style={{ fontFamily:FONT }}>
-        <style>{`
-          * { box-sizing:border-box; margin:0; padding:0; font-family:'Courier New', Courier, monospace; }
-          body { overflow-x:hidden; }
-          ::-webkit-scrollbar { width:4px; }
-          ::-webkit-scrollbar-track { background:transparent; }
-          ::-webkit-scrollbar-thumb { background:${T.border}; border-radius:99px; }
-          @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-          @keyframes pageEnter { from{opacity:0} to{opacity:1} }
-          @keyframes cardFloat { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-          a { cursor:pointer; }
-        `}</style>
+      <div style={{ fontFamily:FONT_BODY }}>
+        <style>{GLOBAL_STYLES(T.border)}</style>
         <TechStackPage T={T} dark={dark} onToggle={toggleDark} onBack={() => navigate("home")}/>
       </div>
     );
   }
 
-  // Home page
   return (
     <div style={{ background:T.bg, minHeight:"100vh", transition:"background 0.3s, color 0.3s" }}>
-      <style>{`
-        * { box-sizing:border-box; margin:0; padding:0; font-family:'Courier New', Courier, monospace; }
-        body { overflow-x:hidden; }
-        ::-webkit-scrollbar { width:4px; }
-        ::-webkit-scrollbar-track { background:transparent; }
-        ::-webkit-scrollbar-thumb { background:${T.border}; border-radius:99px; }
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-        @keyframes pageEnter { from{opacity:0} to{opacity:1} }
-        @keyframes cardFloat { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-        a { cursor:pointer; }
-      `}</style>
+      <style>{GLOBAL_STYLES(T.border)}</style>
       <Header dark={dark} T={T} onToggle={toggleDark} onNav={navigate}/>
       <HomePage T={T} onNav={navigate}/>
       <Footer T={T}/>
