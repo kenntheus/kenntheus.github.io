@@ -92,7 +92,7 @@ const STACK_DESC = {
 };
 
 const PROJECTS = [
-  { title:"FinTrack", desc:"AI-powered mobile finance tracker with budgeting, bill monitoring, debt tracking, and ML-driven spending insights.", tags:["Flutter","Node.js","FastAPI","Python","MongoDB","Docker"], href:"https://github.com/Kenntheus/FinTrack", type:"Mobile App" },
+  { title:"Fineas - Budget Tracker", desc:"AI-powered mobile finance tracker with budgeting, bill monitoring, debt tracking, and ML-driven spending insights.", tags:["Flutter","Node.js","FastAPI","Python","MongoDB","Docker"], href:"https://github.com/kenntheus/Fineas", type:"Mobile App" },
   { title:"NeTPulse", desc:"Real-time network monitoring dashboard with live latency alerts.", tags:["Laravel","React","MySQL","Axios"], href:"https://github.com/Kenntheus/NeTPulse", type:"Monitoring" },
   { title:"Bilibeads", desc:"Customizable e-commerce for accessory enthusiasts.", tags:["Laravel","PHP","MySQL"], href:"https://github.com/Kenntheus/Bilibeads", type:"Website" },
   { title:"Network Infrastructure and Cyber Security Framework for Dagupan City Hall", desc:"Network & cybersecurity framework for Dagupan City Hall.", tags:["Cisco","Linux","pfSense","Wireshark","Snort"], href:"#", type:"Network Security" },
@@ -378,7 +378,7 @@ function NetworkCard({ T, index }) {
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
         <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT_HEADING }}>Network Status</span>
         <div style={{ display:"flex", alignItems:"center", gap:5 }}>
-          <div style={{ width:6, height:6, borderRadius:"50%", background:T.accent, animation:"blink 2s infinite" }}/>
+          <div style={{ width:6, height:6, borderRadius:"50%", background:"#22c55e", animation:"blink 2s infinite" }}/>
           <span style={{ fontSize:10, color:T.accent, fontFamily:FONT_MONO, letterSpacing:1 }}>ONLINE</span>
         </div>
       </div>
