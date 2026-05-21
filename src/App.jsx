@@ -1,5 +1,15 @@
 import { useState, useEffect } from "react";
 
+function useWindowWidth() {
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handler = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+  return width;
+}
+
 // ─── THEME ────────────────────────────────────────────────────────────────────
 const DARK = {
   bg:        "#0a0a0a",
@@ -453,64 +463,101 @@ function LearningCard({ T, index }) {
   );
 }
 
-// ─── HEADER (home only) ───────────────────────────────────────────────────────
-function Header({ dark, T, onToggle, onNav }) {
-  return (
-    <div style={{ background:T.bgCard, borderBottom:`1px solid ${T.border}`, marginBottom:36 }}>
-      <div style={{ maxWidth:1020, margin:"0 auto", padding:"48px 24px 40px" }}>
-        <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:24, flexWrap:"wrap" }}>
+// ─── HEADER (home only) ──────────────────────────────────────────────────────
+function Header({ dark, T, onToggle, onNav, mobile, tablet }) {
+  const [hovered, setHovered] = useState(false);
 
-          <div style={{ display:"flex", alignItems:"center", gap:28 }}>
-            <ProfilePhoto dark={dark} size={160}/>
+  const ThemeBtn = ({ extraStyle = {} }) => (
+    <button onClick={onToggle} style={{
+      width:38, height:38, borderRadius:9,
+      background:T.tag, border:`1px solid ${T.border}`,
+      cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center",
+      transition:"all 0.15s", flexShrink:0, ...extraStyle,
+    }}
+    onMouseEnter={e => e.currentTarget.style.borderColor=T.accent+"66"}
+    onMouseLeave={e => e.currentTarget.style.borderColor=T.border}
+    title="Toggle theme"
+    >{dark
+      ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.text} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.text} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    }</button>
+  );
+
+  if (mobile) {
+    return (
+      <div style={{ background:T.bgCard, borderBottom:`1px solid ${T.border}`, marginBottom:20 }}>
+        <div style={{ padding:"20px 16px 20px", position:"relative" }}>
+          <ThemeBtn extraStyle={{ position:"absolute", top:16, right:16 }}/>
+          <div style={{ display:"flex", alignItems:"center", gap:16, paddingRight:48 }}>
+            <ProfilePhoto dark={dark} size={130}/>
             <div>
-              <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:8 }}>
-                <h1 style={{ fontSize:32, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, letterSpacing:-1, lineHeight:1.1 }}>
+              <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:6, flexWrap:"wrap" }}>
+                <h1 style={{ fontSize:19, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, letterSpacing:-0.5, lineHeight:1.2 }}>
                   Martheus Kenn Banaag
                 </h1>
-                <div style={{ width:22, height:22, borderRadius:"50%", background:T.accent, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-                  <svg width="12" height="12" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke={T.accentFg} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                </div>
               </div>
-
-              <div style={{ fontSize:13, color:T.textMuted, marginBottom:8, display:"flex", alignItems:"center", gap:6, fontFamily:FONT_BODY }}>
+              <div style={{ fontSize:11, color:T.textMuted, marginBottom:3, display:"flex", alignItems:"center", gap:4, fontFamily:FONT_BODY }}>
                 <span>📍</span> Aguilar, Pangasinan, Philippines
               </div>
-
-              <div style={{ fontSize:14, color:T.textMuted, fontFamily:FONT_BODY, letterSpacing:0.1, marginBottom:20 }}>
-                AI &nbsp;\&nbsp; Software Engineer &nbsp;\&nbsp; Network Engineer
+              <div style={{ fontSize:11, color:T.textMuted, fontFamily:FONT_BODY, marginBottom:12, letterSpacing:0.1 }}>
+                AI · Software · Network Engineer
               </div>
-
-              <div style={{ display:"flex", gap:10, alignItems:"center", flexWrap:"wrap" }}>
-                <a href="mailto:kenntheus24@gmail.com" style={{
-                  display:"inline-flex", alignItems:"center", gap:7,
-                  padding:"10px 20px", borderRadius:9, fontSize:13, fontFamily:FONT_BODY,
-                  background:T.accent, color:T.accentFg, textDecoration:"none", fontWeight:600, letterSpacing:0.2,
-                  transition:"opacity 0.15s",
-                }}
-                onMouseEnter={e => e.currentTarget.style.opacity="0.85"}
-                onMouseLeave={e => e.currentTarget.style.opacity="1"}
-                >
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke={T.accentFg} strokeWidth="2"/><polyline points="22,6 12,13 2,6" stroke={T.accentFg} strokeWidth="2"/></svg>
-                  Send Email
-                </a>
-              </div>
+              <a href="mailto:kenntheus24@gmail.com" style={{
+                display:"inline-flex", alignItems:"center", gap:6,
+                padding:"7px 14px", borderRadius:8, fontSize:12, fontFamily:FONT_BODY,
+                background:T.accent, color:T.accentFg, textDecoration:"none", fontWeight:600,
+                transition:"opacity 0.15s",
+              }}
+              onMouseEnter={e => e.currentTarget.style.opacity="0.85"}
+              onMouseLeave={e => e.currentTarget.style.opacity="1"}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke={T.accentFg} strokeWidth="2"/><polyline points="22,6 12,13 2,6" stroke={T.accentFg} strokeWidth="2"/></svg>
+                Send Email
+              </a>
             </div>
           </div>
+        </div>
+      </div>
+    );
+  }
 
-          <button onClick={onToggle} style={{
-            width:40, height:40, borderRadius:9,
-            background:T.tag, border:`1px solid ${T.border}`,
-            cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center",
-            transition:"all 0.15s", fontSize:17, flexShrink:0,
-          }}
-          onMouseEnter={e => e.currentTarget.style.borderColor=T.accent+"66"}
-          onMouseLeave={e => e.currentTarget.style.borderColor=T.border}
-          title="Toggle theme"
-          >{dark
-            ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.text} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-            : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.text} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-          }</button>
-
+  const photoSize = tablet ? 130 : 160;
+  const h1Size    = tablet ? 26 : 32;
+  const pad       = tablet ? "32px 24px 28px" : "48px 24px 40px";
+  const toggleTop = tablet ? 28 : 36;
+  return (
+    <div style={{ background:T.bgCard, borderBottom:`1px solid ${T.border}`, marginBottom:36 }}>
+      <div style={{ maxWidth:1020, margin:"0 auto", padding:pad, position:"relative" }}>
+        <ThemeBtn extraStyle={{ position:"absolute", top:toggleTop, right:24 }}/>
+        <div style={{ display:"flex", alignItems:"center", gap:28, paddingRight:52 }}>
+          <ProfilePhoto dark={dark} size={photoSize}/>
+          <div>
+            <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:8 }}>
+              <h1 style={{ fontSize:h1Size, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, letterSpacing:-1, lineHeight:1.1 }}>
+                Martheus Kenn Banaag
+              </h1>
+            </div>
+            <div style={{ fontSize:13, color:T.textMuted, marginBottom:8, display:"flex", alignItems:"center", gap:6, fontFamily:FONT_BODY }}>
+              <span>📍</span> Aguilar, Pangasinan, Philippines
+            </div>
+            <div style={{ fontSize:14, color:T.textMuted, fontFamily:FONT_BODY, letterSpacing:0.1, marginBottom:20 }}>
+              AI · Software Engineer · Network Engineer
+            </div>
+            <div style={{ display:"flex", gap:10, alignItems:"center", flexWrap:"wrap" }}>
+              <a href="mailto:kenntheus24@gmail.com" style={{
+                display:"inline-flex", alignItems:"center", gap:7,
+                padding:"10px 20px", borderRadius:9, fontSize:13, fontFamily:FONT_BODY,
+                background:T.accent, color:T.accentFg, textDecoration:"none", fontWeight:600, letterSpacing:0.2,
+                transition:"opacity 0.15s",
+              }}
+              onMouseEnter={e => e.currentTarget.style.opacity="0.85"}
+              onMouseLeave={e => e.currentTarget.style.opacity="1"}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke={T.accentFg} strokeWidth="2"/><polyline points="22,6 12,13 2,6" stroke={T.accentFg} strokeWidth="2"/></svg>
+                Send Email
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -531,7 +578,7 @@ function Footer({ T }) {
 }
 
 // ─── SUB-PAGE SHELL ───────────────────────────────────────────────────────────
-function SubPageShell({ T, dark, onToggle, onBack, children }) {
+function SubPageShell({ T, dark, onToggle, onBack, children, mobile }) {
   return (
     <div style={{ background:T.bg, minHeight:"100vh" }}>
       <div style={{
@@ -540,7 +587,7 @@ function SubPageShell({ T, dark, onToggle, onBack, children }) {
         padding:"12px 0",
         backdropFilter:"blur(12px)",
       }}>
-        <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        <div style={{ maxWidth:1020, margin:"0 auto", padding: mobile ? "0 16px" : "0 24px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
           <BackButton T={T} onBack={onBack}/>
           <button onClick={onToggle} style={{
             width:34, height:34, borderRadius:8,
@@ -556,7 +603,7 @@ function SubPageShell({ T, dark, onToggle, onBack, children }) {
           }</button>
         </div>
       </div>
-      <div style={{ maxWidth:1020, margin:"0 auto", padding:"40px 24px 64px" }}>
+      <div style={{ maxWidth:1020, margin:"0 auto", padding: mobile ? "24px 16px 48px" : "40px 24px 64px" }}>
         {children}
       </div>
     </div>
@@ -564,18 +611,19 @@ function SubPageShell({ T, dark, onToggle, onBack, children }) {
 }
 
 // ─── PROJECTS PAGE ────────────────────────────────────────────────────────────
-function ProjectsPage({ T, dark, onToggle, onBack }) {
+function ProjectsPage({ T, dark, onToggle, onBack, mobile, tablet }) {
+  const cols = mobile ? "1fr" : tablet ? "repeat(auto-fill, minmax(300px, 1fr))" : "repeat(auto-fill, minmax(420px, 1fr))";
   return (
-    <SubPageShell T={T} dark={dark} onToggle={onToggle} onBack={onBack}>
+    <SubPageShell T={T} dark={dark} onToggle={onToggle} onBack={onBack} mobile={mobile}>
       <PageWrapper>
-        <div style={{ marginBottom:32, animation:`cardFloat 0.4s cubic-bezier(0.22,1,0.36,1) both` }}>
-          <h1 style={{ fontSize:30, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, letterSpacing:-0.8, marginBottom:8 }}>All Projects</h1>
+        <div style={{ marginBottom: mobile ? 20 : 32, animation:`cardFloat 0.4s cubic-bezier(0.22,1,0.36,1) both` }}>
+          <h1 style={{ fontSize: mobile ? 22 : 30, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, letterSpacing:-0.8, marginBottom:8 }}>All Projects</h1>
           <p style={{ fontSize:13, color:T.textMuted, fontFamily:FONT_BODY }}>
             {PROJECTS.length} projects across development, networking, and game dev.
           </p>
         </div>
 
-        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(420px, 1fr))", gap:14 }}>
+        <div style={{ display:"grid", gridTemplateColumns:cols, gap:14 }}>
           {PROJECTS.map((p, idx) => (
             <div key={p.title} style={{
               background:T.bgCard, border:`1px solid ${T.border}`,
@@ -622,12 +670,12 @@ function ProjectsPage({ T, dark, onToggle, onBack }) {
 }
 
 // ─── TECH STACK PAGE ──────────────────────────────────────────────────────────
-function TechStackPage({ T, dark, onToggle, onBack }) {
+function TechStackPage({ T, dark, onToggle, onBack, mobile }) {
   return (
-    <SubPageShell T={T} dark={dark} onToggle={onToggle} onBack={onBack}>
+    <SubPageShell T={T} dark={dark} onToggle={onToggle} onBack={onBack} mobile={mobile}>
       <PageWrapper>
-        <div style={{ marginBottom:32, animation:`cardFloat 0.4s cubic-bezier(0.22,1,0.36,1) both` }}>
-          <h1 style={{ fontSize:30, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, letterSpacing:-0.8, marginBottom:8 }}>Tech Stack</h1>
+        <div style={{ marginBottom: mobile ? 20 : 32, animation:`cardFloat 0.4s cubic-bezier(0.22,1,0.36,1) both` }}>
+          <h1 style={{ fontSize: mobile ? 22 : 30, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, letterSpacing:-0.8, marginBottom:8 }}>Tech Stack</h1>
           <p style={{ fontSize:13, color:T.textMuted, fontFamily:FONT_BODY }}>
             Full overview of tools, languages, and technologies I work with.
           </p>
@@ -645,7 +693,7 @@ function TechStackPage({ T, dark, onToggle, onBack }) {
                 <h2 style={{ fontSize:14, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, letterSpacing:0.5, textTransform:"uppercase" }}>{cat}</h2>
                 <span style={{ fontSize:11, color:T.textDim, fontFamily:FONT_BODY }}>— {items.length} technologies</span>
               </div>
-              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))", gap:10 }}>
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(160px, 1fr))", gap:10 }}>
                 {items.map(name => (
                   <div key={name} style={{
                     display:"flex", alignItems:"center", gap:10,
@@ -675,17 +723,18 @@ function TechStackPage({ T, dark, onToggle, onBack }) {
 }
 
 // ─── HOME PAGE ────────────────────────────────────────────────────────────────
-function HomePage({ T, onNav }) {
+function HomePage({ T, onNav, mobile, tablet }) {
+  const isNarrow = mobile || tablet;
   return (
     <PageWrapper>
-      <div style={{ maxWidth:1020, margin:"0 auto", padding:"0 24px 48px" }}>
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 320px", gap:16, alignItems:"start" }}>
+      <div style={{ maxWidth:1020, margin:"0 auto", padding: mobile ? "0 16px 40px" : "0 24px 48px" }}>
+        <div style={{ display:"grid", gridTemplateColumns: isNarrow ? "1fr" : "1fr 320px", gap:16, alignItems:"start" }}>
           <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
             <AboutCard       T={T} index={0}/>
             <TechStackCard   T={T} index={1} onViewAll={() => onNav("stack")}/>
             <ProjectsCard    T={T} index={2} onViewAll={() => onNav("projects")}/>
           </div>
-          <div style={{ display:"flex", flexDirection:"column", gap:16, position:"sticky", top:24 }}>
+          <div style={{ display:"flex", flexDirection:"column", gap:16, position: isNarrow ? "relative" : "sticky", top:24 }}>
             <ExperienceCard  T={T} index={1}/>
             <NetworkCard     T={T} index={2}/>
             <LearningCard    T={T} index={3}/>
@@ -716,6 +765,9 @@ export default function Portfolio() {
   const [dark, setDark] = useState(false);
   const [page, setPage] = useState("home");
   const T = dark ? DARK : LIGHT;
+  const width  = useWindowWidth();
+  const mobile = width < 640;
+  const tablet = width >= 640 && width < 1024;
 
   const navigate = (to) => {
     setPage(to);
@@ -728,7 +780,7 @@ export default function Portfolio() {
     return (
       <div style={{ fontFamily:FONT_BODY, background:T.bg, minHeight:"100vh" }}>
         <style>{GLOBAL_STYLES(T.border, T.bg)}</style>
-        <ProjectsPage T={T} dark={dark} onToggle={toggleDark} onBack={() => navigate("home")}/>
+        <ProjectsPage T={T} dark={dark} onToggle={toggleDark} onBack={() => navigate("home")} mobile={mobile} tablet={tablet}/>
       </div>
     );
   }
@@ -737,7 +789,7 @@ export default function Portfolio() {
     return (
       <div style={{ fontFamily:FONT_BODY, background:T.bg, minHeight:"100vh" }}>
         <style>{GLOBAL_STYLES(T.border, T.bg)}</style>
-        <TechStackPage T={T} dark={dark} onToggle={toggleDark} onBack={() => navigate("home")}/>
+        <TechStackPage T={T} dark={dark} onToggle={toggleDark} onBack={() => navigate("home")} mobile={mobile}/>
       </div>
     );
   }
@@ -745,8 +797,8 @@ export default function Portfolio() {
   return (
     <div style={{ background:T.bg, minHeight:"100vh" }}>
       <style>{GLOBAL_STYLES(T.border, T.bg)}</style>
-      <Header dark={dark} T={T} onToggle={toggleDark} onNav={navigate}/>
-      <HomePage T={T} onNav={navigate}/>
+      <Header dark={dark} T={T} onToggle={toggleDark} onNav={navigate} mobile={mobile} tablet={tablet}/>
+      <HomePage T={T} onNav={navigate} mobile={mobile} tablet={tablet}/>
       <Footer T={T}/>
     </div>
   );
