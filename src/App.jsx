@@ -102,8 +102,8 @@ const STACK_DESC = {
 };
 
 const PROJECTS = [
-  { title:"Fineas - Budget Tracker", desc:"AI-powered mobile finance tracker with budgeting, bill monitoring, debt tracking, and ML-driven spending insights.", tags:["Flutter","Node.js","FastAPI","Python","MongoDB","Docker"], href:"https://github.com/kenntheus/Fineas", type:"Mobile App" },
-  { title:"NeTPulse", desc:"Real-time network monitoring dashboard with live latency alerts.", tags:["Laravel","React","MySQL","Axios"], href:"https://github.com/Kenntheus/NeTPulse", type:"Monitoring" },
+  { title:"Fineas - Budget Tracker", desc:"AI-powered mobile finance tracker with budgeting, bill monitoring, debt tracking, and ML-driven spending insights.", tags:["Flutter","Node.js","FastAPI","Python","MongoDB","Docker"], href:"https://github.com/kenntheus/Fineas", demo:"https://fineas-web.vercel.app/", type:"Mobile App" },
+  { title:"NeTPulse", desc:"Real-time network monitoring dashboard with live latency alerts.", tags:["Laravel","React","MySQL","Axios"], href:"https://github.com/Kenntheus/NeTPulse", demo:"https://ne-t-pulse.vercel.app/", type:"Monitoring" },
   { title:"Bilibeads", desc:"Customizable e-commerce for accessory enthusiasts.", tags:["Laravel","PHP","MySQL"], href:"https://github.com/Kenntheus/Bilibeads", type:"Website" },
   { title:"Network Infrastructure and Cyber Security Framework for Dagupan City Hall", desc:"Network & cybersecurity framework for Dagupan City Hall.", tags:["Cisco","Linux","pfSense","Wireshark","Snort"], href:"#", type:"Network Security" },
   { title:"GameBuddy", desc:"Match-based platform to find game partners with real-time chat.", tags:["Laravel","PHP","MySQL","JavaScript","Livewire"], href:"https://github.com/JorlanPrado/GameBuddy-Livewire", type:"Web App" },
@@ -644,18 +644,32 @@ function ProjectsPage({ T, dark, onToggle, onBack, mobile, tablet }) {
                     color:T.accent, fontFamily:FONT_MONO, letterSpacing:1,
                   }}>{p.type}</span>
                 </div>
-                {p.href !== "#" && (
-                  <a href={p.href} target="_blank" rel="noreferrer" style={{
-                    display:"inline-flex", alignItems:"center", gap:6,
-                    padding:"6px 12px", borderRadius:8,
-                    background:T.tag, border:`1px solid ${T.tagBorder}`,
-                    textDecoration:"none", color:T.accent, fontFamily:FONT_MONO, fontSize:11,
-                    transition:"all 0.15s", flexShrink:0, marginLeft:12,
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.borderColor = T.accent+"66"}
-                  onMouseLeave={e => e.currentTarget.style.borderColor = T.tagBorder}
-                  >View ↗</a>
-                )}
+                <div style={{ display:"flex", gap:6, flexShrink:0, marginLeft:12 }}>
+                  {p.demo && (
+                    <a href={p.demo} target="_blank" rel="noreferrer" style={{
+                      display:"inline-flex", alignItems:"center", gap:6,
+                      padding:"6px 12px", borderRadius:8,
+                      background:T.tag, border:`1px solid ${T.tagBorder}`,
+                      textDecoration:"none", color:T.accent, fontFamily:FONT_MONO, fontSize:11,
+                      transition:"all 0.15s",
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.borderColor = T.accent+"66"}
+                    onMouseLeave={e => e.currentTarget.style.borderColor = T.tagBorder}
+                    >Demo ↗</a>
+                  )}
+                  {p.href !== "#" && (
+                    <a href={p.href} target="_blank" rel="noreferrer" style={{
+                      display:"inline-flex", alignItems:"center", gap:6,
+                      padding:"6px 12px", borderRadius:8,
+                      background:T.tag, border:`1px solid ${T.tagBorder}`,
+                      textDecoration:"none", color:T.accent, fontFamily:FONT_MONO, fontSize:11,
+                      transition:"all 0.15s",
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.borderColor = T.accent+"66"}
+                    onMouseLeave={e => e.currentTarget.style.borderColor = T.tagBorder}
+                    >GitHub ↗</a>
+                  )}
+                </div>
               </div>
               <p style={{ fontSize:13, color:T.textMuted, lineHeight:1.7, fontFamily:FONT_BODY, marginBottom:14, flex:1 }}>{p.desc}</p>
               <div style={{ display:"flex", flexWrap:"wrap", gap:5 }}>
