@@ -765,9 +765,13 @@ const GLOBAL_STYLES = (borderColor, bg, thumbColor) => `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
   * { box-sizing:border-box; margin:0; padding:0; font-family:'DM Sans', system-ui, sans-serif; }
   body { overflow-x:hidden; background:${bg}; }
-  ::-webkit-scrollbar { width:4px; }
+  ::-webkit-scrollbar { width:8px; }
   ::-webkit-scrollbar-track { background:transparent; }
   ::-webkit-scrollbar-thumb { background:${thumbColor}; border-radius:99px; }
+  ::-webkit-scrollbar-button { height:10px; display:block; background-color:transparent; background-repeat:no-repeat; background-position:center; background-size:6px 6px; }
+  ::-webkit-scrollbar-button:vertical:start:decrement { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'><polygon points='4,1 7,7 1,7' fill='${thumbColor.replace('#','%23')}'/></svg>"); }
+  ::-webkit-scrollbar-button:vertical:end:increment { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'><polygon points='4,7 1,1 7,1' fill='${thumbColor.replace('#','%23')}'/></svg>"); }
+  ::-webkit-scrollbar-button:vertical:start:increment, ::-webkit-scrollbar-button:vertical:end:decrement { display:none; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
   @keyframes pageEnter { from{opacity:0} to{opacity:1} }
   @keyframes cardFloat { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
