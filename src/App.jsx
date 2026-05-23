@@ -761,13 +761,13 @@ function HomePage({ T, onNav, mobile, tablet }) {
 }
 
 // ─── GLOBAL STYLES ────────────────────────────────────────────────────────────
-const GLOBAL_STYLES = (borderColor, bg) => `
+const GLOBAL_STYLES = (borderColor, bg, thumbColor) => `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
   * { box-sizing:border-box; margin:0; padding:0; font-family:'DM Sans', system-ui, sans-serif; }
   body { overflow-x:hidden; background:${bg}; }
   ::-webkit-scrollbar { width:4px; }
   ::-webkit-scrollbar-track { background:transparent; }
-  ::-webkit-scrollbar-thumb { background:${borderColor}; border-radius:99px; }
+  ::-webkit-scrollbar-thumb { background:${thumbColor}; border-radius:99px; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
   @keyframes pageEnter { from{opacity:0} to{opacity:1} }
   @keyframes cardFloat { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
@@ -793,7 +793,7 @@ export default function Portfolio() {
   if (page === "projects") {
     return (
       <div style={{ fontFamily:FONT_BODY, background:T.bg, minHeight:"100vh" }}>
-        <style>{GLOBAL_STYLES(T.border, T.bg)}</style>
+        <style>{GLOBAL_STYLES(T.border, T.bg, T.text)}</style>
         <ProjectsPage T={T} dark={dark} onToggle={toggleDark} onBack={() => navigate("home")} mobile={mobile} tablet={tablet}/>
       </div>
     );
@@ -802,7 +802,7 @@ export default function Portfolio() {
   if (page === "stack") {
     return (
       <div style={{ fontFamily:FONT_BODY, background:T.bg, minHeight:"100vh" }}>
-        <style>{GLOBAL_STYLES(T.border, T.bg)}</style>
+        <style>{GLOBAL_STYLES(T.border, T.bg, T.text)}</style>
         <TechStackPage T={T} dark={dark} onToggle={toggleDark} onBack={() => navigate("home")} mobile={mobile}/>
       </div>
     );
@@ -810,7 +810,7 @@ export default function Portfolio() {
 
   return (
     <div style={{ background:T.bg, minHeight:"100vh" }}>
-      <style>{GLOBAL_STYLES(T.border, T.bg)}</style>
+      <style>{GLOBAL_STYLES(T.border, T.bg, T.text)}</style>
       <Header dark={dark} T={T} onToggle={toggleDark} onNav={navigate} mobile={mobile} tablet={tablet}/>
       <HomePage T={T} onNav={navigate} mobile={mobile} tablet={tablet}/>
       <Footer T={T}/>
