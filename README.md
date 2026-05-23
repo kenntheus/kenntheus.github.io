@@ -4,7 +4,7 @@ A personal portfolio website built with React and Vite.
 
 ## Features
 
-- Dark / light mode toggle
+- Dark / Light mode toggle
 - Responsive across all screen sizes
 - Projects showcase with GitHub and live demo links
 - Tech stack overview
