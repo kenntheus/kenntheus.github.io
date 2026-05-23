@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 function useWindowWidth() {
   const [width, setWidth] = useState(window.innerWidth);
@@ -764,14 +764,11 @@ function HomePage({ T, onNav, mobile, tablet }) {
 const GLOBAL_STYLES = (borderColor, bg, thumbColor) => `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
   * { box-sizing:border-box; margin:0; padding:0; font-family:'DM Sans', system-ui, sans-serif; }
-  body { overflow-x:hidden; background:${bg}; }
-  ::-webkit-scrollbar { width:5px; }
-  ::-webkit-scrollbar-track { background:transparent; }
-  ::-webkit-scrollbar-thumb { background:${thumbColor}; border-radius:99px; }
-  ::-webkit-scrollbar-button { height:12px; display:block; background-color:transparent; background-repeat:no-repeat; background-position:center; background-size:9px 9px; }
-  ::-webkit-scrollbar-button:vertical:start:decrement { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'><polygon points='4,1 7,7 1,7' fill='${thumbColor.replace('#','%23')}'/></svg>"); }
-  ::-webkit-scrollbar-button:vertical:end:increment { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'><polygon points='4,7 1,1 7,1' fill='${thumbColor.replace('#','%23')}'/></svg>"); }
-  ::-webkit-scrollbar-button:vertical:start:increment, ::-webkit-scrollbar-button:vertical:end:decrement { display:none; }
+  html, body { overflow:hidden; height:100%; margin:0; padding:0; background:${bg}; }
+  .scroll-root { scrollbar-color:${thumbColor} transparent; scrollbar-width:thin; }
+  .scroll-root::-webkit-scrollbar { width:6px; }
+  .scroll-root::-webkit-scrollbar-track { background:transparent; }
+  .scroll-root::-webkit-scrollbar-thumb { background:${thumbColor}; border-radius:99px; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
   @keyframes pageEnter { from{opacity:0} to{opacity:1} }
   @keyframes cardFloat { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
@@ -786,17 +783,18 @@ export default function Portfolio() {
   const width  = useWindowWidth();
   const mobile = width < 640;
   const tablet = width >= 640 && width < 1024;
+  const scrollRef = useRef(null);
 
   const navigate = (to) => {
     setPage(to);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (scrollRef.current) scrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const toggleDark = () => setDark(d => !d);
 
   if (page === "projects") {
     return (
-      <div style={{ fontFamily:FONT_BODY, background:T.bg, minHeight:"100vh" }}>
+      <div ref={scrollRef} className="scroll-root" style={{ fontFamily:FONT_BODY, background:T.bg, height:"100vh", overflowY:"auto", overflowX:"hidden" }}>
         <style>{GLOBAL_STYLES(T.border, T.bg, T.text)}</style>
         <ProjectsPage T={T} dark={dark} onToggle={toggleDark} onBack={() => navigate("home")} mobile={mobile} tablet={tablet}/>
       </div>
@@ -805,7 +803,7 @@ export default function Portfolio() {
 
   if (page === "stack") {
     return (
-      <div style={{ fontFamily:FONT_BODY, background:T.bg, minHeight:"100vh" }}>
+      <div ref={scrollRef} className="scroll-root" style={{ fontFamily:FONT_BODY, background:T.bg, height:"100vh", overflowY:"auto", overflowX:"hidden" }}>
         <style>{GLOBAL_STYLES(T.border, T.bg, T.text)}</style>
         <TechStackPage T={T} dark={dark} onToggle={toggleDark} onBack={() => navigate("home")} mobile={mobile}/>
       </div>
@@ -813,7 +811,7 @@ export default function Portfolio() {
   }
 
   return (
-    <div style={{ background:T.bg, minHeight:"100vh" }}>
+    <div ref={scrollRef} className="scroll-root" style={{ background:T.bg, height:"100vh", overflowY:"auto", overflowX:"hidden" }}>
       <style>{GLOBAL_STYLES(T.border, T.bg, T.text)}</style>
       <Header dark={dark} T={T} onToggle={toggleDark} onNav={navigate} mobile={mobile} tablet={tablet}/>
       <HomePage T={T} onNav={navigate} mobile={mobile} tablet={tablet}/>
