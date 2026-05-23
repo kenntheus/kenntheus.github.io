@@ -506,10 +506,10 @@ function Header({ dark, T, onToggle, onNav, mobile, tablet }) {
                 display:"inline-flex", alignItems:"center", gap:6,
                 padding:"7px 14px", borderRadius:8, fontSize:12, fontFamily:FONT_BODY,
                 background:T.accent, color:T.accentFg, textDecoration:"none", fontWeight:600,
-                transition:"opacity 0.15s",
+                transition:"opacity 0.15s, transform 0.2s",
               }}
-              onMouseEnter={e => e.currentTarget.style.opacity="0.85"}
-              onMouseLeave={e => e.currentTarget.style.opacity="1"}
+              onMouseEnter={e => { e.currentTarget.style.opacity="0.85"; e.currentTarget.style.transform="translateY(-3px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.opacity="1"; e.currentTarget.style.transform="translateY(0)"; }}
               >
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke={T.accentFg} strokeWidth="2"/><polyline points="22,6 12,13 2,6" stroke={T.accentFg} strokeWidth="2"/></svg>
                 Send Email
@@ -548,10 +548,10 @@ function Header({ dark, T, onToggle, onNav, mobile, tablet }) {
                 display:"inline-flex", alignItems:"center", gap:7,
                 padding:"10px 20px", borderRadius:9, fontSize:13, fontFamily:FONT_BODY,
                 background:T.accent, color:T.accentFg, textDecoration:"none", fontWeight:600, letterSpacing:0.2,
-                transition:"opacity 0.15s",
+                transition:"opacity 0.15s, transform 0.2s",
               }}
-              onMouseEnter={e => e.currentTarget.style.opacity="0.85"}
-              onMouseLeave={e => e.currentTarget.style.opacity="1"}
+              onMouseEnter={e => { e.currentTarget.style.opacity="0.85"; e.currentTarget.style.transform="translateY(-3px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.opacity="1"; e.currentTarget.style.transform="translateY(0)"; }}
               >
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke={T.accentFg} strokeWidth="2"/><polyline points="22,6 12,13 2,6" stroke={T.accentFg} strokeWidth="2"/></svg>
                 Send Email
