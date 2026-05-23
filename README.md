@@ -1,4 +1,4 @@
-# Martheus Kenn Banaag — Personal Portfolio
+# Martheus Kenn Banaag - Personal Portfolio
 
 A personal portfolio website built with React and Vite.
 
