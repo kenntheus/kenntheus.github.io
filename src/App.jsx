@@ -772,6 +772,11 @@ export default function Portfolio() {
     if (scrollRef.current) scrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  useEffect(() => {
+    const link = document.querySelector("link[rel='icon']");
+    if (link) link.href = dark ? "/favicon-dark.png?v=1" : "/favicon-light.png?v=1";
+  }, [dark]);
+
   const toggleDark = () => setDark(d => !d);
 
   if (page === "projects") {
