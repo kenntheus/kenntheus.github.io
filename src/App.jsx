@@ -361,37 +361,38 @@ function ExperienceCard({ T, index }) {
 }
 
 function NetworkCard({ T, index }) {
-  const [ping, setPing] = useState(12);
-  useEffect(() => {
-    const t = setInterval(() => setPing(8 + Math.floor(Math.random() * 18)), 2000);
-    return () => clearInterval(t);
-  }, []);
+  const stats = [
+    { value:"7+",  label:"Projects shipped" },
+    { value:"3",   label:"AI-powered apps"  },
+    { value:"4+",  label:"Years coding"     },
+    { value:"2",   label:"Stacks mastered"  },
+  ];
   return (
     <AnimCard T={T} index={index} style={{ background: T.bgCardAlt }}>
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
-        <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT_HEADING }}>Network Status</span>
-        <div style={{ display:"flex", alignItems:"center", gap:5 }}>
-          <div style={{ width:6, height:6, borderRadius:"50%", background:"#22c55e", animation:"blink 2s infinite" }}/>
-          <span style={{ fontSize:10, color:T.accent, fontFamily:FONT_MONO, letterSpacing:1 }}>ONLINE</span>
-        </div>
+        <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:FONT_HEADING }}>By the Numbers</span>
       </div>
-      <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
-        {[
-          ["Hostname",   "Krayden"],
-          ["IP Address", "49.150.68.24"],
-          ["Latency",    `${ping}ms`, true],
-          ["Uptime",     "21y 11m"],
-          ["Status",     "Open to work", true],
-        ].map(([k, v, hi]) => (
-          <div key={k} style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-            <span style={{ fontSize:11, color:T.textDim, fontFamily:FONT_MONO, letterSpacing:1 }}>{k}</span>
-            <span style={{ fontSize:11, color: hi ? T.accent : T.textMuted, fontFamily:FONT_MONO, letterSpacing:0.5 }}>{v}</span>
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
+        {stats.map(({ value, label }) => (
+          <div key={label} style={{ background:T.bg, borderRadius:10, padding:"12px 14px",
+                                    border:`1px solid ${T.border}` }}>
+            <div style={{ fontSize:22, fontWeight:800, color:T.accent,
+                          fontFamily:FONT_HEADING, letterSpacing:-0.5, lineHeight:1 }}>
+              {value}
+            </div>
+            <div style={{ fontSize:10, color:T.textMuted, fontFamily:FONT_BODY,
+                          marginTop:4, lineHeight:1.3 }}>
+              {label}
+            </div>
           </div>
         ))}
       </div>
-      <div style={{ marginTop:16, height:1, background:`linear-gradient(90deg, ${T.accent}44, transparent)` }}/>
-      <div style={{ marginTop:12, fontSize:10, color:T.textDim, fontFamily:FONT_MONO, letterSpacing:1 }}>
-        SUBNET · 255.255.255.0 / 24
+      <div style={{ marginTop:14, height:1, background:`linear-gradient(90deg, ${T.accent}44, transparent)` }}/>
+      <div style={{ marginTop:12, display:"flex", alignItems:"center", gap:6 }}>
+        <div style={{ width:6, height:6, borderRadius:"50%", background:"#22c55e", animation:"blink 2s infinite", flexShrink:0 }}/>
+        <span style={{ fontSize:11, color:T.textMuted, fontFamily:FONT_MONO, letterSpacing:0.5 }}>
+          Open to full-time &amp; freelance · Remote OK
+        </span>
       </div>
     </AnimCard>
   );
@@ -430,16 +431,48 @@ function ContactCard({ T, index }) {
 }
 
 function LearningCard({ T, index }) {
+  const items = [
+    {
+      icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h.01M15 9h.01M9 15h6"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></svg>,
+      topic: "AI Engineering",
+      sub: "LLMs · RAG · Agents",
+    },
+    {
+      icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>,
+      topic: "Cloud Architecture",
+      sub: "AWS · GCP · Terraform",
+    },
+    {
+      icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>,
+      topic: "ML Ops",
+      sub: "MLflow · CI/CD for ML",
+    },
+    {
+      icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>,
+      topic: "iOS Development",
+      sub: "Swift · SwiftUI",
+    },
+  ];
   return (
     <AnimCard T={T} index={index} style={{ background:T.bgCardAlt }}>
-      <div style={{ fontSize:15, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, letterSpacing:-0.3, marginBottom:12 }}>Currently Learning</div>
-      <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
-        {["Cloud Architecture","AI Engineering","iOS Development","ML Ops"].map(t => (
-          <span key={t} style={{
-            fontSize:11, padding:"4px 10px", borderRadius:6,
-            background:T.accentBg, border:`1px solid ${T.accent}33`,
-            color:T.accent, fontFamily:FONT_MONO, letterSpacing:0.3,
-          }}>{t}</span>
+      <div style={{ fontSize:15, fontWeight:700, color:T.text, fontFamily:FONT_HEADING, letterSpacing:-0.3, marginBottom:4 }}>
+        Currently Learning
+      </div>
+      <div style={{ fontSize:11, color:T.textMuted, fontFamily:FONT_BODY, marginBottom:16 }}>
+        Always leveling up. Here's what's on the bench.
+      </div>
+      <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+        {items.map(({ icon, topic, sub }) => (
+          <div key={topic} style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12,
+                                    background:T.bg, borderRadius:10, padding:"14px 14px",
+                                    border:`1px solid ${T.border}` }}>
+            <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+              <span style={{ color:T.textMuted, display:"flex", alignItems:"center", flexShrink:0 }}>{icon}</span>
+              <span style={{ fontSize:12, fontWeight:600, color:T.text, fontFamily:FONT_HEADING }}>{topic}</span>
+            </div>
+            <span style={{ fontSize:10, color:T.textMuted, fontFamily:FONT_MONO, letterSpacing:0.3, flexShrink:0 }}>{sub}</span>
+          </div>
+
         ))}
       </div>
     </AnimCard>
@@ -733,9 +766,8 @@ function HomePage({ T, onNav, mobile, tablet }) {
           </div>
           <div style={{ display:"flex", flexDirection:"column", gap:16, position: isNarrow ? "relative" : "sticky", top:24 }}>
             <ExperienceCard  T={T} index={1}/>
-            <NetworkCard     T={T} index={2}/>
-            <LearningCard    T={T} index={3}/>
-            <ContactCard     T={T} index={4}/>
+            <LearningCard    T={T} index={2}/>
+            <ContactCard     T={T} index={3}/>
           </div>
         </div>
       </div>
