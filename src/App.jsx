@@ -146,19 +146,13 @@ function AnimCard({ children, index = 0, T, style = {} }) {
 // ─── SHARED COMPONENTS ────────────────────────────────────────────────────────
 
 function ProfilePhoto({ dark, size = 110 }) {
-  const [hovered, setHovered] = useState(false);
   return (
-    <div
-      style={{ position:"relative", width:size, height:size, flexShrink:0, cursor:"pointer" }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
+    <div style={{ position:"relative", width:size, height:size, flexShrink:0 }}>
       <div style={{
         width:size, height:size, borderRadius:16, overflow:"hidden",
         border:`2px solid ${dark ? "#ffffff22" : "#e8e8e8"}`,
         background: dark ? "#1a1a1a" : "#eee",
         position:"relative",
-        transition:"border-color 0.5s",
       }}>
         <img
           src="/images/kenn.jpg"
@@ -169,24 +163,12 @@ function ProfilePhoto({ dark, size = 110 }) {
           }}
           onError={e => { e.target.style.display="none"; }}
         />
-        <img
-          src="/images/kenn-alt.jpg"
-          alt="Martheus Kenn Banaag"
-          style={{
-            position:"absolute", inset:0,
-            width:"100%", height:"100%", objectFit:"cover",
-            opacity: hovered ? 1 : 0,
-            transition:"opacity 0.45s ease",
-          }}
-          onError={e => { e.target.style.display="none"; }}
-        />
       </div>
       <div style={{
         position:"absolute", bottom:6, right:6,
         width:13, height:13, borderRadius:"50%",
         background: dark ? "#ffffff" : "#0a0a0a",
         border:`2px solid ${dark ? "#0a0a0a" : "#f9f9f9"}`,
-        transition:"border-color 0.4s",
         zIndex:2,
       }}/>
     </div>
