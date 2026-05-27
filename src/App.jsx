@@ -155,7 +155,7 @@ function ProfilePhoto({ dark, size = 110 }) {
         position:"relative",
       }}>
         <img
-          src="/images/kenn.jpg"
+          src="/images/kenn.jpg?v=2"
           alt="Martheus Kenn Banaag"
           style={{
             position:"absolute", inset:0,
