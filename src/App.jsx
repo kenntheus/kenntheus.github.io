@@ -249,19 +249,21 @@ function AboutCard({ T, index }) {
     <AnimCard T={T} index={index}>
       <SectionHeader title="About" T={T}/>
       <p style={{ fontSize:14, lineHeight:1.85, color:T.textMuted, marginBottom:16, fontFamily:FONT_BODY }}>
-        I'm an IT graduate passionate about software development and network engineering,
-        with a specialization in Computer Security. I bridge the gap between infrastructure
-        and application development, turning complex systems into reliable, high-performance solutions.
+        I'm a full-stack software engineer and network security practitioner specializing
+        in mobile and web development, REST APIs, and secure network infrastructure. I build
+        end-to-end solutions — from Flutter mobile apps and Node.js backends to segmented
+        network systems validated through penetration testing.
       </p>
       <p style={{ fontSize:14, lineHeight:1.85, color:T.textMuted, marginBottom:16, fontFamily:FONT_BODY }}>
-        Whether it's configuring network topologies, building backend systems, or automating
-        workflows with Python, I bring a detail-oriented, systems-thinking approach to
-        every project.
+        I've shipped production apps from the ground up — including Lumix, an AI-powered
+        career assistant for students, and NeTPulse, a real-time network monitoring dashboard
+        with AI anomaly detection. I've also designed a cybersecurity framework for Dagupan
+        City Hall, working directly with their MIS Office.
       </p>
       <p style={{ fontSize:14, lineHeight:1.85, color:T.textMuted, fontFamily:FONT_BODY }}>
-        Lately I've been going deeper into cloud infrastructure and AI engineering,
-        exploring how intelligent tooling can supercharge development workflows and
-        network operations alike.
+        Lately I've been going deeper into AI engineering — integrating LLM backends,
+        building RAG microservices, and exploring how intelligent tooling can supercharge
+        both software development and network operations.
       </p>
     </AnimCard>
   );
